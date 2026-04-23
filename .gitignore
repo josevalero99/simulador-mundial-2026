@@ -9,3 +9,6 @@ Thumbs.db
 # Environment
 .env
 .env.local
+
+# MCP config — contiene tokens personales (ej. FIGMA_ACCESS_TOKEN)
+.mcp.json
