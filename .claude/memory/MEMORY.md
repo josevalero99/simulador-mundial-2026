@@ -11,3 +11,5 @@ All entries here are available to Claude Code across all devices and team member
 - [Sistema tipográfico — Bionta](typography_system.md) — Clash Display, escala 10 styles + 15 variables, showcase en página `🔤 Typography`.
 - [Bionta — contexto de negocio y producto](business_context.md) — cajas fruta tropical (cerrada/personalizable × grande/pequeña), DTC, tech angle.
 - [Auditoría producto Home (2026-04-23)](home_audit_product_lens.md) — findings Senior PL, Now/Next/Later, Home propuesta 11 bloques en página `603:5435`.
+- [Jira / Atlassian — setup](jira_setup.md) — site `biontagourmet.atlassian.net`, proyecto `KAN` (MVP Bionta), tipos de issue, deprecación SSE 2026-06-30.
+- [Jira — backlog v1 Bionta](jira_backlog_v1.md) — 289 issues en KAN, mapa de Epics, convención de labels, JQL para Sprint 0 y boards por disciplina.
