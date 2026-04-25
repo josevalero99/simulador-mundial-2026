@@ -37,7 +37,7 @@ Hoy Bionta no tiene cuentas de cliente. v1 lo necesita para que un cliente vea s
 **Decisiones tomadas (referencia PRD v1):**
 
 - **Checkout = guest-allowed** con opción "crear cuenta al final". Sin account-required.
-- **Auth = email + contraseña.** Magic link va a v2. Social login no entra ni en v2 inicial.
+- **Auth = email + contraseña + social login (Google + Apple).** Magic link va a v2. Facebook se evalúa en v2 según demanda. Detalle en spec `docs/superpowers/specs/2026-04-25-social-login-design.md`.
 - **Sesión** = cookie httpOnly, SameSite=Lax, expiración razonable (ver §7).
 - **Recuperación** = email con token de un solo uso, expiración corta.
 
@@ -54,8 +54,8 @@ Hoy Bionta no tiene cuentas de cliente. v1 lo necesita para que un cliente vea s
 
 ### No-objetivos (v1)
 
-- **No** social login (Google, Apple, Facebook).
-- **No** magic link (email-only sign-in sin password).
+- **No** Facebook login (revisable v2 según demanda real).
+- **No** magic link (email-only sign-in sin password) — v2.
 - **No** 2FA en cliente (sí evaluado para staff Admin, fuera de este doc).
 - **No** verificación obligatoria de email antes de comprar (se verifica de forma asíncrona).
 - **No** auto-merge de cuenta si un guest checkoutó con un email que ya tiene cuenta — esto se maneja con un mensaje claro en el registro post-checkout.
@@ -126,8 +126,8 @@ Checkout (guest) → "Pagar" ──► (ok) ──► Order Confirmation
 
 | # | Pantalla | Ruta | Prio |
 |---|---|---|---|
-| 1 | **Login** | `/login` | P0 |
-| 2 | **Registro** (estandalone, no checkout) | `/registro` | P0 |
+| 1 | **Login** (incluye botones Google y Apple bajo el form email) | `/login` | P0 |
+| 2 | **Registro** (estandalone, no checkout — incluye botones Google y Apple) | `/registro` | P0 |
 | 3 | **Solicitar reset** | `/recuperar-contrasena` | P0 |
 | 4 | **Confirmar reset** (con token) | `/recuperar-contrasena/confirmar?token=…` | P0 |
 | 5 | **Email: bienvenida** (post-registro) | n/a | P0 — `prd-emails-transaccionales.md` |
@@ -180,6 +180,10 @@ Checkout (guest) → "Pagar" ──► (ok) ──► Order Confirmation
 - Si llegó con `?redirect=<ruta>`: respetar el redirect siempre que sea ruta interna (whitelist).
 - Si llegó desde checkout (cookie `bionta_redirect_after_login=/checkout`): volver a checkout.
 
+**Social login:**
+
+Bajo el botón `Entrar`, divider `o continúa con` y botones `Continuar con Google` y `Continuar con Apple` (en ese orden). Specs visuales y comportamiento (auto-linking silencioso, manejo del privacy relay de Apple, errores) definidos en `docs/superpowers/specs/2026-04-25-social-login-design.md`. Mismo redirect que el login email tras éxito.
+
 ### 6.2 Registro (`/registro`)
 
 **Layout:** mismo patrón que Login (card centrada, fondo cream warm).
@@ -212,6 +216,10 @@ Checkout (guest) → "Pagar" ──► (ok) ──► Order Confirmation
 3. Redirigir a `/mi-cuenta` o respetar `?redirect=`.
 
 **Estados:** mismos patrones que Login (default, loading, error red, error de validación inline por campo).
+
+**Social login:**
+
+Bajo el botón `Crear cuenta`, divider `o continúa con` y botones `Continuar con Google` y `Continuar con Apple`. El checkbox de términos sigue siendo obligatorio para la vía email; **para la vía social** se incluye texto pequeño bajo los botones: *"Al continuar con Google o Apple aceptas los Términos y Condiciones y la Política de Privacidad."* (consentimiento RGPD válido si los enlaces a T&C y Privacidad son visibles). Specs en `docs/superpowers/specs/2026-04-25-social-login-design.md`.
 
 ### 6.3 Solicitar reset (`/recuperar-contrasena`)
 
@@ -297,6 +305,16 @@ Checkout (guest) → "Pagar" ──► (ok) ──► Order Confirmation
 - v1: **no bloqueante**. Email de bienvenida con un link de verificación opcional. Si no se verifica, no se restringen funcionalidades. Razonamiento: el cliente ya pagó como invitado, exigir verificación añade fricción sin ganancia clara.
 - v2: evaluable según incidencias.
 
+### 7.6 Social login
+
+- **Providers:** Google + Apple. Facebook se evalúa en v2.
+- **Scopes solicitados:** Google `openid email profile` (suficiente para identidad y nombre); Apple `name email`. Data minimization estricta — sin acceso a contactos, calendarios, fotos.
+- **Auto-linking por email:** si el email del proveedor coincide con cuenta email+password existente, backend vincula la identidad social de forma silenciosa y entra. Sin pantalla intermedia. Coherente con §7.4 (auto-merge de pedidos por email).
+- **Apple privacy relay:** si Apple devuelve `@privaterelay.appleid.com`, se trata el `sub` de Apple como identidad estable y se crea cuenta nueva (no auto-linking por email). El relay se persiste como contacto para emails transaccionales.
+- **Errores y popup blockers:** mensajes inline bajo los botones, fallback a email/password siempre disponible. Detalle en spec.
+- **Concurrencia:** mientras un botón social está en loading, el resto de botones (social y email) se deshabilitan para evitar dobles auths.
+- Detalle visual y de comportamiento en `docs/superpowers/specs/2026-04-25-social-login-design.md`.
+
 ---
 
 ## 8. Integraciones
@@ -307,6 +325,8 @@ Checkout (guest) → "Pagar" ──► (ok) ──► Order Confirmation
 | **Mi Cuenta** | Tras login OK, redirige a `/mi-cuenta`. La sesión se asume desde ahí. | En cada login |
 | **Checkout** | Modal "Crear cuenta" se sirve tras pago OK con email pre-rellenado. Reutiliza el endpoint de `/registro`. | Solo al final del checkout |
 | **Header global** | Si no hay sesión: `Iniciar sesión`. Si hay sesión: `Mi cuenta` (avatar/icono). | Siempre |
+| **Google Identity Services** | OIDC, scopes `openid email profile`. Endpoint backend `/auth/social/google` valida ID token y emite cookie de sesión. | Click botón `Continuar con Google` |
+| **Sign in with Apple** | OAuth 2.0 / OIDC con JWT firmado, scopes `name email`. Endpoint backend `/auth/social/apple`. Persiste nombre/email en la **primera** respuesta (Apple solo los devuelve una vez). | Click botón `Continuar con Apple` |
 
 ---
 
@@ -327,6 +347,9 @@ Eventos a emitir desde el frontend (alineado con §7.2 de PRD v1):
 | `password_reset_request` | Submit en `/recuperar-contrasena` | — |
 | `password_reset_complete` | Submit en `/recuperar-contrasena/confirmar` con token válido | — |
 | `logout` | Click en logout | `from_page` |
+| `social_login_click` | Click en botón Google/Apple | `provider` (google/apple), `source` (login/registro/checkout_modal) |
+| `social_login_success` | Sesión iniciada vía social | `provider`, `is_new_account`, `linked_to_existing` |
+| `social_login_error` | Error en flujo OAuth | `provider`, `error_code` |
 
 Sin tracking de PII (email, contraseñas) — solo `user_id` opaco.
 
@@ -339,6 +362,9 @@ Sin tracking de PII (email, contraseñas) — solo `user_id` opaco.
 - **Tasa de uso de reset:** % de usuarios que solicita reset tras failed login → ≥ 60% (significa que el flujo es descubrible).
 - **Tasa de éxito reset:** ≥ 80% de `password_reset_request` terminan en `password_reset_complete` en menos de 24h.
 - **Soporte por incidencias auth:** ≤ 1% de cuentas activas/mes generan ticket de soporte de auth.
+- **% signups vía social** (de `/registro` y modal post-checkout): hipótesis ≥ 30% — validar.
+- **% logins vía social:** tracking informativo, sin objetivo numérico.
+- **Tasa de error social_login:** ≤ 5% de `social_login_click` terminan en `social_login_error`. Si sube, indica problema con popup blockers o config OAuth.
 
 ---
 
@@ -351,6 +377,11 @@ Decisiones tomadas para v1. Reabrir requiere acuerdo explícito.
 - **Registro pide nombre:** **sí**. Campos = nombre + email + password + checkbox términos. El nombre se usa en bienvenida del email y header de Mi Cuenta.
 - **Retención de cuentas inactivas:** aviso a los **18 meses** sin actividad, baja automática (anonimización) a los **24 meses**. Texto incluido en T&C.
 - **Checkbox "Mantener sesión iniciada":** **no**. Sliding 30 días por defecto sin checkbox. Más simple, menos decisión cognitiva.
+- **Social login providers:** **Google + Apple en v1**. Facebook fuera (v2 según demanda).
+- **Orden de botones sociales:** **Google primero, Apple debajo**. Mayor base instalada en España; Apple HIG no exige primer lugar en web.
+- **Colisión email social ↔ cuenta existente:** **auto-linking silencioso**. Backend vincula la identidad social a la cuenta existente sin pantalla intermedia. Coherente con §7.4 (auto-merge de pedidos).
+- **Apple privacy relay:** si Apple devuelve `@privaterelay.appleid.com`, **no se hace auto-linking** — se crea cuenta nueva basada en `sub` de Apple como identidad estable.
+- **Estilo visual de botones sociales:** **híbrido pragmático** — logos oficiales (Google multicolor / Apple blanco sobre negro) + tipografía Bionta (Clash Display Semibold 15) + radius 16. Cumple guidelines de ambos providers sin romper la coherencia visual de la card.
 
 ---
 
