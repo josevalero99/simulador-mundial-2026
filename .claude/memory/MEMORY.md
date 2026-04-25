@@ -13,4 +13,4 @@ All entries here are available to Claude Code across all devices and team member
 - [Auditoría producto Home (2026-04-23)](home_audit_product_lens.md) — findings Senior PL, Now/Next/Later, Home propuesta 11 bloques en página `603:5435`.
 - [Jira / Atlassian — setup](jira_setup.md) — site `biontagourmet.atlassian.net`, proyecto `KAN` (MVP Bionta), tipos de issue, deprecación SSE 2026-06-30.
 - [Jira — backlog v1 Bionta](jira_backlog_v1.md) — 289 issues en KAN, mapa de Epics, convención de labels, JQL para Sprint 0 y boards por disciplina.
-- [Decisión abierta — v1 vs v1.5](decision_v1_vs_v15.md) — lanzar sin o con suscripción; la decisión de negocio más importante de los próximos 30 días (2026-04-24).
+- [Decisión cerrada — v1.5 con suscripción al launch](decision_v1_vs_v15.md) — resuelta 2026-04-25 a favor de v1.5; consecuencias en PRDs y backoffice.
