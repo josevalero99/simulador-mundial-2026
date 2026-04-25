@@ -49,12 +49,12 @@ Bionta vende cajas de fruta tropical de temporada. La modalidad **personalizable
 - Mostrar preview en vivo de la caja construida.
 - Prevenir estados inválidos con feedback inmediato (no validar solo al hacer CTA).
 
-### No-objetivos (v1)
+### No-objetivos (v1.5)
 
-- **No** permitir elegir cantidades >1 por fruta en v1 (cada fruta es "hay o no hay" en la caja). Evaluar v2.
+- **No** permitir elegir cantidades >1 por fruta en v1.5 (cada fruta es "hay o no hay" en la caja). Evaluar v2.
 - **No** guardar presets/cajas favoritas ni "última caja" (v2 cuando haya cuenta de usuario madura).
-- **No** integrar suscripción en el selector (ver §12).
 - **No** ofrecer sustitución automática ante out-of-stock en checkout (v2).
+- **No** permitir cambiar de modalidad sin cancelar la suscripción (sí cambiar tamaño y skip — gestionado en Mi Cuenta).
 
 ### Fuera de alcance del doc
 
@@ -92,7 +92,7 @@ Orden de scroll (desktop 1440 canónico):
 | # | Bloque | Rol |
 |---|--------|-----|
 | 1 | Breadcrumb | Ubicación + SEO |
-| 2 | **Hero PDP** | Galería + nombre + precio + selector tamaño + CTA "Elegir frutas" |
+| 2 | **Hero PDP** | Galería + nombre + **toggle "¿Cómo la quieres?" (Una vez / Suscríbeme)** + selector frecuencia condicional + selector tamaño + precio dinámico + CTA "Elegir frutas" |
 | 3 | **Picker de frutas** | El bloque diferencial — construcción de la caja con preview |
 | 4 | Cómo funciona | 3 pasos (elige tamaño → elige frutas → recibes) |
 | 5 | **Disponibilidad esta semana** | Badges cortos + link a calendario completo |
@@ -114,10 +114,14 @@ Orden de scroll (desktop 1440 canónico):
 │  ┌──────────────┐   CAJA PERSONALIZABLE                        │
 │  │              │   Tú eliges qué fruta tropical llevas        │
 │  │  [galería    │                                              │
-│  │   producto]  │   ( ) Pequeña · 29 €  ( ) Grande · 49 €      │
+│  │   producto]  │   ¿Cómo la quieres?                          │
+│  │              │   ( ) Una vez · 55€   (●) Suscríbeme·49,50€  │
+│  │  [dot dot]   │       10% siempre + envío gratis             │
+│  │              │   Frecuencia: ( ) Semanal  (●) Quincenal     │
+│  │              │   ( ) Pequeña · 28,80 €  (●) Grande · 49,50 €│
 │  │              │                                              │
-│  │  [dot dot]   │   [ ELEGIR FRUTAS ↓ ]                        │
-│  └──────────────┘   ✓ Envío refrigerado · Entrega en 24-48 h   │
+│  │              │   [ ELEGIR FRUTAS ↓ ]                        │
+│  └──────────────┘   ✓ Envío refrigerado · Sin permanencia      │
 ├────────────────────────────────────────────────────────────────┤
 │  CONSTRUYE TU CAJA                         [ 3 / 6 elegidas ]  │
 │                                                                │
@@ -170,17 +174,29 @@ Orden de scroll (desktop 1440 canónico):
 - **Columna derecha — Información y compra:**
   - Título: `Display/L` — **"Caja personalizable"**.
   - Subtítulo: `Body/L` — *"Tú eliges qué fruta tropical llevas dentro de nuestra selección de la semana."*.
+  - **Toggle "¿Cómo la quieres?"** (★ v1.5): dos cards — `Una vez · 55€` / `Suscríbeme · 49,50€/envío + microcopy "10% siempre + envío gratis"`. Card activa con borde verde Bionta. Detalle en `docs/superpowers/specs/2026-04-25-pdp-suscripcion-design.md` §4.
+  - **Selector de frecuencia** (visible si `Suscríbeme` activo): dos radios `Semanal` / `Quincenal` (default Quincenal).
   - Selector tamaño: dos pills — "Pequeña" | "Grande".
     - Default: **Grande** (consistencia con PDP cerrada).
-    - Precio dinámico por opción (v1: mismo precio por tamaño que la cerrada, pendiente de confirmación por pricing — ver §12).
-  - CTA primario: **"Elegir frutas ↓"** — scroll suave al bloque picker (no añade al carrito).
-  - Micro-trust debajo: *"✓ Envío refrigerado · Entrega en 24-48 h · Devolución garantizada"*.
+    - Precio dinámico según el toggle:
+      - Modo `Una vez`: `Pequeña · 32 €` / `Grande · 55 €`.
+      - Modo `Suscríbeme`: `Pequeña · 28,80 €` / `Grande · 49,50 €`.
+  - CTA primario:
+    - Modo `Una vez`: amarillo, texto **"Elegir frutas ↓"** — scroll suave al bloque picker.
+    - Modo `Suscríbeme`: **verde Bionta**, texto **"Elegir frutas y suscribirme ↓"** — mismo scroll al picker; tras completar la caja, click en CTA del picker abre el **checkout en modo suscripción**.
+  - Micro-trust debajo — varía según el modo:
+    - Una vez: *"✓ Envío refrigerado · Entrega en 24-48 h · Devolución garantizada"*.
+    - Suscríbeme: *"✓ Envío refrigerado · Sin permanencia · Cancela cuando quieras"*.
 
 **Comportamiento:**
 
 - Cambiar tamaño actualiza **la capacidad del picker** (§6.3) y el precio.
+- Cambiar el toggle modo de compra actualiza precios y el flujo del CTA del picker (carrito vs checkout suscripción).
 - Si el usuario ya había elegido frutas y reduce el tamaño, advertir: *"Cambiar a Pequeña mantendrá 4 de 6 frutas. ¿Continuar?"* → confirmar antes de descartar.
-- Deep-link: `/caja-personalizable?tamano=pequena` preselecciona.
+- Deep-link:
+  - `/caja-personalizable?tamano=pequena` preselecciona tamaño.
+  - `/caja-personalizable?suscripcion=true` activa `Suscríbeme` y preselecciona frecuencia `quincenal`.
+  - `/caja-personalizable?suscripcion=true&frecuencia=semanal&tamano=grande` cubre los tres parámetros (es lo que envía la landing `/menus-semanales`).
 
 ### 6.3 Picker de frutas (bloque diferencial)
 
@@ -399,10 +415,10 @@ Referencias a la **Auditoría de componentización** (`595:4888`) — [Bionta De
 ## 12. Decisiones abiertas
 
 - **Capacidades del picker.** Grande=6, Pequeña=3 son propuestas. Validar con operaciones: volumen real, peso por fruta, coste de packaging.
-- **Pricing personalizable vs cerrada.** v1 asume mismo precio por tamaño (29 / 49). Pricing puede querer diferenciar (+X € por personalización, o -X € por flexibilidad). Pendiente de finanzas.
-- **Cantidades >1 por fruta.** v1: no. v2: evaluar si genera valor o complica. Depende de data del picker post-lanzamiento.
-- **Suscripción personalizada.** ¿El cliente guarda su caja y se suscribe a esa combinación? Pendiente de mecánica suscripción (ver §13).
+- **Pricing personalizable vs cerrada.** v1.5 asume Personalizable = 32€/55€ (vs Cerrada 29€/49€) reflejando un premium por la flexibilidad. Pendiente confirmación de finanzas.
+- **Cantidades >1 por fruta.** v1.5: no. v2: evaluar si genera valor o complica. Depende de data del picker post-lanzamiento.
 - **Guardar caja favorita / presets.** v2 cuando exista cuenta madura y reuso semanal.
+- **¿Cómo se gestiona la caja del suscriptor cada semana?** Decisión cerrada en v1.5: el cliente **rebuilds su caja** cada envío (entra a Mi Cuenta antes del cierre semanal y selecciona frutas para el siguiente envío). Si no entra a tiempo, recibe un mix por defecto de Bionta. Detalle pendiente en `prd-mi-cuenta.md` §Mi Suscripción.
 - **Página de calendario de temporada.** Existe o no a fecha de lanzamiento. Plan B: el link de §6.5 puede ser eliminado si la página no está lista.
 - **CTA sticky en mobile** dentro del picker.
 - **Recomendaciones / pairings tipo "si llevas piña, prueba lichi"** — potencial diferenciador tech, evaluar en v2.
@@ -410,11 +426,6 @@ Referencias a la **Auditoría de componentización** (`595:4888`) — [Bionta De
 ---
 
 ## 13. Próximos pasos / v2
-
-**v2 — mecánica suscripción definida:**
-
-- Opción de "Suscribirme a esta caja" desde la caja completada — el sistema recuerda la combinación o permite elegir nueva cada semana.
-- Bloque pitch suscripción con CTA propio a `/suscripcion`.
 
 **v2 — picker evolucionado:**
 

@@ -2,19 +2,19 @@
 
 - **Producto:** Bionta — cajas de fruta tropical de temporada
 - **Sección:** área autenticada del cliente
-- **Rutas propuestas:** `/mi-cuenta`, `/mi-cuenta/pedidos`, `/mi-cuenta/pedidos/:id`, `/mi-cuenta/direcciones`, `/mi-cuenta/perfil`
+- **Rutas propuestas:** `/mi-cuenta`, `/mi-cuenta/pedidos`, `/mi-cuenta/pedidos/:id`, `/mi-cuenta/suscripcion`, `/mi-cuenta/direcciones`, `/mi-cuenta/perfil`
 - **Autor:** Product (Bionta)
-- **Fecha:** 2026-04-25
-- **Estado:** Draft v1 — pendiente de revisión
+- **Fecha:** 2026-04-25 · actualizado 2026-04-25 (suscripción incluida en v1.5)
+- **Estado:** Draft v1.5 — pendiente de revisión
 - **Archivo Figma:** [Bionta Design](https://www.figma.com/design/v34S6c0aQGYqHY1eFIq48z/Bionta-Design)
 
 ---
 
 ## 1. TL;DR
 
-Mi Cuenta es **el espacio post-compra del cliente**: ver lo que ha pedido, gestionar direcciones y perfil, repetir compra rápido. En v1 es funcional y honesto — no hay suscripciones, ni puntos, ni programa de fidelización. El cliente entra a comprobar el estado de un pedido o a comprar otra vez en 1 click.
+Mi Cuenta es **el espacio post-compra del cliente**: ver lo que ha pedido, **gestionar su suscripción**, gestionar direcciones y perfil, repetir compra rápido. En v1.5 es funcional y honesto — no hay puntos ni programa de fidelización. El cliente entra a comprobar el estado de un pedido, pausar/saltar/cancelar su suscripción, o comprar otra vez en 1 click.
 
-**5 pantallas en v1:** Dashboard (landing tras login), Pedidos (lista), Pedido (detalle), Direcciones (CRUD básico), Perfil (datos + cambiar contraseña + cerrar cuenta). Todas comparten un **shell con sidebar de navegación**.
+**6 pantallas en v1.5:** Dashboard (landing tras login), Pedidos (lista), Pedido (detalle), **Mi Suscripción** (gestión de suscripción activa), Direcciones (CRUD básico), Perfil (datos + cambiar contraseña + cerrar cuenta). Todas comparten un **shell con sidebar de navegación**.
 
 **Objetivos:**
 
@@ -34,11 +34,12 @@ Hoy Bionta no tiene Mi Cuenta. El cliente que compró no puede consultar su pedi
 - Fricción en recompra → cada compra empieza desde cero.
 - Sin historial → no podemos comunicar "ya compraste esto, repite" o construir relación de cliente.
 
-**Decisiones tomadas (referencia PRD v1):**
+**Decisiones tomadas (referencia PRD v1.5):**
 
 - Dashboard, Pedidos, Direcciones, Perfil son **P1** (críticos para operación sostenible, no para vender la primera vez).
+- **Mi Suscripción es P0** — sin él, el cliente no puede gestionar su recurrencia y la promesa "cancela cuando quieras" se rompe.
 - Cambiar dirección de un pedido en curso solo si está **"En preparación"** y dentro de una ventana antes del envío (CU-6).
-- **No hay suscripción en v1** — Mi Cuenta no muestra ningún hub de suscripción.
+- Suscripción incluida en v1.5 (cierre decisión `decision_v1_vs_v15.md` el 2026-04-25). Detalle del modelo en `docs/superpowers/specs/2026-04-25-pdp-suscripcion-design.md`.
 
 ---
 
@@ -51,15 +52,15 @@ Hoy Bionta no tiene Mi Cuenta. El cliente que compró no puede consultar su pedi
 - Que un cliente pueda **cambiar dirección de envío** de un pedido si todavía está a tiempo, sin contactar a Bionta.
 - Que un cliente pueda **gestionar sus direcciones y perfil** de forma autónoma.
 
-### No-objetivos (v1)
+### No-objetivos (v1.5)
 
-- **No** hay gestión de suscripciones (no existe modelo en v1).
 - **No** hay wishlist ni favoritos.
 - **No** hay puntos, créditos ni programa de fidelización.
 - **No** hay invitaciones / referidos.
-- **No** hay descarga de facturas en PDF (la confirmación email cubre v1; PDF en v2).
+- **No** hay descarga de facturas en PDF (la confirmación email cubre v1.5; PDF en v2).
 - **No** hay tracking en mapa del envío (solo número de seguimiento si lo da el courier).
 - **No** hay reviews de productos comprados.
+- **No** hay cambio de modalidad de la suscripción sin cancelar (sí tamaño y skip — para cambiar modalidad el cliente cancela y se vuelve a suscribir).
 
 ### Fuera de alcance del doc
 
@@ -120,14 +121,15 @@ Todas las pantallas de Mi Cuenta comparten un layout de **sidebar izquierdo (240
 
 ### 5.2 Items de sidebar
 
-| Item | Ruta | Icono |
-|---|---|---|
-| Inicio | `/mi-cuenta` | home |
-| Pedidos | `/mi-cuenta/pedidos` | package |
-| Direcciones | `/mi-cuenta/direcciones` | map-pin |
-| Perfil | `/mi-cuenta/perfil` | user |
-| — | — | — |
-| Cerrar sesión | acción | logout |
+| Item | Ruta | Icono | Notas |
+|---|---|---|---|
+| Inicio | `/mi-cuenta` | home | — |
+| Pedidos | `/mi-cuenta/pedidos` | package | — |
+| **Mi Suscripción** | `/mi-cuenta/suscripcion` | repeat | Solo visible si el cliente tiene suscripción activa o pausada. Si nunca se ha suscrito, este item NO aparece. |
+| Direcciones | `/mi-cuenta/direcciones` | map-pin | — |
+| Perfil | `/mi-cuenta/perfil` | user | — |
+| — | — | — | — |
+| Cerrar sesión | acción | logout | — |
 
 Item activo destacado. En desktop el sidebar es siempre visible.
 
@@ -245,7 +247,71 @@ Item activo destacado. En desktop el sidebar es siempre visible.
 
 - Pedido no existe / no es del usuario: 404 con texto `No encontramos este pedido.`.
 
-### 6.4 Direcciones (`/mi-cuenta/direcciones`)
+### 6.4 Mi Suscripción (`/mi-cuenta/suscripcion`) ★ v1.5
+
+**Propósito:** todo lo que el cliente necesita para gestionar su suscripción activa sin escribir a soporte. Cumple la promesa de la landing — *"Cancela cuando quieras, en 1 click"*.
+
+**Visibilidad de la sección:** solo accesible si el cliente tiene una suscripción `activa` o `pausada`. Si no, el sidebar oculta el item y la ruta directa redirige a `/menus-semanales`.
+
+**Layout:** mismo shell del resto de Mi Cuenta. 2 columnas en desktop — izquierda (60%) panel principal, derecha (40%) sidebar de acciones.
+
+**Bloques (columna izquierda):**
+
+1. **Header:** `Mi suscripción` (Clash Display Medium 32). Subtítulo: `Activa desde el 22/04/2026.` (Regular 15, gris).
+
+2. **Card "Estado actual"** (cream warm radius 16, padding 28):
+   - Estado con badge color: `Activa` (verde) / `Pausada` (gris) / `Cancelada` (rojo, solo histórica).
+   - Modalidad + tamaño + frecuencia: `Caja Cerrada · Grande · Quincenal`.
+   - Próximo envío: `Próximo envío: viernes 6 de mayo`.
+   - Precio por envío: `44,10€/envío · envío gratis`.
+   - 3 thumbnails de fruta del próximo surtido (si modalidad = Cerrada).
+   - Si modalidad = Personalizable: link `Edita las frutas del próximo envío →` (lleva a flow de personalización antes del cierre semanal).
+
+3. **Línea de tiempo de envíos** — bloque visual con próximos 3-4 envíos:
+   ```
+   ✓ 22 abr (entregado)   ✓ 6 may (entregado)   ⏳ 20 may (próximo)   📅 3 jun (programado)
+   ```
+   - Hito entregado en verde, próximo destacado, futuros en gris.
+   - Click en uno entregado lleva al detalle del pedido correspondiente.
+
+4. **Historial de envíos de la suscripción** — link `Ver todos los envíos →` que filtra `/mi-cuenta/pedidos?suscripcion={id}`.
+
+**Sidebar (columna derecha, sticky) — acciones:**
+
+| Acción | Color | Comportamiento |
+|---|---|---|
+| `Saltar próximo envío` | secundario | Modal de confirmación: *"Saltarás el envío del 20 de mayo. El siguiente será el 3 de junio. ¿Confirmas?"* → al confirmar, dispara email de confirmación. Reversible hasta 48h antes del envío saltado. |
+| `Cambiar tamaño` | secundario | Selector inline (Pequeña / Grande). Aplica al próximo envío. Mensaje: *"Tu próximo envío será {tamaño nuevo}."*. |
+| `Pausar suscripción` | secundario | Modal: *"Pausamos los envíos. Reactivas cuando quieras desde aquí. ¿Pausamos?"* → estado pasa a `Pausada`, no se cobran envíos hasta reactivar. |
+| `Reactivar` | primario amarillo | Solo visible si estado = `Pausada`. Reactiva con la misma modalidad/tamaño/frecuencia. |
+| `Cancelar suscripción` | tertiary, link gris | Modal con 2 pasos para evitar cancelaciones accidentales: *"¿Cancelar tu suscripción?"* → opciones: `Pausar en su lugar` (CTA primario) / `Sí, cancelar` (link). Si confirma, dispara email de confirmación, no se cobra el siguiente envío, estado pasa a `Cancelada`. |
+
+**Estados:**
+
+| Estado | Comportamiento |
+|---|---|
+| `Activa` | Todas las acciones disponibles. Próximo envío visible. |
+| `Pausada` | Acciones reducidas: `Reactivar` (primario), `Cancelar` disponible. Sin "próximo envío". Banner: *"Tu suscripción está pausada. Reactivas cuando quieras."*. |
+| `Cancelada (histórica)` | Solo lectura. Resumen del histórico de envíos. CTA `Volver a suscribirme` lleva a `/menus-semanales`. |
+| `Próximo envío hoy / mañana` | Banner amarillo: *"Tu próximo envío sale {hoy/mañana}. Si necesitas cambiar dirección, contáctanos."* — desactiva temporalmente "Saltar" y "Cambiar tamaño" (ya en preparación). |
+| `Stock-out aviso 48h` | Banner cream warm con las 3 opciones del aviso por email (recibir otra modalidad / saltar / cancelar) replicadas como botones. Al elegir una, se ejecuta la decisión y el banner desaparece. |
+
+**Reglas de negocio:**
+
+- **Skip:** se permite saltar hasta `N` envíos seguidos sin cancelar (propuesta v1.5: máximo 3 consecutivos antes de pasar automáticamente a `Pausada`). Validar con ops.
+- **Pausa indefinida:** sin coste, sin caducidad. Si tras 6 meses pausada el cliente no reactiva, se envía email recordatorio.
+- **Cambios aplicables al próximo envío:** ventana de cambio cierra 48h antes del envío. Pasada la ventana, el cambio aplica al siguiente.
+- **Cancelación inmediata vs hasta el próximo envío:** v1.5 cancela inmediato — no se cobra el envío que aún no se ha cobrado, y la suscripción queda como `Cancelada` desde el momento de la confirmación.
+
+**Eventos analytics:**
+
+- `subscription_view` (carga la pantalla)
+- `subscription_skip_click`, `subscription_skip_confirm`
+- `subscription_size_change`
+- `subscription_pause`, `subscription_reactivate`
+- `subscription_cancel_click`, `subscription_cancel_confirm` (con `reason` opcional si añadimos pregunta corta al cancelar)
+
+### 6.5 Direcciones (`/mi-cuenta/direcciones`)
 
 **Propósito:** CRUD básico de direcciones de envío.
 
@@ -299,7 +365,7 @@ Item activo destacado. En desktop el sidebar es siempre visible.
 
 **Eliminar:** confirmación inline (`¿Eliminar "Casa"?`) con botón rojo. No permitir eliminar la única dirección predeterminada si hay pedido en curso usándola — mostrar tooltip con razón.
 
-### 6.5 Perfil (`/mi-cuenta/perfil`)
+### 6.6 Perfil (`/mi-cuenta/perfil`)
 
 **Propósito:** datos personales + seguridad + zona peligrosa.
 

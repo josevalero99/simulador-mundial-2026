@@ -1,19 +1,21 @@
 # PRD — Alcance v1 Bionta
 
 - **Producto:** Bionta — cajas de fruta tropical de temporada (DTC)
-- **Versión:** v1 (lanzamiento comercial completo)
+- **Versión:** v1.5 (lanzamiento comercial completo con suscripción)
 - **Autor:** Product (Bionta)
-- **Fecha:** 2026-04-23
-- **Estado:** Draft v1 — pendiente de revisión y priorización
+- **Fecha:** 2026-04-23 · actualizado 2026-04-25 (suscripción incluida)
+- **Estado:** Draft v1.5 — pendiente de revisión y priorización
 - **Archivo Figma:** [Bionta Design](https://www.figma.com/design/v34S6c0aQGYqHY1eFIq48z/Bionta-Design)
 
 ---
 
 ## 1. TL;DR
 
-v1 es **el lanzamiento comercial completo de Bionta** como tienda DTC de cajas de fruta tropical de temporada. Cubre todo lo necesario para vender, operar y atender a cliente sin hacks: tienda pública con Home + 2 PDPs + carrito + checkout + cuenta de cliente, calendario público de temporada, contenido legal, y un **backoffice funcional para operaciones** (pedidos, calendario semanal, SKUs, clientes, contenido, envíos, descuentos, reports).
+v1.5 es **el lanzamiento comercial completo de Bionta** como tienda DTC de cajas de fruta tropical de temporada **con modelo de suscripción al launch**. Cubre todo lo necesario para vender (única + recurrente), operar y atender a cliente sin hacks: tienda pública con Home + 2 PDPs + landing de suscripción + carrito + checkout + cuenta de cliente, calendario público de temporada, contenido legal, y un **backoffice funcional para operaciones** (pedidos, suscripciones, calendario semanal, SKUs, clientes, contenido, envíos, descuentos, reports).
 
-**No incluye** suscripción, reviews, referidos, blog, landings SEM, gifting, wishlist ni recomendaciones IA. Eso es v2+.
+**No incluye** reviews, referidos, blog, landings SEM, gifting, wishlist ni recomendaciones IA. Eso es v2+.
+
+> **Cambio v1 → v1.5 (2026-04-25):** la suscripción se incorpora al launch tras cerrar la decisión `decision_v1_vs_v15.md`. Probabilidad de supervivencia Y2 sube de 25-30% a 55-65%; LTV/CAC pasa de 1.37x a 4.8-8.1x. Detalle de modelo y diseño en `docs/superpowers/specs/2026-04-25-pdp-suscripcion-design.md`.
 
 **Objetivos de v1:**
 
@@ -34,11 +36,11 @@ Bionta hoy tiene un Home de *mood board* pero no tiene storefront funcional. Las
 - Que la rotación semanal de fruta tropical **es un moat comunicable**, no un problema logístico invisible.
 - Que el equipo puede operar sin dependencia constante de ingeniería.
 
-**Lo que NO valida v1:**
+**Lo que NO valida v1.5:**
 
-- Modelo de suscripción (pendiente de definir mecánica — ver §10).
 - Eficacia de canales de adquisición pagados (eso llega con SEM landings en v2).
 - Programa de referidos y virality (v2).
+- Modalidad cambiable entre envíos (v1.5 fija modalidad al suscribirse — flex de tamaño y skip sí).
 
 ---
 
@@ -87,14 +89,16 @@ Estado: **✓** listo · **◐** PRD hijo escrito, implementación pendiente · 
 | # | Página / módulo | Prio | Estado | Dependencias | PRD hijo |
 |---|---|---|---|---|---|
 | 1 | **Home** | P0 | ☐ | Selector, calendario temporada | `prd-home.md` (pendiente) |
-| 2 | **PDP Caja Cerrada** | P0 | ◐ | Pricing, stock, calendario | `prd-pdp-caja-cerrada.md` |
-| 3 | **PDP Caja Personalizable** | P0 | ◐ | Pricing, stock, calendario, picker | `prd-pdp-caja-personalizable.md` |
-| 4 | **Cart** (mini + página) | P0 | ☐ | Pricing, sesión | `prd-cart.md` (pendiente) |
-| 5 | **Checkout** multi-step | P0 | ☐ | Pagos, envíos, auth | `prd-checkout.md` (pendiente) |
+| 2 | **PDP Caja Cerrada** (con toggle suscripción) | P0 | ◐ | Pricing, stock, calendario, suscripción | `prd-pdp-caja-cerrada.md` |
+| 3 | **PDP Caja Personalizable** (con toggle suscripción) | P0 | ◐ | Pricing, stock, calendario, picker, suscripción | `prd-pdp-caja-personalizable.md` |
+| 3b | **Landing Menús semanales** (`/menus-semanales`) | P0 | ◐ | Suscripción, pricing | spec en `docs/superpowers/specs/2026-04-25-pdp-suscripcion-design.md` |
+| 4 | **Cart** (mini + página, soporta suscripción) | P0 | ☐ | Pricing, sesión, suscripción | `prd-cart.md` (pendiente) |
+| 5 | **Checkout** multi-step (compra única + suscripción) | P0 | ☐ | Pagos, envíos, auth, suscripción recurrente | `prd-checkout.md` (pendiente) |
 | 6 | **Order confirmation** | P0 | ☐ | Email transaccional | `prd-order-confirmation.md` |
 | 7 | **Auth** (login/register/reset) | P0 | ☐ | Auth backend | `prd-auth.md` (pendiente) |
 | 8 | **Mi Cuenta — Dashboard** | P1 | ☐ | Auth, pedidos | `prd-mi-cuenta.md` |
 | 9 | **Mi Cuenta — Pedidos** (list + detalle) | P1 | ☐ | Auth, pedidos API | `prd-mi-cuenta.md` |
+| 9b | **Mi Cuenta — Mi Suscripción** (pausar/saltar/cambiar tamaño/cancelar) | P0 | ☐ | Auth, suscripciones API | `prd-mi-cuenta.md` |
 | 10 | **Mi Cuenta — Direcciones** | P1 | ☐ | Auth | `prd-mi-cuenta.md` |
 | 11 | **Mi Cuenta — Perfil** | P1 | ☐ | Auth | `prd-mi-cuenta.md` |
 | 12 | **Calendario de temporada** (público) | P1 | ☐ | Calendario backend | `prd-calendario.md` |
@@ -102,7 +106,7 @@ Estado: **✓** listo · **◐** PRD hijo escrito, implementación pendiente · 
 | 14 | **Contacto** | P2 | ☐ | Email transaccional | `prd-contacto.md` |
 | 15 | **Legales** (Términos / Privacidad / Cookies) | P0 | ☐ | Revisión legal | `prd-legales.md` |
 | 16 | **404 / Estados de error** | P1 | ☐ | — | Cubierto en DS |
-| 17 | **Emails transaccionales** (5 templates: conf, envío, bienvenida, reset, reembolso) | P0 | ☐ | Email provider | `prd-emails-transaccionales.md` |
+| 17 | **Emails transaccionales** (8 templates: conf, envío, bienvenida, reset, reembolso, conf suscripción, recordatorio próximo envío, aviso stock-out 48h) | P0 | ☐ | Email provider, suscripción | `prd-emails-transaccionales.md` |
 
 **Nota sobre el #16:** no es "página" pero hay que diseñarlo (404, 500, offline, sesión expirada, payment failed). Se trata como set dentro del DS.
 
@@ -121,10 +125,11 @@ Prioridad igual que §4.
 | # | Módulo | Prio | Notas |
 |---|---|---|---|
 | 1 | **Staff login** (+ 2FA opcional v1) | P0 | Cuentas de equipo, roles básicos |
-| 2 | **Dashboard** | P1 | KPIs del día: ventas, pedidos pendientes, stock alerts, fruta con poca cobertura |
-| 3 | **Pedidos — list** | P0 | Filtros (estado, fecha, cliente, SKU), búsqueda, exportar CSV |
+| 2 | **Dashboard** | P1 | KPIs del día: ventas, pedidos pendientes, stock alerts, fruta con poca cobertura, **suscripciones activas + envíos próximos 7d** |
+| 3 | **Pedidos — list** | P0 | Filtros (estado, fecha, cliente, SKU, tipo: única/suscripción), búsqueda, exportar CSV |
 | 4 | **Pedidos — detalle** | P0 | Ver línea, dirección, pagos, acciones: marcar preparado/enviado/entregado, refund (parcial/total), nota interna |
-| 5 | **Calendario de temporada** ★ | P0 | **Módulo core Bionta.** Semana ↔ lista de frutas ↔ stock binario/numérico ↔ disponibilidad por modalidad ↔ orden de display. Soporte para planificar 4 semanas adelante. |
+| 4b | **Suscripciones** ★ | P0 | **Nuevo módulo v1.5.** Cohorte de suscriptores, calendario de envíos por semana (forecast por modalidad/tamaño/frecuencia), panel de pausas/skips/cancelaciones, gestión manual cuando soporte interviene. |
+| 5 | **Calendario de temporada** ★ | P0 | **Módulo core Bionta.** Semana ↔ lista de frutas ↔ stock binario/numérico ↔ disponibilidad por modalidad ↔ orden de display. Soporte para planificar 4 semanas adelante. **Cruzar con cohorte de suscriptores** para forecast de demanda semanal. |
 | 6 | **Productos** (SKU matrix) | P0 | 4 SKUs base (Cerrada-G, Cerrada-P, Personalizable-G, Personalizable-P): precio, descripción, imágenes principales, capacidad del picker. |
 | 7 | **Clientes — list + detalle** | P1 | Datos, historial de pedidos, notas internas, exportar |
 | 8 | **Contenido — textos e imágenes** | P1 | CMS-lite: hero copy, hero image, testimonials, banner promo |
@@ -161,6 +166,12 @@ Son los flujos que **tienen que funcionar** en v1. Si uno falla, v1 no está lis
 
 6. **CU-6 · Cambiar dirección de un pedido en curso.** Desde Mi Cuenta → Pedido → si estado = "En preparación", permitir cambio de dirección hasta X horas antes de envío. Si no, pedir por contacto.
 
+6b. **CU-11 · Suscribirse desde landing.** Desde nav `Menús semanales` → landing → bloque "Elige tu modalidad" → PDP correspondiente con `?suscripcion=true` → toggle activo + frecuencia preseleccionada → checkout en modo suscripción → confirmación + email + primera caja con 25% off.
+
+6c. **CU-12 · Suscribirse desde PDP.** Llega directo a `/caja-cerrada` (o personalizable) → activa el toggle "Suscríbeme" → elige frecuencia y tamaño → checkout en modo suscripción → confirmación.
+
+6d. **CU-13 · Gestionar mi suscripción.** Mi Cuenta → Mi Suscripción → puede pausar, saltar siguiente envío, cambiar tamaño (aplica al próximo envío), o cancelar en 1 click — sin penalización ni permanencia.
+
 ### Backoffice (equipo)
 
 7. **CU-7 · Operar la semana.** Lunes: operador entra a Calendario de temporada → marca frutas disponibles esta semana → ajusta stock → publica. A partir de ese momento la tienda refleja el nuevo surtido.
@@ -171,9 +182,11 @@ Son los flujos que **tienen que funcionar** en v1. Si uno falla, v1 no está lis
 
 10. **CU-10 · Publicar un banner promocional.** Operador entra a Contenido → edita banner de home → publica → cambio visible en la home sin deploy.
 
-### Casos de uso que NO están en v1 (lista explícita)
+10b. **CU-14 · Comunicar stock-out semanal a suscriptores.** Operador detecta en Calendario que la modalidad X no se cubrirá esta semana → Backoffice → Suscripciones → segmento afectado → dispara email 48h antes con opciones (otra modalidad / saltar / cancelar). Cliente decide; el sistema actualiza el envío.
 
-- Suscribirse a entrega recurrente.
+### Casos de uso que NO están en v1.5 (lista explícita)
+
+- Cambiar de modalidad entre envíos sin cancelar (sí cambiar tamaño y skip).
 - Dejar una review.
 - Invitar a un amigo.
 - Aplicar varios códigos de descuento en un pedido.
@@ -276,11 +289,10 @@ Lo que **bloquea** v1 si no está resuelto a tiempo.
 
 ---
 
-## 9. Fuera de alcance (v1)
+## 9. Fuera de alcance (v1.5)
 
 Declarado explícitamente para evitar scope creep.
 
-- **Suscripción / Menús semanales.** Se menciona en nav pero no se pitchea ni se implementa. PDPs lo mencionan en "Próximos pasos".
 - **Reviews / ratings** post-compra.
 - **Programa de referidos.**
 - **Blog / contenido editorial.**
@@ -289,11 +301,14 @@ Declarado explícitamente para evitar scope creep.
 - **Wishlist / favoritos.**
 - **Recomendaciones IA / pairings** ("si llevas piña, prueba lichi").
 - **Guardar presets / "mi última caja"** en picker personalizable.
-- **Multi-idioma.** v1 es solo ES. CAT/EN en v2.
-- **Multi-moneda.** v1 es solo EUR.
+- **Multi-idioma.** v1.5 es solo ES. CAT/EN en v2.
+- **Multi-moneda.** v1.5 es solo EUR.
 - **Gift cards.**
 - **Pago a plazos / financiación.**
 - **B2B / pedidos grandes empresa.**
+- **Cambio de modalidad entre envíos** sin cancelar la suscripción (v2).
+- **Suscripción a frecuencia mensual** (v1.5 cubre semanal y quincenal; mensual rompería el moat de frescura).
+- **Login social en suscripción** — ver `docs/superpowers/specs/2026-04-25-social-login-design.md` (entró a v1 en sesión separada).
 
 ---
 
@@ -351,15 +366,24 @@ Orden de sprints orientativo. Asume equipo pequeño (1-2 frontend, 1 backend, 1 
 ### Sprint 3-4 — Transacción (semanas 7-10)
 
 - Cart (mini + página).
-- Checkout multi-step.
+- Checkout multi-step (compra única + suscripción).
 - Integración pagos + Order confirmation.
-- Emails transaccionales (5 templates).
+- Emails transaccionales (5 templates base + 3 de suscripción).
 - Backoffice: Pedidos (list + detalle) + refunds.
+
+### Sprint 4b — Suscripción (semanas 9-12, paralelo) ★ NUEVO v1.5
+
+- Landing `/menus-semanales` con los 9 bloques.
+- Toggle de suscripción en PDP Cerrada y Personalizable.
+- Cobro recurrente, gestión de cancelación silenciosa, lógica de auto-linking.
+- Backoffice: Suscripciones (cohorte, calendario de envíos, pausas/skips/cancels).
+- Mi Cuenta — bloque Mi Suscripción.
+- Emails: confirmación suscripción, recordatorio próximo envío, aviso stock-out 48h.
 
 ### Sprint 5 — Cuenta y confianza (semanas 11-12)
 
 - Auth (login/register/reset).
-- Mi Cuenta (dashboard + pedidos + direcciones + perfil).
+- Mi Cuenta (dashboard + pedidos + direcciones + perfil + suscripción).
 - Calendario de temporada público.
 - FAQ.
 - Backoffice: Clientes.
@@ -380,7 +404,7 @@ Orden de sprints orientativo. Asume equipo pequeño (1-2 frontend, 1 backend, 1 
 - Entrenamiento del equipo en backoffice.
 - Soft launch con audiencia acotada.
 
-**Tiempo total orientativo:** ~16 semanas. Ajustar según tamaño real del equipo y decisiones de §10.
+**Tiempo total orientativo:** ~16-19 semanas (v1.5 añade ~3-4 semanas vs v1 puro por la línea de suscripción). Ajustar según tamaño real del equipo y decisiones de §10.
 
 ---
 
@@ -420,6 +444,11 @@ PRDs pendientes de escribir (orden sugerido):
 - **CR Checkout → Pago:** ≥ 70% (iniciado → completado).
 - **AOV:** ≥ 45 € (empuje vía default Grande + cross-sell).
 - **Bounce rate Home:** ≤ 45%.
+- **% checkouts iniciados como suscripción:** ≥ 20% (hipótesis a validar).
+- **Conversión cohorte suscripción** (de inicio checkout a primer envío cobrado): ≥ 75%.
+- **Churn al primer envío** (suscriptores que cancelan antes del 2º envío): ≤ 25%.
+- **Suscriptores activos cierre Y1:** ≥ 150 (punto de inflexión MRR per `plan-negocio-v1.md`).
+- **MRR cierre Y1:** ≥ 11.500€.
 
 ### Operación
 

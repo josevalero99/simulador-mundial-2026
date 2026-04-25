@@ -48,12 +48,12 @@ Bionta vende cajas de fruta tropical de temporada en modalidad **cerrada** (surt
 - Hacer visible la **fruta de esta semana** como prueba del moat estacional.
 - Reducir objeciones con FAQ, trust badges y testimonios antes del cross-sell.
 
-### No-objetivos (v1)
+### No-objetivos (v1.5)
 
-- **No** integrar el flujo de suscripción en el selector (ver §12).
 - **No** mostrar variantes de pago a plazos, financiación ni regalo/gifting (evolución v2+).
 - **No** permitir editar el surtido (esa es la PDP personalizable, y este PDP debe redirigir hacia ella como cross-sell).
 - **No** mostrar histórico de surtidos de semanas anteriores (se evaluará en v2 como contenido SEO).
+- **No** permitir cambiar de modalidad sin cancelar la suscripción (sí cambiar tamaño y skip — gestionado en Mi Cuenta).
 
 ### Fuera de alcance del doc
 
@@ -91,7 +91,7 @@ Orden de scroll (desktop 1440 como canónico, mobile como adaptación):
 | # | Bloque | Rol |
 |---|--------|-----|
 | 1 | Breadcrumb | Ubicación + SEO |
-| 2 | **Hero PDP** | Galería + nombre + precio + selector tamaño + CTA primario |
+| 2 | **Hero PDP** | Galería + nombre + **toggle "¿Cómo la quieres?" (Una vez / Suscríbeme)** + selector frecuencia condicional + selector tamaño + precio dinámico + CTA primario dinámico |
 | 3 | **Esta semana recibes** | Moat estacional — fotos de las 5-8 frutas reales de la semana |
 | 4 | Cómo funciona | 3 pasos (elige tamaño → recibes en 24-48h → disfrutas) |
 | 5 | Qué incluye | Contenido tipo, peso total, origen, formato de entrega |
@@ -112,10 +112,14 @@ Orden de scroll (desktop 1440 como canónico, mobile como adaptación):
 │  ┌──────────────┐   CAJA CERRADA                               │
 │  │              │   Surtido tropical por Bionta                │
 │  │  [galería    │                                              │
-│  │   producto]  │   ( ) Pequeña · 29 €  ( ) Grande · 49 €      │
+│  │   producto]  │   ¿Cómo la quieres?                          │
+│  │              │   ( ) Una vez · 49€   (●) Suscríbeme · 44,10€│
+│  │  [dot dot]   │       10% siempre + envío gratis             │
+│  │              │   Frecuencia: ( ) Semanal  (●) Quincenal     │
+│  │              │   ( ) Pequeña · 26,10 €  (●) Grande · 44,10 €│
 │  │              │                                              │
-│  │  [dot dot]   │   [ AÑADIR AL CARRITO — 49 € ]               │
-│  └──────────────┘   ✓ Envío refrigerado · Entrega en 24-48 h   │
+│  │              │   [ EMPEZAR MI SUSCRIPCIÓN — 44,10€/envío ]  │
+│  └──────────────┘   ✓ Envío refrigerado · Sin permanencia      │
 ├────────────────────────────────────────────────────────────────┤
 │  ESTA SEMANA RECIBES                                           │
 │  [ 5-8 frutas con foto cuadrada + nombre + origen ]            │
@@ -165,18 +169,30 @@ Orden de scroll (desktop 1440 como canónico, mobile como adaptación):
 - **Columna derecha — Información y compra:**
   - Título: `Display/L` Medium 36 — **"Caja cerrada"**
   - Subtítulo: `Body/L` Regular 24 — *"Surtido tropical elegido por Bionta, fresco cada semana."*
+  - **Toggle "¿Cómo la quieres?"** (★ v1.5): dos cards lado a lado — `Una vez · 49€` / `Suscríbeme · 44,10€/envío + microcopy "10% siempre + envío gratis"`. Card activa con borde verde Bionta y radio seleccionado. Detalle en `docs/superpowers/specs/2026-04-25-pdp-suscripcion-design.md` §4.
+  - **Selector de frecuencia** (visible solo si `Suscríbeme` activo): dos radios `Semanal` / `Quincenal` (default Quincenal). Fade-in al activarse el toggle.
   - Selector tamaño: dos radio toggles o pills — **"Pequeña"** | **"Grande"** (usa **Checkbox + Leaf Option** extendido, P1 auditoría).
     - Default: **Grande** (mayor AOV).
-    - Precio dinámico junto a cada opción: `"Pequeña · 29 €"` / `"Grande · 49 €"`.
-    - Precio principal `Price/L` Semibold 24 refleja el tamaño seleccionado.
-  - CTA primario: **"Añadir al carrito — {precio}"** — referencia **Primary CTA** (P0 auditoría), fill-width, iconEnd opcional (carrito).
-  - Línea de micro-trust debajo del CTA: `Body/S` Regular 12 — *"✓ Envío refrigerado · Entrega en 24-48 h · Devolución garantizada"*.
+    - Precio dinámico según el toggle:
+      - Modo `Una vez`: `Pequeña · 29 €` / `Grande · 49 €`.
+      - Modo `Suscríbeme`: `Pequeña · 26,10 €` / `Grande · 44,10 €`.
+    - Precio principal `Price/L` Semibold 24 refleja tamaño + modo.
+  - CTA primario:
+    - Modo `Una vez`: amarillo `#ffc200`, texto `Añadir al carrito — {precio}`.
+    - Modo `Suscríbeme`: **verde Bionta `#2f4a2b`**, texto `EMPEZAR MI SUSCRIPCIÓN — {precio}/envío`.
+  - Línea de micro-trust debajo del CTA — varía según el modo:
+    - Una vez: *"✓ Envío refrigerado · Entrega en 24-48 h · Devolución garantizada"*.
+    - Suscríbeme: *"✓ Envío refrigerado · Sin permanencia · Cancela cuando quieras"*.
 
 **Comportamiento:**
 
-- Cambiar tamaño actualiza precio inline y precio del CTA sin recargar.
-- Deep-link soportado: `/caja-cerrada?tamano=pequena` preselecciona "Pequeña" al cargar.
-- Click en CTA añade 1 unidad del SKU `{cerrada, tamaño-actual}` al carrito y abre el **mini-cart** (no navega).
+- Cambiar tamaño o toggle modo de compra actualiza precio inline y precio del CTA sin recargar.
+- Deep-link soportado:
+  - `/caja-cerrada?tamano=pequena` preselecciona "Pequeña".
+  - `/caja-cerrada?suscripcion=true` activa `Suscríbeme` y preselecciona frecuencia `quincenal`.
+  - `/caja-cerrada?suscripcion=true&frecuencia=semanal&tamano=grande` cubre los tres parámetros (es lo que envía la landing `/menus-semanales`).
+- Click en CTA modo `Una vez`: añade 1 unidad del SKU `{cerrada, tamaño}` al carrito y abre el **mini-cart**.
+- Click en CTA modo `Suscríbeme`: lleva al **checkout en modo suscripción** con modalidad/tamaño/frecuencia/descuento pre-rellenados (no abre carrito clásico).
 
 ### 6.3 Esta semana recibes (moat)
 
@@ -362,21 +378,17 @@ Referencias a la **Auditoría de componentización** (página Figma `595:4888`) 
 
 ## 12. Decisiones abiertas
 
-- **Suscripción en PDP.** v1 no integra suscripción. Pendiente definir (a) mecánica de frecuencia, pausa y cancelación; (b) si suscribirse descuenta precio o suma beneficios; (c) si aparece como toggle en el selector o como bloque pitch separado con CTA propio a `/suscripcion`. Ver §13 v2.
-- **Reviews/ratings reales.** v1 usa testimonios curados. Evaluar si en v2 se añade sistema de reviews post-compra (tipo Trustpilot o propio).
+- **Reviews/ratings reales.** v1.5 usa testimonios curados. Evaluar si en v2 se añade sistema de reviews post-compra (tipo Trustpilot o propio).
 - **CTA sticky en mobile.** Pro: mejora ATC en scroll largo. Contra: tapa contenido. Validar con prototipo antes de decidir.
-- **Default de tamaño.** v1 asume "Grande" como default (maximiza AOV). Validar con A/B test post-lanzamiento.
-- **Ratio imagen galería.** v1 asume 1:1. Evaluar 4:5 si las fotos de fruta ganan con verticalidad.
+- **Default de tamaño.** v1.5 asume "Grande" como default (maximiza AOV). Validar con A/B test post-lanzamiento.
+- **Ratio imagen galería.** v1.5 asume 1:1. Evaluar 4:5 si las fotos de fruta ganan con verticalidad.
 - **Programa de referidos / regalo.** No incluido. Potencial v2 según tracción del modelo regalo.
+
+> **Resuelto en v1.5 (2026-04-25):** la mecánica de suscripción está cerrada. Ver detalle en `docs/superpowers/specs/2026-04-25-pdp-suscripcion-design.md` y `decision_v1_vs_v15.md` (memoria del proyecto). Resumen: 10% off recurrente + envío gratis + 15% bienvenida adicional al primer envío, sin permanencia, modalidad fija con tamaño y skip flexibles, frecuencias semanal y quincenal (default quincenal), checkout pre-rellenado.
 
 ---
 
 ## 13. Próximos pasos / v2
-
-**v2 — cuando se resuelva mecánica de suscripción:**
-
-- Bloque **"Recibe cada semana"** con toggle de frecuencia (semanal/quincenal/mensual) y CTA propio.
-- Opción de convertir el ATC en "Suscribirme" desde el mismo selector, ahorrando X% vs compra puntual.
 
 **v2 — cuando haya histórico suficiente:**
 
