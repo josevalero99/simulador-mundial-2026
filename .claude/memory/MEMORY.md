@@ -16,3 +16,4 @@ All entries here are available to Claude Code across all devices and team member
 - [Decisión cerrada — v1.5 con suscripción al launch](decision_v1_vs_v15.md) — resuelta 2026-04-25 a favor de v1.5; consecuencias en PRDs y backoffice.
 - [Sistema de iconos — Material Design](icon_system_material.md) — al crear iconos desde cero, siempre Material Design de Google (no símbolos tipográficos ni vectores caseros).
 - [Design System Bionta v1](design_system_v1.md) — 27 components / 147 variants en sección Figma `683:8218`. Catálogo + IDs + tokens.
+- [Tipografía — peso máximo Medium](typography_max_weight.md) — REGLA: nunca usar Clash Display Bold. Medium es el peso máximo del sistema.
