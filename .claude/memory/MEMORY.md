@@ -14,3 +14,5 @@ All entries here are available to Claude Code across all devices and team member
 - [Jira / Atlassian — setup](jira_setup.md) — site `biontagourmet.atlassian.net`, proyecto `KAN` (MVP Bionta), tipos de issue, deprecación SSE 2026-06-30.
 - [Jira — backlog v1 Bionta](jira_backlog_v1.md) — 289 issues en KAN, mapa de Epics, convención de labels, JQL para Sprint 0 y boards por disciplina.
 - [Decisión cerrada — v1.5 con suscripción al launch](decision_v1_vs_v15.md) — resuelta 2026-04-25 a favor de v1.5; consecuencias en PRDs y backoffice.
+- [Sistema de iconos — Material Design](icon_system_material.md) — al crear iconos desde cero, siempre Material Design de Google (no símbolos tipográficos ni vectores caseros).
+- [Design System Bionta v1](design_system_v1.md) — 27 components / 147 variants en sección Figma `683:8218`. Catálogo + IDs + tokens.
