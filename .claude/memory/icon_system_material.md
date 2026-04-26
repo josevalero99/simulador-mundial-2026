@@ -16,10 +16,25 @@ type: feedback
   3. Tipo: usar variantes "outlined" (24px) por defecto — coherente con la nav y el resto del DS.
   4. Aplicar fills sobre el vector resultante para teñirlo a la paleta Bionta (verde `#2f4a2b`, amarillo `#FFC200`, etc.).
 
-- **No usar:**
+- **No usar (REGLA ESTRICTA — fundador la repitió 2026-04-26):**
+  - **Emojis** como iconos UI (🍊, 📅, 🛡, 📦, 💚, 🔑, 👤, 📧, 📞, ❓, 🥭, 🌿, etc.). NUNCA. Ni siquiera "decorativos" en hero titles o trust microcopy. Reemplazar por Material SVG correspondiente.
   - Caracteres tipográficos como icono (✓, ×, %, ⏸, ⚙).
   - Rectángulos rotados ni primitivas geométricas para simular checks/closes/etc.
   - Iconos de otra librería (Lucide, Heroicons, Feather) — solo Material si no hay alternativa explícita.
+
+**Mapping rápido emoji → Material para reemplazos comunes:**
+- 🍊 / 🥭 → `shopping_basket` o `eco`
+- 📅 → `event` o `calendar_today`
+- 🛡 → `verified_user` o `shield`
+- 📦 → `inventory_2` o `local_shipping`
+- 💚 → `eco` o `favorite`
+- 🔑 → `key` o `vpn_key`
+- 👤 → `person` o `account_circle`
+- 📧 → `email` o `mail`
+- 📞 → `phone` o `call`
+- ❓ → `help` o `help_outline`
+- 🌿 → `eco` o `local_florist`
+- ✓ (decision sí) → `check` (pero como SVG, no character)
 
 - **Excepciones (sí permitido sin Material):**
   - Logos de marca (Bionta, Google G, Apple) — assets oficiales de cada marca.
