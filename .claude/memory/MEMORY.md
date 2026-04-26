@@ -17,3 +17,4 @@ All entries here are available to Claude Code across all devices and team member
 - [Sistema de iconos — Material Design](icon_system_material.md) — al crear iconos desde cero, siempre Material Design de Google (no símbolos tipográficos ni vectores caseros).
 - [Design System Bionta v1](design_system_v1.md) — 27 components / 147 variants en sección Figma `683:8218`. Catálogo + IDs + tokens.
 - [Tipografía — peso máximo Medium](typography_max_weight.md) — REGLA: nunca usar Clash Display Bold. Medium es el peso máximo del sistema.
+- [Prototipo User Journey v1](prototype_user_journey.md) — sección Figma `696:22802` con 7 frames clickables del journey end-to-end (Home → PDP → Cart → Checkout → OC → Mi Cuenta).
