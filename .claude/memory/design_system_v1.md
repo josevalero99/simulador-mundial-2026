@@ -134,10 +134,10 @@ Las 5 páginas/familias se duplicaron y migraron a instancias de los components 
 | Componente | id | Variants |
 |---|---|---|
 | OrderConfirmation / Hero | `693:19106` | Mode=Once-Guest/Subs-Guest/Mixed-Guest/Once-Logged/Subs-Logged (5 variants) |
-| OrderConfirmation / SubscriptionCard | `693:19165` | (single) |
-| OrderConfirmation / TrackingCard | `693:19185` | (single) |
-| OrderConfirmation / AccountBanner | `693:19208` | Variant=MagicLink/Optional (2 variants) |
-| OrderConfirmation / Page (template) | `696:19264` | (template — frame con instances) |
+| OrderConfirmation / SubscriptionCard | `696:20983` | (single) — recreado tras desaparición 2026-04-26 |
+| OrderConfirmation / TrackingCard | `696:21003` | (single) — recreado |
+| OrderConfirmation / AccountBanner | `696:21026` | Variant=MagicLink/Optional (2 variants) — recreado |
+| OrderConfirmation / Page (template) | `696:21028` | (template) — recreado |
 
 ### Total Plan 1: 13 components / ~25 variants
 
