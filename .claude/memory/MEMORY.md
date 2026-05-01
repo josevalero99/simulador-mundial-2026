@@ -18,3 +18,4 @@ All entries here are available to Claude Code across all devices and team member
 - [Design System Bionta v1](design_system_v1.md) — 27 components / 147 variants en sección Figma `683:8218`. Catálogo + IDs + tokens.
 - [Tipografía — peso máximo Medium](typography_max_weight.md) — REGLA: nunca usar Clash Display Bold. Medium es el peso máximo del sistema.
 - [Prototipo User Journey v1](prototype_user_journey.md) — sección Figma `696:22802` con 7 frames clickables del journey end-to-end (Home → PDP → Cart → Checkout → OC → Mi Cuenta).
+- [Responsive breakpoints](responsive_breakpoints.md) — desktop 1440, tablet 768, mobile 375. Convención `[Screen] — Tablet/Mobile` para copias.
