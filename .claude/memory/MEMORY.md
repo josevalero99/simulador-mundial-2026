@@ -17,5 +17,10 @@ All entries here are available to Claude Code across all devices and team member
 - [Sistema de iconos — Material Design](icon_system_material.md) — al crear iconos desde cero, siempre Material Design de Google (no símbolos tipográficos ni vectores caseros).
 - [Design System Bionta v1](design_system_v1.md) — 27 components / 147 variants en sección Figma `683:8218`. Catálogo + IDs + tokens.
 - [Tipografía — peso máximo Medium](typography_max_weight.md) — REGLA: nunca usar Clash Display Bold. Medium es el peso máximo del sistema.
-- [Prototipo User Journey v1](prototype_user_journey.md) — sección Figma `696:22802` con 7 frames clickables del journey end-to-end (Home → PDP → Cart → Checkout → OC → Mi Cuenta).
+- [Prototipo User Journey v1](prototype_user_journey.md) — `696:22802`, 8 frames clickables incl. drawer cart overlays, calendar y breadcrumbs (ampliado 2026-05-01).
 - [Responsive breakpoints](responsive_breakpoints.md) — desktop 1440, tablet 768, mobile 375. Convención `[Screen] — Tablet/Mobile` para copias.
+- [Spacing standard — Tailwind 4 px grid](tailwind_4px_grid.md) — REGLA: paddings/gaps/sizes/radii/strokes en múltiplos de 4. 6 home variants ya normalizadas; PDPs/Cart/Checkout/OC/Mi Cuenta pendientes.
+- [Patrón Comparativa — neutral + un saturado](comparativa_card_pattern.md) — para tablas plan A vs plan B: solo el lado recomendado va saturado, el otro neutro con borde fino.
+- [Calendario de temporada — diseño y wiring](calendar_page.md) — `730:24739`, Gantt anual 12 frutas × 12 meses, conectado desde Home. Bug pending: Mango Tommy peak wrap.
+- [Figma Plugin API — gotchas que ya pagué](figma_plugin_api_gotchas.md) — OVERLAY no acepta SMART_ANIMATE, prototypeDevice read-only, fonts deben cargarse antes de mutar texts, y otros 7 que me han mordido.
+- [Cleanup pendiente — sesión 2026-05-01](cleanup_pending_2026-05-01.md) — 13 huérfanos + 8 candidatos marcados con 🗑, páginas legacy a archivar y surfaces sin verificar imágenes.

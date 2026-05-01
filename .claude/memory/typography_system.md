@@ -6,6 +6,8 @@ type: project
 
 **Fuente oficial:** Clash Display (pesos disponibles: Extralight, Light, Regular, Medium, Semibold, Bold). El proyecto usa Clash Display para TODO el texto; cualquier otra fuente (ej. Inter) es un outlier a corregir.
 
+**Decisión validada 2026-05-01:** se planteó añadir una segunda tipografía sólo para `Body/*` (cuerpos de texto largos en FAQ, T&C, descripciones). Se prototiparon 3 copias de la home con Inter, Manrope y Plus Jakarta Sans (sección `🔤 Body type test — Inter · Manrope · Plus Jakarta Sans` en la página Design v2). **Resultado: el fundador decidió mantener Clash Display en todo, sin segunda fuente.** Las 3 copias siguen vivas en el archivo por si se reabre el debate. Razón: brand-experience prima sobre legibilidad pura mientras el contenido del producto sea mayormente claims cortos y grids; reevaluar si crece contenido editorial (blog, legal extenso).
+
 **Ubicación:** archivo `Bionta Design` (file key `v34S6c0aQGYqHY1eFIq48z`).
 - Página `🔤 Typography` (`602:5186`) — showcase visual.
 - Variable collection `Bionta / Typography` (`VariableCollectionId:602:5160`) — 15 variables (family, weights, sizes, line-heights, letter-spacing).
