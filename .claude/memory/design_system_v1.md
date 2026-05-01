@@ -160,3 +160,14 @@ Las 5 páginas/familias se duplicaron y migraron a instancias de los components 
 ## Atoms ya existentes (página Icons `397:180`)
 
 Antes de crear iconos comprobar: `plus`, `minus`, `delete-forever`, `shopping_cart` (24×24 outlined Material).
+
+## Fixes post-build
+
+**2026-05-01 — Overflow de texto en toggles PDP**: ancho FIJO en componentes con texto HUG hacía que labels largas desbordaran. Patrón aplicado: container + segmento → HUG horizontal, padding H 16px.
+
+| Componente | id | Cambio |
+|---|---|---|
+| SegmentedControl | `683:8466` (5 variants) | container 248→HUG, segmentos 120→HUG con padding H 16px. Afectaba Modalidad/Tamaño en PDP (8 instancias). |
+| Card / Tier-toggle (sm) | `683:8682`, `683:8686` | container 146→HUG. LG variants (`683:8691`, `683:8696`) intactas — no desbordan y mantienen ancho intencional para grid Configurador. |
+
+**Regla**: cualquier componente con label HUG dentro de container FIXED es candidato a desborde si el texto crece. Default a HUG en container salvo que la grid externa lo requiera FIXED.
