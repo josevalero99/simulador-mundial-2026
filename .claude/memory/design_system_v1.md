@@ -149,7 +149,7 @@ Las 5 páginas/familias se duplicaron y migraron a instancias de los components 
 ## Decisiones / known gaps
 
 - **Logo Bionta**: placeholder texto "BIONTA" en Nav y Footer brand col → reemplazar por SVG real.
-- **Logos sociales (Google/Apple)**: placeholders coloreados en Button/Social-* → reemplazar por assets oficiales (algunos están en página `Icons` `397:180`).
+- ~~Logos sociales (Google/Apple)~~ → resuelto 2026-05-01 (ver "Fixes post-build").
 - **Disabled state**: implementado vía `opacity 0.4` en lugar de recolorear tokens. Más fácil de overridear en código.
 - **Pill neutral filled** no existe en atoms — Tabs L2 usa frames raw como fallback (bg `#F5F5F5`). A iterar en v1.1 añadiendo `Pill / Filled / Neutral`.
 - **Material icons**: todos importados via SVG path (no caracteres tipográficos ni primitivas). ViewBox 24×24.
@@ -157,9 +157,28 @@ Las 5 páginas/familias se duplicaron y migraron a instancias de los components 
 - **Color tokens hardcoded** como RGB en fills — no se usaron Figma Variables. Migrar antes de v1.1 grande.
 - **Text Styles** no creados — sizes/weights inline en cada componente. Promover Clash Display 12/14/16/18/22/40 Bold/Medium/Regular antes de v1.1.
 
-## Atoms ya existentes (página Icons `397:180`)
+## Atoms ya existentes (página Icons `397:180` — legacy)
 
-Antes de crear iconos comprobar: `plus`, `minus`, `delete-forever`, `shopping_cart` (24×24 outlined Material).
+Página antigua con 4 entradas: `plus`, `minus`, `delete-forever`, `shopping_cart`. Sustituida por catálogo nuevo `🔣 Icons — v1` (`721:14429`).
+
+## Catálogo de iconos canónico — `🔣 Icons — v1` (`721:14429`)
+
+**Creado 2026-05-01** como source-of-truth para Material Symbols outlined. 19 iconos como Components nombrados `Icon / [name]`, 24×24, instanciables. Sección root `721:14430`, grid `721:14433`.
+
+| Icono | Component id | Icono | Component id |
+|---|---|---|---|
+| account_circle | `721:14439` | lock_open | `721:14499` |
+| arrow_forward | `721:14445` | pause_circle | `721:14505` |
+| auto_awesome | `721:14451` | percent | `721:14511` |
+| check_circle | `721:14457` | redeem | `721:14517` |
+| eco | `721:14463` | savings | `721:14523` |
+| event | `721:14469` | schedule | `721:14529` |
+| expand_less | `721:14475` | sell | `721:14535` |
+| expand_more | `721:14481` | shopping_cart | `721:14541` |
+| inventory_2 | `721:14487` | tune | `721:14547` |
+| local_shipping | `721:14493` | | |
+
+**How to apply**: para añadir un icono nuevo a una pantalla, instanciar desde este catálogo (ya no clonar inline desde otra pantalla). Si falta el icono, descargar SVG outlined de Material Symbols (Google Fonts), pegar como vector, convertir a Component con nombre `Icon / [snake_case]`, y añadir aquí.
 
 ## Fixes post-build
 
@@ -171,3 +190,5 @@ Antes de crear iconos comprobar: `plus`, `minus`, `delete-forever`, `shopping_ca
 | Card / Tier-toggle (sm) | `683:8682`, `683:8686` | container 146→HUG. LG variants (`683:8691`, `683:8696`) intactas — no desbordan y mantienen ancho intencional para grid Configurador. |
 
 **Regla**: cualquier componente con label HUG dentro de container FIXED es candidato a desborde si el texto crece. Default a HUG en container salvo que la grid externa lo requiera FIXED.
+
+**2026-05-01 — Logos sociales oficiales**: 8 frames placeholder (4 Google + 4 Apple) en páginas `🏠 Design v2` y `🔐 Auth + Mi Cuenta v1` reemplazados por clones de los assets oficiales del Button atom (`logo-google` `683:11028` y `logo-apple` `683:11033`). Eliminado el known gap "Logos sociales (Google/Apple): placeholders coloreados".
