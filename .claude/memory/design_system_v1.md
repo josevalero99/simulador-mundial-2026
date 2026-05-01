@@ -176,9 +176,13 @@ Página antigua con 4 entradas: `plus`, `minus`, `delete-forever`, `shopping_car
 | expand_less | `721:14475` | sell | `721:14535` |
 | expand_more | `721:14481` | shopping_cart | `721:14541` |
 | inventory_2 | `721:14487` | tune | `721:14547` |
-| local_shipping | `721:14493` | | |
+| local_shipping | `721:14493` | bionta | `726:16267` |
 
-**How to apply**: para añadir un icono nuevo a una pantalla, instanciar desde este catálogo (ya no clonar inline desde otra pantalla). Si falta el icono, descargar SVG outlined de Material Symbols (Google Fonts), pegar como vector, convertir a Component con nombre `Icon / [snake_case]`, y añadir aquí.
+**Nota eco**: el Component `Icon / eco` contiene el SVG `nature` (árbol) por preferencia explícita del usuario, no el `eco` canónico de Material.
+
+**Bionta icon**: `Icon / bionta` (`726:16267`) usa el `leaf` legacy de la página "Design System" (`152:7228`) como base — 2 vectores, hoja con tallo. Brand green fill.
+
+**How to apply**: para añadir un icono nuevo a una pantalla, instanciar desde este catálogo (ya no clonar inline desde otra pantalla). Si falta el icono, descargar SVG outlined de Material Symbols con URL `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/[name]/default/24px.svg` (wght400, opsz24, fill0), pegar como vector vía `figma.createNodeFromSvg`, convertir a Component con nombre `Icon / [snake_case]`, y añadir aquí.
 
 ## Fixes post-build
 
@@ -192,3 +196,5 @@ Página antigua con 4 entradas: `plus`, `minus`, `delete-forever`, `shopping_car
 **Regla**: cualquier componente con label HUG dentro de container FIXED es candidato a desborde si el texto crece. Default a HUG en container salvo que la grid externa lo requiera FIXED.
 
 **2026-05-01 — Logos sociales oficiales**: 8 frames placeholder (4 Google + 4 Apple) en páginas `🏠 Design v2` y `🔐 Auth + Mi Cuenta v1` reemplazados por clones de los assets oficiales del Button atom (`logo-google` `683:11028` y `logo-apple` `683:11033`). Eliminado el known gap "Logos sociales (Google/Apple): placeholders coloreados".
+
+**2026-05-01 — Limpieza masiva de iconos inline**: 103 usos de iconos en las 4 páginas activas reemplazados por SVGs Material Symbols outlined oficiales descargados de Google Fonts (`wght400`, `opsz24`, `fill0`). Antes había mezcla de pesos (200/400), `local_shipping` filled, `tune` con icono `psychiatry` (cerebro). Fills preservados por icono. Excepción: 1 usage de `tune` (`644:4330`, 44×44 en Home v2) saltado por si era placeholder de planta brand.
