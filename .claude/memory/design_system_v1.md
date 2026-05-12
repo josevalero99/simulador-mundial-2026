@@ -154,7 +154,7 @@ Las 5 páginas/familias se duplicaron y migraron a instancias de los components 
 - **Pill neutral filled** no existe en atoms — Tabs L2 usa frames raw como fallback (bg `#F5F5F5`). A iterar en v1.1 añadiendo `Pill / Filled / Neutral`.
 - **Material icons**: todos importados via SVG path (no caracteres tipográficos ni primitivas). ViewBox 24×24.
 - **No hay Hover state** — Figma no anima, así que solo Default/Disabled. Hover queda para CSS en código.
-- **Color tokens hardcoded** como RGB en fills — no se usaron Figma Variables. Migrar antes de v1.1 grande.
+- ~~**Color tokens hardcoded**~~ → resuelto 2026-05-12 (ver [[color_tokens_system]]). 28 primitives + 36 semantic vars creadas, rebind 94.1% fills.
 - **Text Styles** no creados — sizes/weights inline en cada componente. Promover Clash Display 12/14/16/18/22/40 Bold/Medium/Regular antes de v1.1.
 
 ## Atoms ya existentes (página Icons `397:180` — legacy)

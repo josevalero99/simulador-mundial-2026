@@ -24,3 +24,4 @@ All entries here are available to Claude Code across all devices and team member
 - [Calendario de temporada — diseño y wiring](calendar_page.md) — `730:24739`, Gantt anual 12 frutas × 12 meses, conectado desde Home. Bug pending: Mango Tommy peak wrap.
 - [Figma Plugin API — gotchas que ya pagué](figma_plugin_api_gotchas.md) — OVERLAY no acepta SMART_ANIMATE, prototypeDevice read-only, fonts deben cargarse antes de mutar texts, y otros 7 que me han mordido.
 - [Cleanup pendiente — sesión 2026-05-01](cleanup_pending_2026-05-01.md) — 13 huérfanos + 8 candidatos marcados con 🗑, páginas legacy a archivar y surfaces sin verificar imágenes.
+- [Sistema de tokens de color](color_tokens_system.md) — 28 primitives + 36 semantic Figma vars, rebind 94.1% fills / 88.5% strokes, exports en `design/tokens/`.

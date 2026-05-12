@@ -1,0 +1,99 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "_meta": {
+    "source": "Figma file 'Bionta Design' (key v34S6c0aQGYqHY1eFIq48z)",
+    "collections": ["Bionta / Color Primitives", "Bionta / Color Semantic"],
+    "mode": "Default (single)",
+    "generated": "2026-05-12"
+  },
+  "color": {
+    "brand": {
+      "yellow": {
+        "50":  { "$value": "#FFF8E0", "$type": "color" },
+        "300": { "$value": "#FAC938", "$type": "color" },
+        "500": { "$value": "#FFC200", "$type": "color" },
+        "600": { "$value": "#E5AD00", "$type": "color" },
+        "700": { "$value": "#D99A2E", "$type": "color" }
+      },
+      "green": {
+        "50":  { "$value": "#E3E9DA", "$type": "color" },
+        "500": { "$value": "#2F4A2B", "$type": "color" },
+        "600": { "$value": "#3D5A39", "$type": "color" },
+        "900": { "$value": "#243121", "$type": "color" }
+      }
+    },
+    "cream": {
+      "50":  { "$value": "#FAF6EF", "$type": "color" },
+      "100": { "$value": "#F1EBDE", "$type": "color" },
+      "200": { "$value": "#E5DFD2", "$type": "color" },
+      "300": { "$value": "#D9D1C7", "$type": "color" },
+      "700": { "$value": "#7A7366", "$type": "color" }
+    },
+    "neutral": {
+      "0":   { "$value": "#FFFFFF", "$type": "color" },
+      "50":  { "$value": "#F5F5F5", "$type": "color" },
+      "100": { "$value": "#EDEDED", "$type": "color" },
+      "200": { "$value": "#E0E0E0", "$type": "color" },
+      "300": { "$value": "#C7C7C7", "$type": "color" },
+      "400": { "$value": "#A6A6A6", "$type": "color" },
+      "500": { "$value": "#8C8C8C", "$type": "color" },
+      "600": { "$value": "#6B6B6B", "$type": "color" },
+      "700": { "$value": "#4D4D4D", "$type": "color" },
+      "800": { "$value": "#333333", "$type": "color" },
+      "900": { "$value": "#1E1E1E", "$type": "color" }
+    },
+    "red": {
+      "50":  { "$value": "#FCE6E8", "$type": "color" },
+      "500": { "$value": "#ED2933", "$type": "color" },
+      "700": { "$value": "#661A1A", "$type": "color" }
+    }
+  },
+  "semantic": {
+    "surface": {
+      "page":            { "$value": "{color.cream.50}", "$type": "color" },
+      "raised":          { "$value": "{color.neutral.0}", "$type": "color" },
+      "raised-subtle":   { "$value": "{color.neutral.50}", "$type": "color" },
+      "raised-muted":    { "$value": "{color.neutral.100}", "$type": "color" },
+      "sunken":          { "$value": "{color.cream.100}", "$type": "color" },
+      "brand":           { "$value": "{color.brand.yellow.500}", "$type": "color" },
+      "brand-subtle":    { "$value": "{color.brand.yellow.50}", "$type": "color" },
+      "inverse":         { "$value": "{color.brand.green.500}", "$type": "color" },
+      "inverse-strong":  { "$value": "{color.neutral.900}", "$type": "color" },
+      "success-subtle":  { "$value": "{color.brand.green.50}", "$type": "color" },
+      "error-subtle":    { "$value": "{color.red.50}", "$type": "color" }
+    },
+    "text": {
+      "primary":           { "$value": "{color.neutral.900}", "$type": "color" },
+      "strong":            { "$value": "{color.neutral.800}", "$type": "color" },
+      "secondary":         { "$value": "{color.neutral.600}", "$type": "color" },
+      "secondary-strong":  { "$value": "{color.neutral.700}", "$type": "color" },
+      "muted":             { "$value": "{color.neutral.500}", "$type": "color" },
+      "on-brand":          { "$value": "{color.neutral.900}", "$type": "color" },
+      "on-inverse":        { "$value": "{color.cream.50}", "$type": "color" },
+      "on-cream":          { "$value": "{color.cream.700}", "$type": "color" },
+      "link":              { "$value": "{color.brand.green.500}", "$type": "color" },
+      "error":             { "$value": "{color.red.500}", "$type": "color" }
+    },
+    "border": {
+      "subtle":         { "$value": "{color.neutral.200}", "$type": "color" },
+      "default":        { "$value": "{color.neutral.300}", "$type": "color" },
+      "strong-subtle":  { "$value": "{color.neutral.400}", "$type": "color" },
+      "strong":         { "$value": "{color.neutral.900}", "$type": "color" },
+      "cream":          { "$value": "{color.cream.200}", "$type": "color" },
+      "brand":          { "$value": "{color.brand.yellow.500}", "$type": "color" },
+      "inverse":        { "$value": "{color.brand.green.500}", "$type": "color" },
+      "error":          { "$value": "{color.red.500}", "$type": "color" }
+    },
+    "action": {
+      "primary":          { "$value": "{color.brand.yellow.500}", "$type": "color" },
+      "primary-hover":    { "$value": "{color.brand.yellow.600}", "$type": "color" },
+      "secondary":        { "$value": "{color.brand.green.500}", "$type": "color" },
+      "secondary-hover":  { "$value": "{color.brand.green.600}", "$type": "color" }
+    },
+    "feedback": {
+      "error":    { "$value": "{color.red.500}", "$type": "color" },
+      "success":  { "$value": "{color.brand.green.500}", "$type": "color" },
+      "warning":  { "$value": "{color.brand.yellow.600}", "$type": "color" }
+    }
+  }
+}

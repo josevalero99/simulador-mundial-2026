@@ -1,0 +1,106 @@
+/**
+ * Bionta — Color tokens
+ * Generated from Figma variables (file: Bionta Design, key v34S6c0aQGYqHY1eFIq48z)
+ * Source of truth: collections "Bionta / Color Primitives" + "Bionta / Color Semantic"
+ *
+ * Usage:
+ *   import "./design/tokens/tokens.css";
+ *   .button-primary { background: var(--color-action-primary); color: var(--color-text-on-brand); }
+ *
+ * Rule: Components should reference semantic tokens (--color-surface-*, --color-text-*, etc.).
+ * Primitives (--color-brand-*, --color-neutral-*) are the underlying palette — avoid using them directly.
+ */
+
+:root {
+  /* ─────────────────────────────────────────────────────────────────
+   * PRIMITIVES — raw palette. Do not consume directly from components.
+   * ───────────────────────────────────────────────────────────────── */
+
+  /* Brand · Yellow */
+  --color-brand-yellow-50: #FFF8E0;
+  --color-brand-yellow-300: #FAC938;
+  --color-brand-yellow-500: #FFC200;
+  --color-brand-yellow-600: #E5AD00;
+  --color-brand-yellow-700: #D99A2E;
+
+  /* Brand · Green */
+  --color-brand-green-50: #E3E9DA;
+  --color-brand-green-500: #2F4A2B;
+  --color-brand-green-600: #3D5A39;
+  --color-brand-green-900: #243121;
+
+  /* Cream */
+  --color-cream-50: #FAF6EF;
+  --color-cream-100: #F1EBDE;
+  --color-cream-200: #E5DFD2;
+  --color-cream-300: #D9D1C7;
+  --color-cream-700: #7A7366;
+
+  /* Neutral */
+  --color-neutral-0: #FFFFFF;
+  --color-neutral-50: #F5F5F5;
+  --color-neutral-100: #EDEDED;
+  --color-neutral-200: #E0E0E0;
+  --color-neutral-300: #C7C7C7;
+  --color-neutral-400: #A6A6A6;
+  --color-neutral-500: #8C8C8C;
+  --color-neutral-600: #6B6B6B;
+  --color-neutral-700: #4D4D4D;
+  --color-neutral-800: #333333;
+  --color-neutral-900: #1E1E1E;
+
+  /* Red */
+  --color-red-50: #FCE6E8;
+  --color-red-500: #ED2933;
+  --color-red-700: #661A1A;
+
+  /* ─────────────────────────────────────────────────────────────────
+   * SEMANTIC — consume these from components.
+   * ───────────────────────────────────────────────────────────────── */
+
+  /* Surface */
+  --color-surface-page: var(--color-cream-50);
+  --color-surface-raised: var(--color-neutral-0);
+  --color-surface-raised-subtle: var(--color-neutral-50);
+  --color-surface-raised-muted: var(--color-neutral-100);
+  --color-surface-sunken: var(--color-cream-100);
+  --color-surface-brand: var(--color-brand-yellow-500);
+  --color-surface-brand-subtle: var(--color-brand-yellow-50);
+  --color-surface-inverse: var(--color-brand-green-500);
+  --color-surface-inverse-strong: var(--color-neutral-900);
+  --color-surface-success-subtle: var(--color-brand-green-50);
+  --color-surface-error-subtle: var(--color-red-50);
+
+  /* Text */
+  --color-text-primary: var(--color-neutral-900);
+  --color-text-strong: var(--color-neutral-800);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-secondary-strong: var(--color-neutral-700);
+  --color-text-muted: var(--color-neutral-500);
+  --color-text-on-brand: var(--color-neutral-900);
+  --color-text-on-inverse: var(--color-cream-50);
+  --color-text-on-cream: var(--color-cream-700);
+  --color-text-link: var(--color-brand-green-500);
+  --color-text-error: var(--color-red-500);
+
+  /* Border */
+  --color-border-subtle: var(--color-neutral-200);
+  --color-border-default: var(--color-neutral-300);
+  --color-border-strong-subtle: var(--color-neutral-400);
+  --color-border-strong: var(--color-neutral-900);
+  --color-border-cream: var(--color-cream-200);
+  --color-border-brand: var(--color-brand-yellow-500);
+  --color-border-inverse: var(--color-brand-green-500);
+  --color-border-error: var(--color-red-500);
+
+  /* Action */
+  --color-action-primary: var(--color-brand-yellow-500);
+  --color-action-primary-hover: var(--color-brand-yellow-600);
+  --color-action-secondary: var(--color-brand-green-500);
+  --color-action-secondary-hover: var(--color-brand-green-600);
+
+  /* Feedback */
+  --color-feedback-error: var(--color-red-500);
+  --color-feedback-success: var(--color-brand-green-500);
+  --color-feedback-warning: var(--color-brand-yellow-600);
+}
