@@ -66,6 +66,9 @@ Task 14 hecha: Icons publicado como librería + fila Icons en System Index → "
   de Foundations, 0 al origen.** (Gotcha: `boundVariables.fills[i]` ES el VariableAlias, no `.color`.)
   Reparto: L1-L2 + Doc en 🧱 Primitives, L3-L7 en 🧬 Patterns. Validado por screenshot (colores intactos).
   Pendiente: cherry-pick legacy (Avatar/Alert/Tooltip/Loader/ProgressBar) · Audit · publicar · swap.
+- **Capa 2 · cherry-pick DESCARTADO** — los 5 legacy son de template genérico off-brand + librería
+  externa "Tokens". Decisión usuario: saltarlos. Backlog: diseñarlos nativos Bionta. v1 queda como
+  set canónico completo. Pendiente Capa 2: Audit (opcional) · publicar Components · swap library en origen.
 
 **~~En curso: Capa 1b · Task 13 — Logos~~** (aplazada — ver arriba):
 

@@ -32,6 +32,11 @@
 1. [MANUAL] Copiar sección entera `🧩 Components — v1` (`683:8218`) → pegar en Components / página 🧱 Primitives. NO "Copy variables".
 2. [MCP] Mover sub-secciones L3-L7 a página 🧬 Patterns; dejar L1-L2 + Doc en Primitives.
 3. [MCP] **Sweep de re-binding de tokens a Foundations** (match por nombre — vars migradas 1:1). Reportar no-matcheados.
-4. [MANUAL] Cherry-pick legacy: Avatar, Alert, Tooltip, Loader, Progress Bar (página Design System) → pegar en Primitives → rebind.
+4. ~~Cherry-pick legacy~~ **DESCARTADO (2026-05-31).** Inspección reveló que Avatar/Alert/Tooltip/
+   Loader/ProgressBar son de un **template genérico de terceros**: colores off-brand (índigo/azul/
+   morado), tipografía genérica, y dependen de una **librería externa "Tokens"** (no Foundations).
+   El rebind no los arreglaría. Decisión usuario: **saltarlos**.
+   → **BACKLOG**: diseñar Avatar · Alert · Tooltip · Loader · Progress Bar **nativos en estilo Bionta**
+     (Clash Display, paleta amarillo/verde/cream, tokens Foundations) cuando se necesiten.
 5. [MCP] Auditoría (página 📋 Audit) + verificación de conteo.
 6. [MANUAL] Publicar Components (Task 18) + swap library en origen (⚠️ con cuidado).
