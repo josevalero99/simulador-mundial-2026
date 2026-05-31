@@ -35,3 +35,6 @@ Registro cronológico del progreso de la migración.
 - **Capa 1 · Task 9** — System Index en página 🗺️. Diagrama de dependencias (Foundations → Icons →
   Components → Product/Backoffice), tabla de los 5 archivos con estado por capa, principios y links
   externos. Validado por screenshot. Falta solo Task 10 (publicar — MANUAL del usuario) para cerrar Capa 1.
+- **Capa 1 · Task 10** — Foundations publicado como librería por el usuario. ✅ CAPA 1 COMPLETA.
+  ⚠️ Pendiente cosmético: el archivo seguía como `Foundations-Bionta` al publicar; usuario hará
+  rename a `Bionta — Foundations` + republish para que el nombre de la librería sea consistente.
