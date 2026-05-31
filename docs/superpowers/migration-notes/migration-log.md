@@ -17,3 +17,7 @@ Registro cronológico del progreso de la migración.
   Effects & Radii, Variable collections, Archive); "Page 1" eliminada. README inicial
   (texto plano) construido y validado por screenshot. Naming: usuario eligió convención
   `Bionta — Foundations` (rename manual pendiente; key no cambia).
+- **Capa 1 · Task 6** — Color variables migradas a Foundations. Collections `Color — Primitives`
+  (28) + `Color — Semantic` (36 aliases, 36/36 enlazados OK). Showcase en página 🎨 Color con
+  swatches bound a tokens, validado por screenshot. Gotcha resuelto: `resize()` en eje primario
+  de auto-layout lo fuerza a FIXED → fijar tamaño tras append + usar `layoutSizingVertical=HUG`.
