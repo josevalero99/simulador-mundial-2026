@@ -12,3 +12,8 @@ Registro cronológico del progreso de la migración.
   (1) design system real = 1351 comp / 69 sets, no 27/147 (inflado por variantes de iconos);
   (2) 20 páginas, no ~10; (3) las páginas Calendario (`730:24739`) y Prototype (`696:22802`)
   citadas en el plan NO existen como páginas → resolver en Capa 3.
+- **Capa 1 · Task 3-5** — `Bionta — Foundations` creado (key `BKGqaN0gWxAp8ixPWp5SZk`).
+  8 páginas internas creadas (README, System Index, Color, Typography, Spacing & Grid,
+  Effects & Radii, Variable collections, Archive); "Page 1" eliminada. README inicial
+  (texto plano) construido y validado por screenshot. Naming: usuario eligió convención
+  `Bionta — Foundations` (rename manual pendiente; key no cambia).
