@@ -52,7 +52,12 @@ Registro cronológico del progreso de la migración.
 
 **Completado:** Capa 0 ✅ · Capa 1 ✅ (Foundations publicado) · Capa 1b Tasks 11-12 ✅ (Icons creado + 20 iconos).
 
-**En curso: Capa 1b · Task 13 — Logos** (a medias, esperando 2 copy-pastes del usuario).
+**[ACTUALIZADO 2026-05-31 +sesión]** Task 13 (Logos) APLAZADA por decisión del usuario
+(saltarse sociales). Logos se rellenará luego (logo blanco + set social) con un republish.
+Task 14 hecha: Icons publicado como librería + fila Icons en System Index → "✅ publicado".
+**CAPA 1b CERRADA.** Próximo: **Capa 2 — Components** (empieza creando `Bionta — Components`).
+
+**~~En curso: Capa 1b · Task 13 — Logos~~** (aplazada — ver arriba):
 
 Decisiones ya tomadas por el usuario:
 - Logos sociales: **copiar el set genérico completo** (~30 iconos) desde origen `Design System` → frame "Social" (`152:8040`).
