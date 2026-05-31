@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "capturedAt": "2026-05-31",
+    "sourceFileKey": "v34S6c0aQGYqHY1eFIq48z",
+    "count": 10,
+    "note": "Text styles del origen para recrear en Foundations (Task 7). Todos Clash Display. ⚠️ Price/L y Price/M usan Semibold (> Medium). Convención README dice 'max weight Medium'; el plan solo prohíbe Bold. Preservados tal cual (migración fiel); revisar Semibold vs Medium fuera de esta migración."
+  },
+  "styles": [
+    { "name": "Display/XL", "family": "Clash Display", "style": "Medium",   "fontSize": 48, "letterSpacing": -0.5,  "lineHeight": 110, "description": "Hero desktop 1920 — headline principal" },
+    { "name": "Display/L",  "family": "Clash Display", "style": "Medium",   "fontSize": 36, "letterSpacing": -0.25, "lineHeight": 110, "description": "Hero desktop 1440 — headline" },
+    { "name": "Heading/L",  "family": "Clash Display", "style": "Medium",   "fontSize": 24, "letterSpacing": 0,     "lineHeight": 120, "description": "Títulos de sección y de card" },
+    { "name": "Body/L",     "family": "Clash Display", "style": "Regular",  "fontSize": 24, "letterSpacing": 0,     "lineHeight": 140, "description": "Párrafos destacados / CTA copy" },
+    { "name": "Body/M",     "family": "Clash Display", "style": "Regular",  "fontSize": 16, "letterSpacing": 0,     "lineHeight": 140, "description": "Body por defecto" },
+    { "name": "Body/S",     "family": "Clash Display", "style": "Regular",  "fontSize": 12, "letterSpacing": 0,     "lineHeight": 140, "description": "Legal, copy menor" },
+    { "name": "Price/L",    "family": "Clash Display", "style": "Semibold", "fontSize": 24, "letterSpacing": 0,     "lineHeight": 120, "description": "Precio principal en cards (⚠️ Semibold)" },
+    { "name": "Price/M",    "family": "Clash Display", "style": "Semibold", "fontSize": 16, "letterSpacing": 0,     "lineHeight": 140, "description": "Precio inline / compacto (⚠️ Semibold)" },
+    { "name": "Label/M",    "family": "Clash Display", "style": "Medium",   "fontSize": 16, "letterSpacing": 0,     "lineHeight": 140, "description": "Navegación, labels, items" },
+    { "name": "Label/S",    "family": "Clash Display", "style": "Medium",   "fontSize": 12, "letterSpacing": 0,     "lineHeight": 140, "description": "Navegación pequeña, meta" }
+  ]
+}

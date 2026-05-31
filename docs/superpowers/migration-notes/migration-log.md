@@ -21,3 +21,8 @@ Registro cronológico del progreso de la migración.
   (28) + `Color — Semantic` (36 aliases, 36/36 enlazados OK). Showcase en página 🎨 Color con
   swatches bound a tokens, validado por screenshot. Gotcha resuelto: `resize()` en eje primario
   de auto-layout lo fuerza a FIXED → fijar tamaño tras append + usar `layoutSizingVertical=HUG`.
+- **Capa 1 · Task 7** — Typography migrada. Collection `Typography` (15 vars) + 10 text styles
+  (todos Clash Display, disponible en el archivo nuevo). Showcase en página 🔤 Typography con
+  frases reales, validado por screenshot. ✅ Ningún estilo usa Bold. ⚠️ Price/L y Price/M usan
+  Semibold (> Medium) — preservado del origen; tensión con "max weight Medium" anotada para
+  revisión futura (fuera de alcance de esta migración estructural).
