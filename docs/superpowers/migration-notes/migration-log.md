@@ -82,6 +82,11 @@ Task 14 hecha: Icons publicado como librería + fila Icons en System Index → "
 Capa 0 ✅ · Capa 1 ✅ (Foundations) · Capa 1b ✅ (Icons, Logos aplazada) · Capa 2 ✅ (Components).
 **Próximo: Capa 3 — Product** (pantallas cliente). Empieza creando `Bionta — Product` + activar las 3 librerías.
 
+- **Capa 3 · Task 19-20** — `Bionta — Product` creado (key `TwvvuI6zvq2cK59pM4TdvQ`). Foundations activada
+  (verificado); Icons+Components activadas por usuario (no verificable vía vars API). 11 páginas creadas,
+  secciones ✅ Canonical + 🧪 Exploraciones en las 6 páginas de pantalla, README montado.
+  Próximo: Task 21 migrar Home (canónico en origen pág. `603:5435` 🧭 Home Audit — Product Lens).
+
 Backlog acumulado:
 - Logos: rellenar página 🏷 Logos de Icons (logo blanco + set social) + republish.
 - Primitives legacy: diseñar Avatar/Alert/Tooltip/Loader/ProgressBar nativos Bionta.

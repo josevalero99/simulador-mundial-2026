@@ -10,5 +10,5 @@ Se rellenan a medida que se crean los archivos. Necesarios para la Capa 5 (Task 
 | `FOUNDATIONS_FILE_KEY` | Bionta — Foundations | `BKGqaN0gWxAp8ixPWp5SZk` | ✅ publicado como librería |
 | `ICONS_FILE_KEY` | Bionta — Icons | `7WR2fbQIB8Jf5stwHLcnv3` | ✅ creado · Foundations activada |
 | `COMPONENTS_FILE_KEY` | Bionta — Components | `t4j7zBnG6HC7CQuQmt8Ug3` | ✅ creado · Foundations + Icons activadas |
-| `PRODUCT_FILE_KEY` | Bionta — Product | _(pendiente)_ | ⏳ |
+| `PRODUCT_FILE_KEY` | Bionta — Product | `TwvvuI6zvq2cK59pM4TdvQ` | ✅ creado · Foundations activada |
 | `BACKOFFICE_FILE_KEY` | Bionta — Backoffice | _(pendiente)_ | ⏳ |
