@@ -57,6 +57,10 @@ Registro cronológico del progreso de la migración.
 Task 14 hecha: Icons publicado como librería + fila Icons en System Index → "✅ publicado".
 **CAPA 1b CERRADA.** Próximo: **Capa 2 — Components** (empieza creando `Bionta — Components`).
 
+- **Capa 2 · Task 15** — `Bionta — Components` creado (key `t4j7zBnG6HC7CQuQmt8Ug3`). Foundations
+  activada (4 collections disponibles) + Icons activada por el usuario. 6 páginas (README · Primitives ·
+  Patterns · Audit · Sandbox · Archive), Page 1 eliminada, README montado. Próximo: Task 16.1 clasificar.
+
 **~~En curso: Capa 1b · Task 13 — Logos~~** (aplazada — ver arriba):
 
 Decisiones ya tomadas por el usuario:
