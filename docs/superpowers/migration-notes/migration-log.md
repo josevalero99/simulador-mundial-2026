@@ -37,3 +37,6 @@ Registro cronológico del progreso de la migración.
   externos. Validado por screenshot. Falta solo Task 10 (publicar — MANUAL del usuario) para cerrar Capa 1.
 - **Capa 1 · Task 10** — Foundations publicado como librería por el usuario. ✅ CAPA 1 COMPLETA.
   Archivo renombrado a `Bionta — Foundations` (verificado en vivo) + republish. Nombre consistente.
+- **Capa 1b · Task 11** — `Bionta — Icons` creado (key `7WR2fbQIB8Jf5stwHLcnv3`). Foundations
+  activada como librería (verificado: las 4 collections disponibles vía teamLibrary API). 5 páginas
+  (README · Icons — Material · Logos · Sandbox · Archive), Page 1 eliminada, README validado.
