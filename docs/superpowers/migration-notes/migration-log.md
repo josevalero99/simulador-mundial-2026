@@ -87,6 +87,38 @@ Capa 0 ✅ · Capa 1 ✅ (Foundations) · Capa 1b ✅ (Icons, Logos aplazada) ·
   secciones ✅ Canonical + 🧪 Exploraciones en las 6 páginas de pantalla, README montado.
   Próximo: Task 21 migrar Home (canónico en origen pág. `603:5435` 🧭 Home Audit — Product Lens).
 
+---
+
+## ⏸️ FIN DE SESIÓN 2026-05-31 (2ª parada) — RETOMAR EN MIGRACIÓN DE PANTALLAS
+
+**Completado hoy:** Capa 0 ✅ · Capa 1 ✅ · Capa 1b ✅ · Capa 2 ✅ (3 librerías publicadas) ·
+Capa 3 estructura ✅ (Product creado, 11 páginas, secciones Canonical/Exploraciones, README).
+
+**En curso: Capa 3 · Task 21 — migrar Home** (bloqueado en decisión de usuario: cuál Home es canónico).
+
+### Hallazgos de investigación (NO re-investigar):
+**3 versiones de Home en el origen** — el usuario debe elegir la canónica:
+1. Página "Home" (`300:2840`) → sección "landing" (4537×4840) + "Landing-mobile" (440×4186). **v1 antigua**.
+2. Página "🧭 Home Audit — Product Lens" (`603:5435`) → sección análisis anotado (1960×6334). No es diseño limpio.
+3. Página "🏠 Design v2" (`606:6018`) → sección **"Home"** (2443×7729). **Parece la v2 más nueva/limpia**.
+
+**🎬 Prototype LOCALIZADO** (resuelve open question): página "🏠 Design v2" → sección
+**"🎬 Prototype — User Journey v1"** (11780×8400). El plan citaba `696:22802` (inexistente).
+También en Design v2: sección **"🔄 Migrated to DS — v1"** (20000×7571) — revisar qué es.
+
+### Cómo retomar (patrón por pantalla, Tasks 21-26):
+1. Usuario decide qué versión de la pantalla es canónica (hay v1/v2/exploraciones).
+2. Copy-paste cross-file: canónico → sección ✅ Canonical de su página en Product; resto → 🧪 Exploraciones.
+   NO pulsar "Copy variables" en el toast.
+3. [MCP] Sweep de re-binding de tokens a Foundations (mismo método que componentes: match por nombre,
+   `boundVariables.fills[i]` ES el alias). Verificar 0 refs colgantes.
+4. [VERIFY] Instances apuntan a librería remota Components (si hay locales → swap library).
+5. Repetir para PDP · Carrito · Checkout · Mi Cuenta · Calendario.
+6. Task 27: re-wire prototype (sección localizada arriba). Gotcha: OVERLAY no acepta SMART_ANIMATE.
+
+**Nota conexión:** 5 archivos pueden estar conectados al Bridge; el origen se desconecta al cambiar
+de pestaña → re-Run plugin si hace falta. Verificar archivo activo antes de escribir (figma.root.name).
+
 Backlog acumulado:
 - Logos: rellenar página 🏷 Logos de Icons (logo blanco + set social) + republish.
 - Primitives legacy: diseñar Avatar/Alert/Tooltip/Loader/ProgressBar nativos Bionta.
