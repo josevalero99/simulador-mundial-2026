@@ -69,6 +69,24 @@ Task 14 hecha: Icons publicado como librería + fila Icons en System Index → "
 - **Capa 2 · cherry-pick DESCARTADO** — los 5 legacy son de template genérico off-brand + librería
   externa "Tokens". Decisión usuario: saltarlos. Backlog: diseñarlos nativos Bionta. v1 queda como
   set canónico completo. Pendiente Capa 2: Audit (opcional) · publicar Components · swap library en origen.
+- **Capa 2 · Task 17-18** — Verificación final: 35 sets + 13 comps (19+5 Primitives / 16+8 Patterns),
+  0 refs colgantes, 0 vars locales. Components **publicado** por el usuario. Fila Components en System
+  Index → "✅ publicado". **Swap library en origen (Task 18.2) SALTADO deliberadamente** (recomendación):
+  el origen se archiva en Capa 5 y sus pantallas se re-migran con rebind en Capas 3-4 → swap redundante
+  y arriesgado. Página 📋 Audit dejada vacía (opcional, documentación). **🎉 CAPA 2 CERRADA — 3/3 librerías publicadas.**
+
+---
+
+## ✅ ESTADO 2026-05-31 — 3 LIBRERÍAS PUBLICADAS
+
+Capa 0 ✅ · Capa 1 ✅ (Foundations) · Capa 1b ✅ (Icons, Logos aplazada) · Capa 2 ✅ (Components).
+**Próximo: Capa 3 — Product** (pantallas cliente). Empieza creando `Bionta — Product` + activar las 3 librerías.
+
+Backlog acumulado:
+- Logos: rellenar página 🏷 Logos de Icons (logo blanco + set social) + republish.
+- Primitives legacy: diseñar Avatar/Alert/Tooltip/Loader/ProgressBar nativos Bionta.
+- 📋 Audit (Components): copiar auditoría P0/P1/P2 del origen (opcional).
+- Calendario/Prototype: el plan citaba node IDs inexistentes — localizar en Capa 3.
 
 **~~En curso: Capa 1b · Task 13 — Logos~~** (aplazada — ver arriba):
 
