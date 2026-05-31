@@ -60,6 +60,12 @@ Task 14 hecha: Icons publicado como librería + fila Icons en System Index → "
 - **Capa 2 · Task 15** — `Bionta — Components` creado (key `t4j7zBnG6HC7CQuQmt8Ug3`). Foundations
   activada (4 collections disponibles) + Icons activada por el usuario. 6 páginas (README · Primitives ·
   Patterns · Audit · Sandbox · Archive), Page 1 eliminada, README montado. Próximo: Task 16.1 clasificar.
+- **Capa 2 · Task 16.1** — Clasificación (`components-classification.md`). Canónico = "🧩 Components — v1".
+- **Capa 2 · Task 16.2** — Sección v1 completa pegada (35 sets + 13 comps, 0 vars locales). **Sweep de
+  re-binding de tokens a Foundations: 1137 fills + 101 strokes → 1724 bindings ahora a Color — Semantic
+  de Foundations, 0 al origen.** (Gotcha: `boundVariables.fills[i]` ES el VariableAlias, no `.color`.)
+  Reparto: L1-L2 + Doc en 🧱 Primitives, L3-L7 en 🧬 Patterns. Validado por screenshot (colores intactos).
+  Pendiente: cherry-pick legacy (Avatar/Alert/Tooltip/Loader/ProgressBar) · Audit · publicar · swap.
 
 **~~En curso: Capa 1b · Task 13 — Logos~~** (aplazada — ver arriba):
 
