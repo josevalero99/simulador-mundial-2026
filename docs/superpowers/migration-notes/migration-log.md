@@ -26,3 +26,9 @@ Registro cronológico del progreso de la migración.
   frases reales, validado por screenshot. ✅ Ningún estilo usa Bold. ⚠️ Price/L y Price/M usan
   Semibold (> Medium) — preservado del origen; tensión con "max weight Medium" anotada para
   revisión futura (fuera de alcance de esta migración estructural).
+- **Capa 1 · Task 8** — Spacing/Grid/Effects/Radii (`effects-grid-notes.md`). Origen sin styles
+  con nombre → canonicalizados: collection `Radius` (7, escala 4px), 4 effect styles `elevation/*`
+  (de sombras reales observadas en scan de 31k nodos), 4 grid styles (Desktop/Tablet/Mobile/Base 4px).
+  Showcases en 🌀 Effects & Radii y 📐 Spacing & Grid validados. ⚠️ Origen tenía 2 sistemas de
+  sombra paralelos (verde-card + rampa navy) → consolidar a futuro. Total Foundations: 86 vars /
+  4 collections, 4 effect + 4 grid + 10 text styles.
