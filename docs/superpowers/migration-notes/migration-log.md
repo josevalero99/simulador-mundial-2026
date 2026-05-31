@@ -45,3 +45,27 @@ Registro cronológico del progreso de la migración.
   El icono de marca `bionta` tenía 1 ref colgante en su stroke a `Icon Color/icon-black` del origen
   → re-bindeada a Foundations `neutral/900` (remote/library). Sección renombrada a "Material Symbols".
   Pendiente Task 13: decidir si `bionta` (hoja) se mueve a 🏷 Logos.
+
+---
+
+## ⏸️ FIN DE SESIÓN 2026-05-31 — RETOMAR AQUÍ
+
+**Completado:** Capa 0 ✅ · Capa 1 ✅ (Foundations publicado) · Capa 1b Tasks 11-12 ✅ (Icons creado + 20 iconos).
+
+**En curso: Capa 1b · Task 13 — Logos** (a medias, esperando 2 copy-pastes del usuario).
+
+Decisiones ya tomadas por el usuario:
+- Logos sociales: **copiar el set genérico completo** (~30 iconos) desde origen `Design System` → frame "Social" (`152:8040`).
+- Logo Bionta: **copiar la instancia del header** (`bionta_logo_wp 1`, ej. `300:3235`). ⚠️ Es la versión BLANCA (para nav oscuro) — al pegar saldrá invisible sobre fondo claro; al montar el layout poner sobre tile oscuro.
+
+**Pasos pendientes para retomar:**
+1. Usuario hace 2 copy-paste cross-file a `Bionta — Icons` / página `🏷 Logos`:
+   - Frame "Social" (Design System `152:8040`).
+   - Logo `bionta_logo_wp 1` desde un header de Home. NO pulsar "Copy variables" si sale el toast.
+2. [MCP] Verificar lo pegado + limpiar refs colgantes (como en Task 12).
+3. [MCP] Montar layout limpio en Logos: logo blanco sobre tile oscuro + grid de sociales etiquetado.
+4. [VERIFY] Decidir si mover `Icon / bionta` (hoja) de Material a Logos.
+5. **Task 14** — Publicar Icons como librería (MANUAL) + actualizar fila Icons en System Index de Foundations → cierra Capa 1b.
+
+**Conexión MCP:** abrir en Figma Desktop con Bridge corriendo los archivos que se vayan a tocar.
+Keys en `file-keys.md`. Recordar: el origen (`Bionta Design`) se desconecta del Bridge al cambiar de pestaña — re-Run el plugin si hace falta.
