@@ -32,3 +32,6 @@ Registro cronológico del progreso de la migración.
   Showcases en 🌀 Effects & Radii y 📐 Spacing & Grid validados. ⚠️ Origen tenía 2 sistemas de
   sombra paralelos (verde-card + rampa navy) → consolidar a futuro. Total Foundations: 86 vars /
   4 collections, 4 effect + 4 grid + 10 text styles.
+- **Capa 1 · Task 9** — System Index en página 🗺️. Diagrama de dependencias (Foundations → Icons →
+  Components → Product/Backoffice), tabla de los 5 archivos con estado por capa, principios y links
+  externos. Validado por screenshot. Falta solo Task 10 (publicar — MANUAL del usuario) para cerrar Capa 1.
