@@ -40,3 +40,8 @@ Registro cronológico del progreso de la migración.
 - **Capa 1b · Task 11** — `Bionta — Icons` creado (key `7WR2fbQIB8Jf5stwHLcnv3`). Foundations
   activada como librería (verificado: las 4 collections disponibles vía teamLibrary API). 5 páginas
   (README · Icons — Material · Logos · Sandbox · Archive), Page 1 eliminada, README validado.
+- **Capa 1b · Task 12** — 20 icon components migrados (copy-paste cross-file) a 🔣 Icons — Material.
+  ✅ 20/20 verificados, 0 variables locales copiadas (usuario no pulsó "Copy variables").
+  El icono de marca `bionta` tenía 1 ref colgante en su stroke a `Icon Color/icon-black` del origen
+  → re-bindeada a Foundations `neutral/900` (remote/library). Sección renombrada a "Material Symbols".
+  Pendiente Task 13: decidir si `bionta` (hoja) se mueve a 🏷 Logos.
