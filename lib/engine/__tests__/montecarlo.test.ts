@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
 import { expectedResult, simulateOnce, runMonteCarlo, Rng } from '../montecarlo'
-import { TEAMS } from '@/lib/data/teams'
 import { GROUPS } from '@/lib/data/groups'
 import { generateFixtures } from '@/lib/data/fixtures'
 
@@ -15,8 +14,6 @@ function mulberry32(seed: number): Rng {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296
   }
 }
-
-const fifaRank = (id: string) => TEAMS[id].fifaRank
 
 describe('expectedResult', () => {
   it('a much stronger home team wins clearly more than half the time', () => {

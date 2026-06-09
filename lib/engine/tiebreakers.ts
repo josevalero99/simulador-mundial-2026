@@ -22,7 +22,6 @@ export function rankGroup(
   fifaRank: (teamId: string) => number,
 ): StandingRow[] {
   const overall = computeStandings(teamIds, matches)
-  const byId = new Map(overall.map(r => [r.teamId, r]))
 
   // Step 1: group teams that are equal on the overall (points, gd, gf) triple.
   // Within each such group the head-to-head mini-table is restricted to matches
