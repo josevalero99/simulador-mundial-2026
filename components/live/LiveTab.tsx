@@ -75,22 +75,21 @@ function LiveMatchRow({ match }: LiveMatchRowProps) {
   )
 }
 
-/** Groups matches by `round` preserving first-seen order. */
+/**
+ * Groups matches by `round`. openfootball lists rounds out of order
+ * (Matchday 1, 8, 14, 2, …), so we sort both the matches within each round and
+ * the rounds themselves chronologically by their earliest kickoff.
+ */
 function groupByRound(matches: LiveMatch[]): { round: string; matches: LiveMatch[] }[] {
-  const order: string[] = []
   const byRound = new Map<string, LiveMatch[]>()
   for (const m of matches) {
     const key = m.round || 'Otros'
-    if (!byRound.has(key)) {
-      byRound.set(key, [])
-      order.push(key)
-    }
+    if (!byRound.has(key)) byRound.set(key, [])
     byRound.get(key)!.push(m)
   }
-  return order.map(round => ({
-    round,
-    matches: [...byRound.get(round)!].sort(byKickoff),
-  }))
+  return [...byRound.entries()]
+    .map(([round, ms]) => ({ round, matches: [...ms].sort(byKickoff) }))
+    .sort((a, b) => byKickoff(a.matches[0], b.matches[0]))
 }
 
 /** Live results tab: live-mode toggle + the real fixture list grouped by round. */
