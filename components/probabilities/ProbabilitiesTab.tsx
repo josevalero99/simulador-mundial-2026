@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { Radio } from 'lucide-react'
 import { useStore } from '@/lib/store'
+import { useOdds } from '@/components/odds/OddsProvider'
 import { TEAMS } from '@/lib/data/teams'
 import { runMonteCarlo } from '@/lib/engine/montecarlo'
 import type { TeamProbs } from '@/lib/engine/montecarlo'
@@ -40,6 +41,7 @@ function Bar({ value, color }: BarProps) {
 /** Monte Carlo probabilities tab: estimates each team's deep-run chances. */
 export default function ProbabilitiesTab() {
   const { state } = useStore()
+  const { marketFn } = useOdds()
   const [result, setResult] = useState<Record<string, TeamProbs> | null>(null)
   const [runs, setRuns] = useState(0)
   const [isPending, startTransition] = useTransition()
@@ -47,7 +49,7 @@ export default function ProbabilitiesTab() {
   const handleCalc = () => {
     const base = state.matches
     startTransition(() => {
-      const probs = runMonteCarlo(N, undefined, base)
+      const probs = runMonteCarlo(N, undefined, base, marketFn)
       setResult(probs)
       setRuns(N)
     })

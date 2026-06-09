@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { matchOutcomeProbs } from '@/lib/engine/montecarlo'
+import { matchOutcomeProbs, type MarketFn } from '@/lib/engine/montecarlo'
 
 // Model 1X2 probabilities depend only on the (home, away) pair (fifaRank-based),
 // so they're stable — compute once per ordered pair and cache.
@@ -59,6 +59,8 @@ interface OddsValue {
   oddsForPair: (home: string, away: string) => MatchOdds | null
   /** Odds + implied + model + value per outcome, oriented to home/away, or null. */
   valueForPair: (home: string, away: string) => MatchValue | null
+  /** De-vigged market 1X2 probabilities oriented to home/away (for the model blend), or null. */
+  marketFn: MarketFn
 }
 
 const OddsContext = createContext<OddsValue | null>(null)
@@ -117,6 +119,17 @@ export function OddsProvider({ children }: { children: React.ReactNode }) {
           away: { odds: oddsA, implied: iA / s, model: mp.away, value: mp.away - iA / s },
         }
       },
+      marketFn(home, away) {
+        const m = byPair.get(pairKey(home, away))
+        if (!m) return null
+        const oddsH = m.homeId === home ? m.oddsHome : m.oddsAway
+        const oddsA = m.homeId === home ? m.oddsAway : m.oddsHome
+        const iH = 1 / oddsH
+        const iD = 1 / m.oddsDraw
+        const iA = 1 / oddsA
+        const s = iH + iD + iA
+        return { home: iH / s, draw: iD / s, away: iA / s }
+      },
     }
   }, [data, loading])
 
@@ -127,7 +140,13 @@ export function useOdds(): OddsValue {
   const ctx = useContext(OddsContext)
   if (!ctx) {
     // Safe fallback when used outside a provider (no odds shown).
-    return { configured: false, loading: false, oddsForPair: () => null, valueForPair: () => null }
+    return {
+      configured: false,
+      loading: false,
+      oddsForPair: () => null,
+      valueForPair: () => null,
+      marketFn: () => null,
+    }
   }
   return ctx
 }

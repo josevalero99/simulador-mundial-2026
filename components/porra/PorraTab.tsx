@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition } from 'react'
 import { Radio, Trophy } from 'lucide-react'
 import { useStore } from '@/lib/store'
+import { useOdds } from '@/components/odds/OddsProvider'
 import { TEAMS } from '@/lib/data/teams'
 import { DEFAULT_PORRA, type PorraEntry } from '@/lib/data/porra'
 import { runPorraMonteCarlo, type PorraProb } from '@/lib/engine/porra'
@@ -189,6 +190,7 @@ function PorraEditor({ entries, onChange }: PorraEditorProps) {
 /** Porra tab: editable team picks per participant + Monte Carlo win probabilities. */
 export default function PorraTab() {
   const { state } = useStore()
+  const { marketFn } = useOdds()
   const [entries, setEntries] = useState<PorraEntry[]>(DEFAULT_PORRA)
   const [result, setResult] = useState<PorraProb[] | null>(null)
   const [editing, setEditing] = useState(false)
@@ -224,7 +226,7 @@ export default function PorraTab() {
   const handleCalc = () => {
     const base = state.matches
     startTransition(() => {
-      const probs = runPorraMonteCarlo(N, entries, base)
+      const probs = runPorraMonteCarlo(N, entries, base, undefined, marketFn)
       setResult(probs)
     })
   }
@@ -234,7 +236,7 @@ export default function PorraTab() {
   useEffect(() => {
     if (!state.liveMode || editing) return
     startTransition(() => {
-      setResult(runPorraMonteCarlo(N, entries, state.matches))
+      setResult(runPorraMonteCarlo(N, entries, state.matches, undefined, marketFn))
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.liveMode, state.matches, editing])
