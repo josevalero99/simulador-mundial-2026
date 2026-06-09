@@ -87,17 +87,14 @@ function Dashboard() {
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
       <header className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-3xl">
-          <div className="flex items-center gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E8B84B]">
-              Copa Mundial · 48 selecciones
-            </p>
-            {state.liveMode && (
+          {state.liveMode && (
+            <div className="mb-3 flex items-center gap-3">
               <span className="inline-flex items-center gap-1 rounded-full bg-[#E61D25]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#E61D25]">
                 <Radio size={12} strokeWidth={2} aria-hidden="true" /> En directo
               </span>
-            )}
-          </div>
-          <div className="mt-3 flex items-center gap-3 sm:gap-4">
+            </div>
+          )}
+          <div className="flex items-center gap-3 sm:gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/wc2026-logo.jpeg"
