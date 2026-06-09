@@ -6,6 +6,7 @@ import TabNav from '@/components/TabNav'
 import GroupStageTab from '@/components/group-stage/GroupStageTab'
 import ThirdsTab from '@/components/thirds/ThirdsTab'
 import BracketTab from '@/components/bracket/BracketTab'
+import ProbabilitiesTab from '@/components/probabilities/ProbabilitiesTab'
 
 function ActionButtons() {
   const { dispatch } = useStore()
@@ -32,15 +33,6 @@ function ActionButtons() {
       >
         Limpiar
       </button>
-    </div>
-  )
-}
-
-function Placeholder({ label }: { label: string }) {
-  return (
-    <div className="rounded-2xl border border-[#262626] bg-[#141414] p-12 text-center text-[#8a8a8a]">
-      <p className="text-lg font-medium">{label}</p>
-      <p className="mt-1 text-sm text-[#5a5a5a]">Próximamente</p>
     </div>
   )
 }
@@ -74,7 +66,7 @@ function Dashboard() {
         {active === 0 && <GroupStageTab />}
         {active === 1 && <ThirdsTab />}
         {active === 2 && <BracketTab />}
-        {active === 3 && <Placeholder label="Probabilidades" />}
+        {active === 3 && <ProbabilitiesTab />}
       </div>
     </main>
   )
