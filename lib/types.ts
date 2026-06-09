@@ -9,6 +9,7 @@ export interface Team {
   confederation: Confed
   pot: 1 | 2 | 3 | 4
   fifaRank: number
+  fifaPoints: number
 }
 
 export interface Match {
