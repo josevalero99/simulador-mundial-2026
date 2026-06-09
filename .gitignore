@@ -13,3 +13,13 @@ Thumbs.db
 # MCP config — contiene tokens personales (ej. FIGMA_ACCESS_TOKEN)
 .mcp.json
 .superpowers/
+
+# Node / Next.js
+node_modules/
+/.next/
+/out/
+/build
+/coverage
+*.tsbuildinfo
+next-env.d.ts
+.vercel
