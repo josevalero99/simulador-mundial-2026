@@ -48,12 +48,12 @@ body::before {
   pointer-events: none;
   background-color: var(--bg);
   background-image:
-    radial-gradient(45% 55% at 16% 14%, rgba(232, 184, 75, 0.2), transparent 60%),
-    radial-gradient(50% 60% at 86% 10%, rgba(60, 172, 59, 0.18), transparent 60%),
-    radial-gradient(55% 65% at 88% 88%, rgba(42, 57, 141, 0.18), transparent 60%),
-    radial-gradient(48% 58% at 10% 90%, rgba(230, 29, 37, 0.12), transparent 60%),
-    radial-gradient(42% 52% at 50% 48%, rgba(232, 184, 75, 0.06), transparent 70%),
-    linear-gradient(130deg, #0a0a0a, #0c120e 40%, #0a0b0d 75%);
+    radial-gradient(45% 55% at 16% 14%, rgba(42, 57, 141, 0.16), transparent 60%),
+    radial-gradient(50% 60% at 86% 10%, rgba(30, 44, 100, 0.14), transparent 60%),
+    radial-gradient(55% 65% at 88% 88%, rgba(42, 57, 141, 0.16), transparent 60%),
+    radial-gradient(48% 58% at 10% 90%, rgba(20, 30, 72, 0.14), transparent 60%),
+    radial-gradient(42% 52% at 50% 48%, rgba(42, 57, 141, 0.06), transparent 70%),
+    linear-gradient(130deg, #0a0a0a, #0a0e1c 40%, #090b14 75%);
   background-size:
     220% 220%,
     240% 240%,

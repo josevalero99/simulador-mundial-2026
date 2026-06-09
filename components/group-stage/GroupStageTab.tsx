@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Info } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { GROUP_IDS } from '@/lib/data/groups'
+import ActionsMenu from '@/components/ActionsMenu'
 import GroupCard from './GroupCard'
 import FixtureList from './FixtureList'
 
@@ -30,7 +31,8 @@ export default function GroupStageTab() {
 
   return (
     <div>
-      <div className="flex justify-end">
+      <div className="flex items-center justify-end gap-2">
+        <ActionsMenu />
         <div className="inline-flex shrink-0 rounded-full border border-[#262626] bg-[#141414] p-1">
           <button
             type="button"
