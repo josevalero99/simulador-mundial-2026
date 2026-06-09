@@ -8,7 +8,15 @@ interface NewsItem {
   link: string
   source: string
   pubDate: string
+  spain: boolean
 }
+
+type Filter = 'todas' | 'espana' | 'resto'
+const FILTERS: { id: Filter; label: string }[] = [
+  { id: 'todas', label: 'Todas' },
+  { id: 'espana', label: 'Selección española' },
+  { id: 'resto', label: 'Resto de selecciones' },
+]
 
 /** "hace 2 h" / "hace 3 d" style relative time, fallback to a Madrid date. */
 function relative(pubDate: string): string {
@@ -33,6 +41,7 @@ export default function NoticiasTab() {
   const [items, setItems] = useState<NewsItem[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [filter, setFilter] = useState<Filter>('todas')
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -55,6 +64,11 @@ export default function NoticiasTab() {
     const id = setInterval(() => void load(), 5 * 60 * 1000)
     return () => clearInterval(id)
   }, [load])
+
+  const filtered =
+    items?.filter((it) =>
+      filter === 'todas' ? true : filter === 'espana' ? it.spain : !it.spain,
+    ) ?? null
 
   return (
     <div>
@@ -103,6 +117,34 @@ export default function NoticiasTab() {
         </a>
       </div>
 
+      {/* Filtros */}
+      <div className="no-scrollbar mt-4 flex flex-nowrap gap-2 overflow-x-auto">
+        {FILTERS.map((f) => {
+          const isActive = f.id === filter
+          const count = items?.filter((it) =>
+            f.id === 'todas' ? true : f.id === 'espana' ? it.spain : !it.spain,
+          ).length
+          return (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setFilter(f.id)}
+              className={[
+                'inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
+                isActive
+                  ? 'border-[#E8B84B] bg-[#E8B84B] text-[#0a0a0a]'
+                  : 'border-[#262626] bg-[#141414] text-[#f5f5f5] hover:border-[#3a3a3a]',
+              ].join(' ')}
+            >
+              {f.label}
+              {typeof count === 'number' && (
+                <span className={isActive ? 'text-[#0a0a0a]/60' : 'text-[#5a5a5a]'}>{count}</span>
+              )}
+            </button>
+          )
+        })}
+      </div>
+
       {error && (
         <div className="mt-4 rounded-xl border border-[#f59e0b]/40 bg-[#f59e0b]/10 p-3 text-sm text-[#f59e0b]">
           <span className="mr-1">⚠</span>
@@ -110,17 +152,17 @@ export default function NoticiasTab() {
         </div>
       )}
 
-      {items === null ? (
+      {filtered === null ? (
         <div className="mt-6 rounded-2xl border border-[#262626] bg-[#141414] p-12 text-center text-sm text-[#8a8a8a]">
           Cargando noticias…
         </div>
-      ) : items.length === 0 && !error ? (
+      ) : filtered.length === 0 && !error ? (
         <div className="mt-6 rounded-2xl border border-[#262626] bg-[#141414] p-12 text-center text-sm text-[#8a8a8a]">
-          No hay noticias por ahora.
+          No hay noticias para este filtro.
         </div>
       ) : (
         <ul className="mt-4 flex flex-col gap-2">
-          {items.map((it, i) => (
+          {filtered.map((it, i) => (
             <li key={`${it.link}-${i}`}>
               <a
                 href={it.link}
