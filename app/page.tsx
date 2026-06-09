@@ -8,6 +8,7 @@ import ThirdsTab from '@/components/thirds/ThirdsTab'
 import BracketTab from '@/components/bracket/BracketTab'
 import ProbabilitiesTab from '@/components/probabilities/ProbabilitiesTab'
 import PorraTab from '@/components/porra/PorraTab'
+import LogoMark from '@/components/ui/LogoMark'
 
 function ActionButtons() {
   const { dispatch } = useStore()
@@ -48,9 +49,12 @@ function Dashboard() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c6f24e]">
             Copa Mundial · 48 selecciones
           </p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight text-[#f5f5f5] sm:text-5xl">
-            Simulador Mundial 2026
-          </h1>
+          <div className="mt-3 flex items-center gap-3 sm:gap-4">
+            <LogoMark className="h-11 w-11 shrink-0 sm:h-14 sm:w-14" />
+            <h1 className="text-4xl font-bold tracking-tight text-[#f5f5f5] sm:text-5xl">
+              Simulador Mundial 2026
+            </h1>
+          </div>
           <p className="mt-4 text-sm leading-relaxed text-[#8a8a8a] sm:text-base">
             Grupos, calendario y cruces oficiales (sorteo de Washington, 5 dic. 2025). Mete tus
             resultados y el simulador aplica los criterios de desempate de la FIFA en tiempo real.
