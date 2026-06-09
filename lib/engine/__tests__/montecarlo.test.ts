@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { expectedResult, simulateOnce, runMonteCarlo, Rng } from '../montecarlo'
+import { expectedResult, simulateOnce, runMonteCarlo, matchOutcomeProbs, Rng } from '../montecarlo'
 import { GROUPS } from '@/lib/data/groups'
 import { generateFixtures } from '@/lib/data/fixtures'
 
@@ -61,6 +61,21 @@ describe('runMonteCarlo', () => {
     const rng = mulberry32(99)
     const probs = runMonteCarlo(400, rng)
     expect(probs['ARG'].champion).toBeGreaterThan(probs['NZL'].champion)
+  })
+})
+
+describe('matchOutcomeProbs', () => {
+  it('home/draw/away probabilities sum to ~1', () => {
+    const rng = mulberry32(11)
+    const p = matchOutcomeProbs('ARG', 'NZL', 1000, rng)
+    expect(p.home + p.draw + p.away).toBeCloseTo(1, 5)
+  })
+
+  it('a much stronger home team wins more often than the weak away team', () => {
+    const rng = mulberry32(33)
+    // ARG (rank 1) at home vs NZL (rank 86) away.
+    const p = matchOutcomeProbs('ARG', 'NZL', 1000, rng)
+    expect(p.home).toBeGreaterThan(p.away)
   })
 })
 

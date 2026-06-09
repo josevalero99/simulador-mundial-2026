@@ -69,6 +69,30 @@ export function expectedResult(
   }
 }
 
+/**
+ * Estimates 1X2 (home/draw/away) probabilities for a single match by sampling
+ * `expectedResult` `n` times. FIFA ranks are read from TEAMS. Returns the
+ * empirical frequencies (counts / n) which sum to 1.
+ */
+export function matchOutcomeProbs(
+  homeId: string,
+  awayId: string,
+  n: number,
+  rng: Rng = Math.random,
+): { home: number; draw: number; away: number } {
+  const fifaRank = (id: string): number => TEAMS[id].fifaRank
+  let home = 0
+  let draw = 0
+  let away = 0
+  for (let i = 0; i < n; i++) {
+    const { homeGoals, awayGoals } = expectedResult(homeId, awayId, fifaRank, rng)
+    if (homeGoals > awayGoals) home++
+    else if (awayGoals > homeGoals) away++
+    else draw++
+  }
+  return { home: home / n, draw: draw / n, away: away / n }
+}
+
 export interface SimResult {
   champion: string
   reached: Record<string, Stage>
