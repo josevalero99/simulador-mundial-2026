@@ -1,5 +1,6 @@
 'use client'
 
+import { Info } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { GROUPS } from '@/lib/data/groups'
 import { TEAMS } from '@/lib/data/teams'
@@ -57,9 +58,10 @@ export default function StandingsTable({ groupId }: StandingsTableProps) {
                   {row.tiebreakApplied && (
                     <span
                       title={row.tiebreakApplied}
-                      className="inline-flex h-4 w-4 shrink-0 cursor-help items-center justify-center rounded-full bg-[#1c1c1c] text-[10px] font-bold italic text-[#8a8a8a]"
+                      aria-label={`Desempate aplicado: ${row.tiebreakApplied}`}
+                      className="inline-flex shrink-0 cursor-help items-center text-[#8a8a8a]"
                     >
-                      i
+                      <Info size={13} strokeWidth={2} aria-hidden="true" />
                     </span>
                   )}
                 </div>
