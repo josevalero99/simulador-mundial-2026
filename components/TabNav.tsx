@@ -9,6 +9,7 @@ const TABS: Tab[] = [
   { label: 'Eliminatorias', badge: '3' },
   { label: 'Probabilidades', badge: '%' },
   { label: 'Porra', badge: '🏆' },
+  { label: 'En directo', badge: '🔴' },
 ]
 
 interface TabNavProps {

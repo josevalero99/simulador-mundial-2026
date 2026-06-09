@@ -228,6 +228,16 @@ export default function PorraTab() {
     })
   }
 
+  // In live mode, recompute automatically whenever real results change.
+  // (Skipped while editing so the editor stays responsive.)
+  useEffect(() => {
+    if (!state.liveMode || editing) return
+    startTransition(() => {
+      setResult(runPorraMonteCarlo(N, entries, state.matches))
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.liveMode, state.matches, editing])
+
   const partition = checkPartition(entries)
   const byName = new Map(entries.map(e => [e.name, e]))
   const leaderName = result && result.length > 0 ? result[0].name : null
@@ -236,7 +246,14 @@ export default function PorraTab() {
     <div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-2xl">
-          <h2 className="text-base font-semibold text-[#f5f5f5]">Porra</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-base font-semibold text-[#f5f5f5]">Porra</h2>
+            {state.liveMode && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-xs font-semibold text-[#22c55e]">
+                🔴 En directo
+              </span>
+            )}
+          </div>
           <p className="mt-1 text-sm leading-relaxed text-[#8a8a8a]">
             Cada selección puntúa según su clasificación final (campeón = 1, …, 48º = 48). Gana
             quien menos sume con sus 4 selecciones.

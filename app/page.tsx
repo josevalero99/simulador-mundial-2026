@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { StoreProvider, useStore } from '@/lib/store'
 import TabNav from '@/components/TabNav'
 import GroupStageTab from '@/components/group-stage/GroupStageTab'
@@ -8,6 +8,8 @@ import ThirdsTab from '@/components/thirds/ThirdsTab'
 import BracketTab from '@/components/bracket/BracketTab'
 import ProbabilitiesTab from '@/components/probabilities/ProbabilitiesTab'
 import PorraTab from '@/components/porra/PorraTab'
+import LiveTab from '@/components/live/LiveTab'
+import { liveGroupResults, type LiveMatch } from '@/lib/data/liveResults'
 
 function ActionButtons() {
   const { dispatch } = useStore()
@@ -40,14 +42,57 @@ function ActionButtons() {
 
 function Dashboard() {
   const [active, setActive] = useState(0)
+  const { state, dispatch } = useStore()
+  const [liveData, setLiveData] = useState<{ matches: LiveMatch[]; fetchedAt: string } | null>(
+    null,
+  )
+  const [liveError, setLiveError] = useState<string | null>(null)
+
+  // Fetch real results from the cached API route.
+  const fetchLive = useCallback(async () => {
+    try {
+      const res = await fetch('/api/resultados')
+      const json = (await res.json()) as {
+        matches: LiveMatch[]
+        fetchedAt: string
+        error?: string
+      }
+      if (json.error) setLiveError(json.error)
+      else setLiveError(null)
+      setLiveData({ matches: json.matches ?? [], fetchedAt: json.fetchedAt })
+    } catch {
+      setLiveError('fetch-failed')
+    }
+  }, [])
+
+  // Poll once on mount and every 60s.
+  useEffect(() => {
+    void fetchLive()
+    const id = setInterval(() => void fetchLive(), 60_000)
+    return () => clearInterval(id)
+  }, [fetchLive])
+
+  // When live mode is on, push real group results into the store so groups,
+  // terceros, probabilidades and porra all reflect reality.
+  useEffect(() => {
+    if (!state.liveMode || !liveData) return
+    dispatch({ type: 'APPLY_LIVE_RESULTS', results: liveGroupResults(liveData.matches) })
+  }, [state.liveMode, liveData, dispatch])
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
       <header className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c6f24e]">
-            Copa Mundial · 48 selecciones
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c6f24e]">
+              Copa Mundial · 48 selecciones
+            </p>
+            {state.liveMode && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#22c55e]">
+                🔴 En directo
+              </span>
+            )}
+          </div>
           <div className="mt-3 flex items-center gap-3 sm:gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -77,6 +122,9 @@ function Dashboard() {
         {active === 2 && <BracketTab />}
         {active === 3 && <ProbabilitiesTab />}
         {active === 4 && <PorraTab />}
+        {active === 5 && (
+          <LiveTab liveData={liveData} liveError={liveError} onRefresh={fetchLive} />
+        )}
       </div>
     </main>
   )

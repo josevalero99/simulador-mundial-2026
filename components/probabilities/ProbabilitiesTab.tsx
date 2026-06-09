@@ -60,7 +60,14 @@ export default function ProbabilitiesTab() {
     <div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-base font-semibold text-[#f5f5f5]">Probabilidades</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-base font-semibold text-[#f5f5f5]">Probabilidades</h2>
+            {state.liveMode && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-xs font-semibold text-[#22c55e]">
+                🔴 En directo
+              </span>
+            )}
+          </div>
           {runs > 0 && (
             <p className="mt-1 text-sm text-[#8a8a8a]">
               {runs.toLocaleString('es')} simulaciones ejecutadas.
