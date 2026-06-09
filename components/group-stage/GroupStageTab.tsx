@@ -31,7 +31,7 @@ export default function GroupStageTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex items-center justify-start gap-2">
         <ActionsMenu />
         <div className="inline-flex shrink-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1">
           <button
