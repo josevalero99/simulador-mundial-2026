@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest'
 import { simulateFinalRanking, finalPositions } from '../finalRanking'
 import { Rng } from '../montecarlo'
 import { TEAMS } from '@/lib/data/teams'
-import { GROUPS } from '@/lib/data/groups'
 import { generateFixtures } from '@/lib/data/fixtures'
 import { Match } from '@/lib/types'
 

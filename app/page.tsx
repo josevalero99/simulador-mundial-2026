@@ -7,6 +7,7 @@ import GroupStageTab from '@/components/group-stage/GroupStageTab'
 import ThirdsTab from '@/components/thirds/ThirdsTab'
 import BracketTab from '@/components/bracket/BracketTab'
 import ProbabilitiesTab from '@/components/probabilities/ProbabilitiesTab'
+import PorraTab from '@/components/porra/PorraTab'
 
 function ActionButtons() {
   const { dispatch } = useStore()
@@ -67,6 +68,7 @@ function Dashboard() {
         {active === 1 && <ThirdsTab />}
         {active === 2 && <BracketTab />}
         {active === 3 && <ProbabilitiesTab />}
+        {active === 4 && <PorraTab />}
       </div>
     </main>
   )

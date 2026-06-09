@@ -8,6 +8,7 @@ const TABS: Tab[] = [
   { label: 'Mejores terceros', badge: '2' },
   { label: 'Eliminatorias', badge: '3' },
   { label: 'Probabilidades', badge: '%' },
+  { label: 'Porra', badge: '🏆' },
 ]
 
 interface TabNavProps {
@@ -15,7 +16,7 @@ interface TabNavProps {
   onChange: (i: number) => void
 }
 
-/** Controlled 4-tab navigation with a leading number/symbol badge per tab. */
+/** Controlled tab navigation with a leading number/symbol badge per tab. */
 export default function TabNav({ active, onChange }: TabNavProps) {
   return (
     <div className="flex flex-wrap gap-2" role="tablist" aria-label="Secciones del simulador">
