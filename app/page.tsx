@@ -5,6 +5,7 @@ import { StoreProvider, useStore } from '@/lib/store'
 import TabNav from '@/components/TabNav'
 import GroupStageTab from '@/components/group-stage/GroupStageTab'
 import ThirdsTab from '@/components/thirds/ThirdsTab'
+import BracketTab from '@/components/bracket/BracketTab'
 
 function ActionButtons() {
   const { dispatch } = useStore()
@@ -72,7 +73,7 @@ function Dashboard() {
       <div className="mt-6">
         {active === 0 && <GroupStageTab />}
         {active === 1 && <ThirdsTab />}
-        {active === 2 && <Placeholder label="Eliminatorias" />}
+        {active === 2 && <BracketTab />}
         {active === 3 && <Placeholder label="Probabilidades" />}
       </div>
     </main>
