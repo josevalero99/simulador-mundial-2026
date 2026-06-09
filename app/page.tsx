@@ -35,11 +35,10 @@ function ActionButtons() {
       <button
         type="button"
         onClick={() => dispatch({ type: 'CLEAR' })}
-        title="Limpiar"
-        aria-label="Limpiar"
-        className="inline-flex items-center justify-center rounded-full border border-[#262626] bg-[#141414] p-2 text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
+        className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
       >
         <Eraser size={16} strokeWidth={2} aria-hidden="true" />
+        Limpiar
       </button>
     </div>
   )
