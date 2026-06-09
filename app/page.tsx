@@ -71,7 +71,7 @@ function ActionsMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute left-0 z-20 mt-2 w-56 rounded-xl border border-[#262626] bg-[#141414] p-1 shadow-xl lg:left-auto lg:right-0"
+          className="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-[#262626] bg-[#141414] p-1 shadow-xl"
         >
           {item(
             <Wand2 size={16} strokeWidth={2} aria-hidden="true" />,
@@ -135,7 +135,7 @@ function Dashboard() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-      <header className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+      <header>
         <div className="max-w-3xl">
           {state.liveMode && (
             <div className="mb-3 flex items-center gap-3">
@@ -160,11 +160,13 @@ function Dashboard() {
             resultados y el simulador aplica los criterios de desempate de la FIFA en tiempo real.
           </p>
         </div>
-        <ActionsMenu />
       </header>
 
-      <div className="mt-8">
-        <TabNav active={active} onChange={setActive} />
+      <div className="mt-8 flex items-center gap-2">
+        <div className="min-w-0 flex-1">
+          <TabNav active={active} onChange={setActive} />
+        </div>
+        <ActionsMenu />
       </div>
 
       <div className="mt-6">
