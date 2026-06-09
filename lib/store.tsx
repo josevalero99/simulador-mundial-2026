@@ -116,25 +116,56 @@ export function reducer(state: AppState, action: Action): AppState {
   }
 }
 
+/** Stable key for a match independent of home/away orientation or schedule. */
+function pairKey(group: string, a: string, b: string): string {
+  return `${group}|${[a, b].sort().join('-')}`
+}
+
 /**
- * Safely parse a stored AppState payload. Returns null on any parse error or
- * shape mismatch (never throws), so callers can fall back to initialState.
+ * Safely parse a stored payload. Returns null on any parse error or shape
+ * mismatch (never throws), so callers can fall back to initialState.
+ *
+ * Rather than trusting the stored match list (which can be stale after a
+ * schedule/calendar change — different pairings, missing kickoff times, etc.),
+ * we REBUILD the fixtures from the current data and re-apply any saved scores by
+ * team identity. This keeps entered results while always adopting the current
+ * schedule. Reloads always start in manual mode.
  */
 export function parseStored(raw: string | null): AppState | null {
   if (!raw) return null
   try {
     const data = JSON.parse(raw)
     if (
-      data &&
-      typeof data === 'object' &&
-      Array.isArray(data.matches) &&
-      data.matches.length === TOTAL_MATCHES
+      !data ||
+      typeof data !== 'object' ||
+      !Array.isArray(data.matches) ||
+      data.matches.length !== TOTAL_MATCHES
     ) {
-      // Normalize: reloads always start in manual mode, and legacy {matches}-only
-      // payloads (pre-live-mode) still load cleanly.
-      return { matches: data.matches, liveMode: false, manualBackup: null } as AppState
+      return null
     }
-    return null
+    // Index saved scores by team identity (orientation-independent).
+    const goalsByKey = new Map<string, Record<string, number>>()
+    for (const m of data.matches as Match[]) {
+      if (
+        m &&
+        typeof m.home === 'string' &&
+        typeof m.away === 'string' &&
+        typeof m.group === 'string' &&
+        m.homeGoals != null &&
+        m.awayGoals != null
+      ) {
+        goalsByKey.set(pairKey(m.group, m.home, m.away), {
+          [m.home]: m.homeGoals,
+          [m.away]: m.awayGoals,
+        })
+      }
+    }
+    const matches = generateFixtures().map((f) => {
+      const g = goalsByKey.get(pairKey(f.group, f.home, f.away))
+      if (!g || g[f.home] == null || g[f.away] == null) return f
+      return { ...f, homeGoals: g[f.home], awayGoals: g[f.away] }
+    })
+    return { matches, liveMode: false, manualBackup: null }
   } catch {
     return null
   }
