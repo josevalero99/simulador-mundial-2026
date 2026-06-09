@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { Newspaper, ExternalLink, RotateCw } from 'lucide-react'
+import { Newspaper, ExternalLink, RotateCw, Tv, Headphones } from 'lucide-react'
 
 interface NewsItem {
   title: string
@@ -49,8 +49,11 @@ export default function NoticiasTab() {
     }
   }, [])
 
+  // Load on mount and auto-refresh every 5 minutes.
   useEffect(() => {
     void load()
+    const id = setInterval(() => void load(), 5 * 60 * 1000)
+    return () => clearInterval(id)
   }, [load])
 
   return (
@@ -74,6 +77,30 @@ export default function NoticiasTab() {
           <RotateCw size={14} strokeWidth={2} className={loading ? 'animate-spin' : ''} aria-hidden="true" />
           Actualizar
         </button>
+      </div>
+
+      {/* Accesos directos para seguir el Mundial en directo */}
+      <div className="mt-4 flex flex-wrap gap-2">
+        <a
+          href="https://www.rtve.es/play/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#E8B84B]"
+        >
+          <Tv size={16} strokeWidth={2} className="text-[#E8B84B]" aria-hidden="true" />
+          RTVE Play
+          <ExternalLink size={13} strokeWidth={2} className="text-[#5a5a5a]" aria-hidden="true" />
+        </a>
+        <a
+          href="https://www.cope.es/deportes"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#E8B84B]"
+        >
+          <Headphones size={16} strokeWidth={2} className="text-[#E8B84B]" aria-hidden="true" />
+          Deportes COPE
+          <ExternalLink size={13} strokeWidth={2} className="text-[#5a5a5a]" aria-hidden="true" />
+        </a>
       </div>
 
       {error && (
