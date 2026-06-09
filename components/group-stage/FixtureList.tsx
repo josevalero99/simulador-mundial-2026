@@ -107,7 +107,7 @@ export default function FixtureList({ groupId, matches, showGroup = false }: Fix
     .sort(byKickoff)
 
   return (
-    <div className="divide-y divide-[#1c1c1c]">
+    <div className="divide-y divide-white/10">
       {list.map((m) => (
         <MatchRow key={m.id} match={m} showGroup={showGroup} />
       ))}

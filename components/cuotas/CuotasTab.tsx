@@ -179,7 +179,7 @@ export default function CuotasTab() {
   return (
     <div>
       {/* Responsible-gambling note */}
-      <div className="rounded-2xl border border-[#262626] bg-[#141414] p-4 text-xs leading-relaxed text-[#8a8a8a]">
+      <div className="rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4 text-xs leading-relaxed text-[#8a8a8a]">
         <span className="font-semibold text-[#E8B84B]">Información orientativa.</span> Las cuotas y
         el modelo son probabilidades, no predicciones. El modelo es sencillo (ranking FIFA) y no
         supera al mercado. Juega con responsabilidad · 18+.
@@ -213,11 +213,11 @@ export default function CuotasTab() {
 
       {/* Not configured */}
       {data && data.configured === false && (
-        <div className="mt-6 rounded-2xl border border-[#262626] bg-[#141414] p-6 text-sm leading-relaxed text-[#8a8a8a]">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-6 text-sm leading-relaxed text-[#8a8a8a]">
           <h3 className="text-base font-semibold text-[#f5f5f5]">Cuotas no configuradas</h3>
           <p className="mt-2">
             Para mostrar las cuotas de las casas de apuestas, añade la variable de entorno{' '}
-            <code className="rounded bg-[#0a0a0a] px-1.5 py-0.5 text-[#E8B84B]">ODDS_API_KEY</code>{' '}
+            <code className="rounded bg-white/5 px-1.5 py-0.5 text-[#E8B84B]">ODDS_API_KEY</code>{' '}
             en la configuración del proyecto (Vercel → Settings → Environment Variables) con una
             clave gratuita de The Odds API.
           </p>
@@ -245,7 +245,7 @@ export default function CuotasTab() {
       {outrightRows && outrightRows.length > 0 && (
         <section className="mt-6">
           <h3 className="mb-3 text-sm font-semibold text-[#f5f5f5]">Ganador del Mundial</h3>
-          <div className="overflow-x-auto rounded-2xl border border-[#262626] bg-[#141414] p-4 sm:p-6">
+          <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4 sm:p-6">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="text-[10px] uppercase tracking-wider text-[#5a5a5a]">
@@ -258,7 +258,7 @@ export default function CuotasTab() {
               </thead>
               <tbody>
                 {outrightRows.map((r) => (
-                  <tr key={r.teamId} className="border-t border-[#262626]">
+                  <tr key={r.teamId} className="border-t border-white/10">
                     <td className="py-2 pl-1">
                       <div className="flex items-center gap-2">
                         <Flag teamId={r.teamId} className="text-base leading-none" />
@@ -299,7 +299,7 @@ export default function CuotasTab() {
             {matchRows.map((m) => (
               <div
                 key={`${m.homeId}-${m.awayId}-${m.commence_time ?? ''}`}
-                className="rounded-2xl border border-[#262626] bg-[#141414] p-4"
+                className="rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4"
               >
                 <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[#f5f5f5]">
                   <Flag teamId={m.homeId} className="text-base leading-none" />
@@ -314,7 +314,7 @@ export default function CuotasTab() {
                     return (
                       <div
                         key={label}
-                        className="rounded-xl border border-[#262626] bg-[#0a0a0a] p-3"
+                        className="rounded-xl border border-white/10 bg-white/5 p-3"
                       >
                         <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-[#5a5a5a]">
                           {label}
@@ -346,7 +346,7 @@ export default function CuotasTab() {
         !data.error &&
         outrightRows?.length === 0 &&
         matchRows?.length === 0 && (
-          <div className="mt-6 rounded-2xl border border-[#262626] bg-[#141414] p-6 text-center text-sm text-[#8a8a8a]">
+          <div className="mt-6 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-6 text-center text-sm text-[#8a8a8a]">
             No hay cuotas disponibles en este momento. Vuelve a intentarlo más tarde.
           </div>
         )}

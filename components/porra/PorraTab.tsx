@@ -91,7 +91,7 @@ function PorraRow({ rank, entry, prob, isLeader }: PorraRowProps) {
   return (
     <tr
       className={[
-        'border-t border-[#262626]',
+        'border-t border-white/10',
         isLeader ? 'bg-[#E8B84B]/5' : '',
       ].join(' ')}
     >
@@ -111,7 +111,7 @@ function PorraRow({ rank, entry, prob, isLeader }: PorraRowProps) {
             <span
               key={`${id}-${i}`}
               title={teamName(id)}
-              className="inline-flex items-center gap-1 rounded-full bg-[#1c1c1c] px-2 py-0.5 text-xs text-[#f5f5f5]"
+              className="inline-flex items-center gap-1 rounded-full bg-white/[0.07] px-2 py-0.5 text-xs text-[#f5f5f5]"
             >
               <Flag teamId={id} className="text-sm leading-none" />
               {id}
@@ -155,14 +155,14 @@ function PorraEditor({ entries, onChange }: PorraEditorProps) {
       {entries.map((entry, idx) => (
         <div
           key={idx}
-          className="rounded-2xl border border-[#262626] bg-[#141414] p-4"
+          className="rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4"
         >
           <input
             type="text"
             value={entry.name}
             onChange={e => setName(idx, e.target.value)}
             aria-label={`Nombre del participante ${idx + 1}`}
-            className="mb-3 w-full rounded-lg border border-[#262626] bg-[#0a0a0a] px-3 py-1.5 text-sm font-bold text-[#f5f5f5] outline-none focus:border-[#E8B84B]"
+            className="mb-3 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-bold text-[#f5f5f5] outline-none focus:border-[#E8B84B]"
           />
           <div className="grid grid-cols-2 gap-2">
             {entry.teams.map((teamId, slot) => (
@@ -171,7 +171,7 @@ function PorraEditor({ entries, onChange }: PorraEditorProps) {
                 value={teamId}
                 onChange={e => setTeam(idx, slot, e.target.value)}
                 aria-label={`${entry.name} · selección ${slot + 1}`}
-                className="w-full rounded-lg border border-[#262626] bg-[#0a0a0a] px-2 py-1.5 text-sm text-[#f5f5f5] outline-none focus:border-[#E8B84B]"
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1.5 text-sm text-[#f5f5f5] outline-none focus:border-[#E8B84B]"
               >
                 {ALL_TEAMS.map(t => (
                   <option key={t.id} value={t.id}>
@@ -266,7 +266,7 @@ export default function PorraTab() {
           <button
             type="button"
             onClick={() => setEditing(e => !e)}
-            className="rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
+            className="rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:bg-white/10 hover:border-white/20"
           >
             {editing ? 'Ver resultados' : 'Editar equipos'}
           </button>
@@ -274,7 +274,7 @@ export default function PorraTab() {
             <button
               type="button"
               onClick={handleReset}
-              className="rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
+              className="rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:bg-white/10 hover:border-white/20"
             >
               Restaurar equipos
             </button>
@@ -312,7 +312,7 @@ export default function PorraTab() {
       {editing ? (
         <PorraEditor entries={entries} onChange={persist} />
       ) : !result ? (
-        <div className="mt-6 rounded-2xl border border-[#262626] bg-[#141414] p-12 text-center text-[#8a8a8a]">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-12 text-center text-[#8a8a8a]">
           <p className="text-sm leading-relaxed">
             Pulsa Calcular probabilidades para estimar, mediante {N.toLocaleString('es')}{' '}
             simulaciones Monte Carlo, la opción de victoria de cada participante. Puede tardar unos
@@ -320,7 +320,7 @@ export default function PorraTab() {
           </p>
         </div>
       ) : (
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-[#262626] bg-[#141414] p-4 sm:p-6">
+        <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4 sm:p-6">
           <table className="w-full border-collapse text-sm">
             <thead>
               <tr className="text-[10px] uppercase tracking-wider text-[#5a5a5a]">

@@ -33,7 +33,7 @@ export default function GroupStageTab() {
     <div>
       <div className="flex items-center justify-end gap-2">
         <ActionsMenu />
-        <div className="inline-flex shrink-0 rounded-full border border-[#262626] bg-[#141414] p-1">
+        <div className="inline-flex shrink-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1">
           <button
             type="button"
             onClick={() => setView('groups')}
@@ -64,13 +64,13 @@ export default function GroupStageTab() {
           ))}
         </div>
       ) : (
-        <div className="mt-4 rounded-2xl border border-[#262626] bg-[#141414] p-4">
+        <div className="mt-4 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4">
           <FixtureList matches={state.matches} showGroup />
         </div>
       )}
 
       {/* Leyenda al final */}
-      <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-[#262626] pt-4">
+      <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/10 pt-4">
         <LegendItem color="bg-[#3CAC3B]">1.º y 2.º — clasificados directos</LegendItem>
         <LegendItem color="bg-[#f59e0b]">3.º — a la tabla de terceros</LegendItem>
         <LegendItem color="bg-[#52525b]">4.º — eliminado</LegendItem>

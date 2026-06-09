@@ -32,7 +32,7 @@ function LiveMatchRow({ match }: LiveMatchRowProps) {
   const when = [day, time].filter(Boolean).join(' · ') || date
 
   return (
-    <div className="flex items-center gap-3 border-t border-[#262626] py-2.5 text-sm first:border-t-0">
+    <div className="flex items-center gap-3 border-t border-white/10 py-2.5 text-sm first:border-t-0">
       <span className="w-32 shrink-0 text-xs text-[#8a8a8a]">{when}</span>
 
       <div className="flex flex-1 items-center justify-end gap-2 text-right">
@@ -43,11 +43,11 @@ function LiveMatchRow({ match }: LiveMatchRowProps) {
       <div className="flex w-20 shrink-0 items-center justify-center">
         {finished ? (
           <span className="inline-flex items-center gap-1">
-            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-[#1c1c1c] px-1.5 text-sm font-bold tabular-nums text-[#f5f5f5]">
+            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-white/[0.07] px-1.5 text-sm font-bold tabular-nums text-[#f5f5f5]">
               {homeGoals}
             </span>
             <span className="text-[#5a5a5a]">-</span>
-            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-[#1c1c1c] px-1.5 text-sm font-bold tabular-nums text-[#f5f5f5]">
+            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-white/[0.07] px-1.5 text-sm font-bold tabular-nums text-[#f5f5f5]">
               {awayGoals}
             </span>
           </span>
@@ -110,7 +110,7 @@ export default function LiveTab({ liveData, liveError, onRefresh }: LiveTabProps
   return (
     <div>
       {/* Header: explanation + toggle */}
-      <div className="flex flex-col gap-4 rounded-2xl border border-[#262626] bg-[#141414] p-5 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-5 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-2xl">
           <div className="flex items-center gap-2">
             <h2 className="text-base font-semibold text-[#f5f5f5]">En directo</h2>
@@ -137,7 +137,7 @@ export default function LiveTab({ liveData, liveError, onRefresh }: LiveTabProps
               'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors',
               live
                 ? 'border-[#E61D25] bg-[#E61D25] text-[#0a0a0a]'
-                : 'border-[#262626] bg-[#0a0a0a] text-[#f5f5f5] hover:border-[#3a3a3a]',
+                : 'border-white/10 bg-white/5 backdrop-blur-md text-[#f5f5f5] hover:bg-white/10 hover:border-white/20',
             ].join(' ')}
           >
             <span
@@ -152,7 +152,7 @@ export default function LiveTab({ liveData, liveError, onRefresh }: LiveTabProps
             <button
               type="button"
               onClick={onRefresh}
-              className="rounded-full border border-[#262626] bg-[#0a0a0a] px-3 py-1.5 text-xs font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
+              className="rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-3 py-1.5 text-xs font-medium text-[#f5f5f5] transition-colors hover:bg-white/10 hover:border-white/20"
             >
               Actualizar
             </button>
@@ -174,13 +174,13 @@ export default function LiveTab({ liveData, liveError, onRefresh }: LiveTabProps
       )}
 
       {!liveData ? (
-        <div className="mt-6 rounded-2xl border border-[#262626] bg-[#141414] p-12 text-center text-sm text-[#8a8a8a]">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-12 text-center text-sm text-[#8a8a8a]">
           Cargando resultados…
         </div>
       ) : (
         <>
           {!anyFinished && (
-            <div className="mt-4 rounded-xl border border-[#262626] bg-[#141414] p-3 text-sm text-[#8a8a8a]">
+            <div className="mt-4 rounded-xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-3 text-sm text-[#8a8a8a]">
               Aún no hay resultados — el Mundial arranca el 11 de junio.
             </div>
           )}
@@ -189,7 +189,7 @@ export default function LiveTab({ liveData, liveError, onRefresh }: LiveTabProps
             {rounds.map(({ round, matches }) => (
               <section
                 key={round}
-                className="overflow-x-auto rounded-2xl border border-[#262626] bg-[#141414] p-4 sm:p-5"
+                className="overflow-x-auto rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4 sm:p-5"
               >
                 <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#E8B84B]">
                   {round}

@@ -82,7 +82,7 @@ export default function TabNav({ active, onChange }: TabNavProps) {
                 'inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
                 isActive
                   ? 'border-[#E8B84B] bg-[#E8B84B] text-[#0a0a0a]'
-                  : 'border-[#262626] bg-[#141414] text-[#f5f5f5] hover:border-[#3a3a3a]',
+                  : 'border-white/10 bg-white/5 backdrop-blur-md text-[#f5f5f5] hover:bg-white/10 hover:border-white/20',
               ].join(' ')}
             >
               <Icon

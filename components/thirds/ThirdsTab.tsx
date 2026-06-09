@@ -26,7 +26,7 @@ export default function ThirdsTab() {
   const thirds = rankThirds(standingsByGroup, fifaRank)
 
   return (
-    <div className="rounded-2xl border border-[#262626] bg-[#141414] p-4 sm:p-6">
+    <div className="rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4 sm:p-6">
       <h2 className="text-base font-semibold text-[#f5f5f5]">Mejores terceros</h2>
       <p className="mt-1 text-sm text-[#8a8a8a]">
         Los 8 mejores terceros avanzan a dieciseisavos. Se ordenan por puntos, diferencia de goles,
@@ -52,7 +52,7 @@ export default function ThirdsTab() {
               <tr
                 key={t.group}
                 className={[
-                  'border-t border-[#262626]',
+                  'border-t border-white/10',
                   t.qualified ? 'bg-[#3CAC3B]/10' : 'opacity-50',
                 ].join(' ')}
               >

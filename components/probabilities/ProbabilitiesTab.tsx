@@ -88,14 +88,14 @@ export default function ProbabilitiesTab() {
       </div>
 
       {!result ? (
-        <div className="mt-6 rounded-2xl border border-[#262626] bg-[#141414] p-12 text-center text-[#8a8a8a]">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-12 text-center text-[#8a8a8a]">
           <p className="text-sm leading-relaxed">
             Pulsa Calcular para estimar las probabilidades mediante simulación Monte Carlo sobre el
             escenario actual.
           </p>
         </div>
       ) : (
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-[#262626] bg-[#141414] p-4 sm:p-6">
+        <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4 sm:p-6">
           <table className="w-full border-collapse text-sm">
             <thead>
               <tr className="text-[10px] uppercase tracking-wider text-[#5a5a5a]">
@@ -109,7 +109,7 @@ export default function ProbabilitiesTab() {
               {rows.map(([id, p]) => {
                 const team = TEAMS[id]
                 return (
-                  <tr key={id} className="border-t border-[#262626]">
+                  <tr key={id} className="border-t border-white/10">
                     <td className="py-2 pl-1">
                       <div className="flex items-center gap-2">
                         <Flag teamId={id} className="text-base leading-none" />

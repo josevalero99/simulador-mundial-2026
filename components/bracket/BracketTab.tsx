@@ -43,7 +43,7 @@ export default function BracketTab() {
 
   if (!complete) {
     return (
-      <div className="rounded-2xl border border-[#262626] bg-[#141414] p-12 text-center">
+      <div className="rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-12 text-center">
         <p className="text-lg font-medium text-[#f5f5f5]">
           Completa la fase de grupos para ver el cuadro de eliminatorias.
         </p>

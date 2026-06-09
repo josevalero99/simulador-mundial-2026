@@ -33,7 +33,7 @@ function Side({ teamId, selected, onClick }: SideProps) {
         'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors',
         selected
           ? 'bg-[#E8B84B] font-semibold text-[#0a0a0a]'
-          : 'text-[#f5f5f5] hover:bg-[#1c1c1c]',
+          : 'text-[#f5f5f5] hover:bg-white/10',
       ].join(' ')}
     >
       <Flag teamId={teamId} className="text-base leading-none" />
@@ -45,13 +45,13 @@ function Side({ teamId, selected, onClick }: SideProps) {
 /** A single knockout match: two stacked teams; clicking one picks the winner. */
 export default function BracketMatch({ match, onPick }: BracketMatchProps) {
   return (
-    <div className="rounded-lg border border-[#262626] bg-[#141414] p-1">
+    <div className="rounded-lg border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-1">
       <Side
         teamId={match.home}
         selected={match.winner !== null && match.winner === match.home}
         onClick={() => match.home && onPick(match.match, match.home)}
       />
-      <div className="my-0.5 border-t border-[#262626]" />
+      <div className="my-0.5 border-t border-white/10" />
       <Side
         teamId={match.away}
         selected={match.winner !== null && match.winner === match.away}

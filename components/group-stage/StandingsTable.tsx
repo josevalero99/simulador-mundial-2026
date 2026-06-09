@@ -15,7 +15,7 @@ function rankBadge(rank: number): string {
   if (rank === 1) return 'bg-[#E8B84B] text-black'
   if (rank === 2) return 'bg-[#3CAC3B] text-black'
   if (rank === 3) return 'bg-[#f59e0b] text-black'
-  return 'bg-[#2a2a2a] text-[#8a8a8a]'
+  return 'bg-white/[0.07] text-[#8a8a8a]'
 }
 
 interface StandingsTableProps {
@@ -45,7 +45,7 @@ export default function StandingsTable({ groupId }: StandingsTableProps) {
         {rows.map((row) => {
           const team = TEAMS[row.teamId]
           return (
-            <tr key={row.teamId} className="border-t border-[#262626]">
+            <tr key={row.teamId} className="border-t border-white/10">
               <td className="py-2 pl-1">
                 <div className="flex items-center gap-2">
                   <span

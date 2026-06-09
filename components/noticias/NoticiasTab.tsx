@@ -72,7 +72,7 @@ export default function NoticiasTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between gap-3 rounded-2xl border border-[#262626] bg-[#141414] p-5">
+      <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-5">
         <div>
           <div className="flex items-center gap-2">
             <Newspaper size={18} strokeWidth={2} className="text-[#E8B84B]" aria-hidden="true" />
@@ -86,7 +86,7 @@ export default function NoticiasTab() {
           type="button"
           onClick={load}
           disabled={loading}
-          className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#262626] bg-[#0a0a0a] px-3 py-1.5 text-xs font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a] disabled:opacity-50"
+          className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-3 py-1.5 text-xs font-medium text-[#f5f5f5] transition-colors hover:bg-white/10 hover:border-white/20 disabled:opacity-50"
         >
           <RotateCw size={14} strokeWidth={2} className={loading ? 'animate-spin' : ''} aria-hidden="true" />
           Actualizar
@@ -99,7 +99,7 @@ export default function NoticiasTab() {
           href="https://www.rtve.es/play/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#E8B84B]"
+          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#E8B84B]"
         >
           <Tv size={16} strokeWidth={2} className="text-[#E8B84B]" aria-hidden="true" />
           RTVE Play
@@ -109,7 +109,7 @@ export default function NoticiasTab() {
           href="https://www.cope.es/deportes"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#E8B84B]"
+          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#E8B84B]"
         >
           <Headphones size={16} strokeWidth={2} className="text-[#E8B84B]" aria-hidden="true" />
           Deportes COPE
@@ -133,7 +133,7 @@ export default function NoticiasTab() {
                 'inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
                 isActive
                   ? 'border-[#E8B84B] bg-[#E8B84B] text-[#0a0a0a]'
-                  : 'border-[#262626] bg-[#141414] text-[#f5f5f5] hover:border-[#3a3a3a]',
+                  : 'border-white/10 bg-white/5 backdrop-blur-md text-[#f5f5f5] hover:bg-white/10 hover:border-white/20',
               ].join(' ')}
             >
               {f.label}
@@ -153,11 +153,11 @@ export default function NoticiasTab() {
       )}
 
       {filtered === null ? (
-        <div className="mt-6 rounded-2xl border border-[#262626] bg-[#141414] p-12 text-center text-sm text-[#8a8a8a]">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-12 text-center text-sm text-[#8a8a8a]">
           Cargando noticias…
         </div>
       ) : filtered.length === 0 && !error ? (
-        <div className="mt-6 rounded-2xl border border-[#262626] bg-[#141414] p-12 text-center text-sm text-[#8a8a8a]">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-12 text-center text-sm text-[#8a8a8a]">
           No hay noticias para este filtro.
         </div>
       ) : (
@@ -168,7 +168,7 @@ export default function NoticiasTab() {
                 href={it.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-start gap-3 rounded-xl border border-[#262626] bg-[#141414] p-4 transition-colors hover:border-[#3a3a3a]"
+                className="group flex items-start gap-3 rounded-xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4 transition-colors hover:border-white/20"
               >
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium leading-snug text-[#f5f5f5] group-hover:text-[#E8B84B]">

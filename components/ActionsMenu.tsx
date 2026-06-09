@@ -34,7 +34,7 @@ export default function ActionsMenu() {
         onClick()
         setOpen(false)
       }}
-      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#f5f5f5] transition-colors hover:bg-[#1c1c1c]"
+      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#f5f5f5] transition-colors hover:bg-white/10"
     >
       {icon}
       {label}
@@ -61,7 +61,7 @@ export default function ActionsMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-[#262626] bg-[#141414] p-1 shadow-xl"
+          className="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-1 shadow-xl"
         >
           {item(<Wand2 size={16} strokeWidth={2} aria-hidden="true" />, 'Simular por ranking', () =>
             dispatch({ type: 'SIMULATE_BY_RANKING' }),

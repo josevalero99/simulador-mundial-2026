@@ -14,7 +14,7 @@ const COLOR_STYLES: Record<PillColor, string> = {
   green: 'bg-[#3CAC3B] text-[#0a0a0a]',
   amber: 'bg-[#f59e0b] text-[#0a0a0a]',
   gray: 'bg-[#52525b] text-[#f5f5f5]',
-  dark: 'bg-[#1c1c1c] text-[#8a8a8a]',
+  dark: 'bg-white/[0.07] text-[#8a8a8a]',
 }
 
 /**
