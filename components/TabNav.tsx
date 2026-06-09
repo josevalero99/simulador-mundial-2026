@@ -53,14 +53,13 @@ export default function TabNav({ active, onChange }: TabNavProps) {
   }, [active])
 
   return (
-    <div className="relative">
-      <div
-        ref={containerRef}
-        role="tablist"
-        aria-label="Secciones del simulador"
-        className="no-scrollbar flex flex-nowrap gap-2 overflow-x-auto"
-        style={{ scrollSnapType: 'x proximity' }}
-      >
+    <div
+      ref={containerRef}
+      role="tablist"
+      aria-label="Secciones del simulador"
+      className="no-scrollbar flex flex-nowrap gap-2 overflow-x-auto"
+      style={{ scrollSnapType: 'x proximity' }}
+    >
         {TABS.map((tab, i) => {
           const isActive = i === active
           const { Icon, iconColor } = tab
@@ -97,9 +96,6 @@ export default function TabNav({ active, onChange }: TabNavProps) {
             </button>
           )
         })}
-      </div>
-      {/* Pista de desplazamiento (solo móvil/tablet, donde puede haber scroll). */}
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[#0a0a0a] to-transparent xl:hidden" />
     </div>
   )
 }
