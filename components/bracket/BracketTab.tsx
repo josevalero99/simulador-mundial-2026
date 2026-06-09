@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useStore } from '@/lib/store'
 import { GROUPS, GROUP_IDS } from '@/lib/data/groups'
 import { TEAMS } from '@/lib/data/teams'
@@ -14,6 +14,7 @@ import Flag from '@/components/ui/Flag'
 import { useOdds } from '@/components/odds/OddsProvider'
 import { useFavorite } from '@/components/favorite/FavoriteProvider'
 import BracketMatch from './BracketMatch'
+import ExportButton from '@/components/ui/ExportButton'
 
 const fifaRank = (id: string) => TEAMS[id]?.fifaRank ?? 999
 
@@ -171,6 +172,7 @@ export default function BracketTab() {
   const { marketFn } = useOdds()
   const { favorite } = useFavorite()
   const [picks, setPicks] = useState<Record<number, string>>({})
+  const bracketRef = useRef<HTMLDivElement>(null)
 
   const remaining = matches.filter((m) => m.homeGoals === null || m.awayGoals === null).length
   const complete = remaining === 0
@@ -261,6 +263,7 @@ export default function BracketTab() {
         >
           Reiniciar
         </button>
+        <ExportButton targetRef={bracketRef} filename="cuadro-mundial-2026.png" />
         <p className="text-sm text-[#8a8a8a]">
           Elige el ganador de cada cruce; las rondas siguientes se recalculan en cadena.
         </p>
@@ -271,7 +274,7 @@ export default function BracketTab() {
       )}
 
       <div className="overflow-x-auto pb-2">
-        <div className="flex min-w-[960px] items-stretch gap-4">
+        <div ref={bracketRef} className="flex min-w-[960px] items-stretch gap-4">
           <Column title="16avos" matches={bracket.r32} onPick={onPick} />
           <Column title="8vos" matches={bracket.r16} onPick={onPick} />
           <Column title="4tos" matches={bracket.qf} onPick={onPick} />

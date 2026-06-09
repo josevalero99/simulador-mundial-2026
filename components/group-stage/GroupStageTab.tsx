@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Info } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { GROUP_IDS } from '@/lib/data/groups'
 import ActionsMenu from '@/components/ActionsMenu'
 import SaveShareMenu from '@/components/SaveShareMenu'
+import ExportButton from '@/components/ui/ExportButton'
 import GroupCard from './GroupCard'
 import FixtureList from './FixtureList'
 
@@ -29,6 +30,7 @@ function LegendItem({ color, children }: LegendItemProps) {
 export default function GroupStageTab() {
   const [view, setView] = useState<ViewMode>('groups')
   const { state } = useStore()
+  const gridRef = useRef<HTMLDivElement>(null)
 
   return (
     <div>
@@ -57,19 +59,22 @@ export default function GroupStageTab() {
             Por fecha
           </button>
         </div>
+        <ExportButton targetRef={gridRef} filename="grupos-mundial-2026.png" label="Exportar imagen" />
       </div>
 
-      {view === 'groups' ? (
-        <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {GROUP_IDS.map((g) => (
-            <GroupCard key={g} groupId={g} />
-          ))}
-        </div>
-      ) : (
-        <div className="mt-4 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4">
-          <FixtureList matches={state.matches} showGroup />
-        </div>
-      )}
+      <div ref={gridRef}>
+        {view === 'groups' ? (
+          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {GROUP_IDS.map((g) => (
+              <GroupCard key={g} groupId={g} />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-4 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-4">
+            <FixtureList matches={state.matches} showGroup />
+          </div>
+        )}
+      </div>
 
       {/* Leyenda al final */}
       <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/10 pt-4">
