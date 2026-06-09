@@ -16,6 +16,7 @@ export interface Match {
   group: GroupId
   matchday: Matchday
   date: string
+  kickoff?: string // absolute UTC ISO timestamp (real schedule); optional
   home: string
   away: string
   homeGoals: number | null

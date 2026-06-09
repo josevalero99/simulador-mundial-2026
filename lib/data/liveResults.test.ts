@@ -4,8 +4,22 @@ import {
   NAME_TO_ID,
   parseOpenfootball,
   liveGroupResults,
+  toKickoffIso,
   type LiveMatch,
 } from './liveResults'
+
+describe('toKickoffIso', () => {
+  it('converts venue local time + offset to absolute UTC', () => {
+    // 13:00 at UTC-6 == 19:00 UTC
+    expect(toKickoffIso('2026-06-11', '13:00 UTC-6')).toBe('2026-06-11T19:00:00.000Z')
+    // 20:00 at UTC-4 == 00:00 UTC next day
+    expect(toKickoffIso('2026-06-11', '20:00 UTC-4')).toBe('2026-06-12T00:00:00.000Z')
+  })
+  it('returns null on malformed input', () => {
+    expect(toKickoffIso('2026-06-11', 'tbd')).toBeNull()
+    expect(toKickoffIso('', '13:00 UTC-6')).toBeNull()
+  })
+})
 
 describe('NAME_TO_ID', () => {
   it('has exactly 48 entries', () => {
@@ -118,6 +132,7 @@ describe('liveGroupResults', () => {
       {
         round: 'Matchday 1',
         date: '2026-06-11',
+        kickoff: null,
         group: 'A',
         name1: 'Mexico',
         name2: 'Unknownland',
@@ -136,6 +151,7 @@ describe('liveGroupResults', () => {
       {
         round: 'Round of 32',
         date: '2026-06-29',
+        kickoff: null,
         group: null,
         name1: 'Mexico',
         name2: 'Canada',

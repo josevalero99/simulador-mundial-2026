@@ -54,6 +54,7 @@ export const NAME_TO_ID: Record<string, string> = {
 export interface LiveMatch {
   round: string
   date: string
+  kickoff: string | null // absolute UTC ISO, parsed from the venue time
   group: GroupId | null
   name1: string
   name2: string
@@ -65,6 +66,18 @@ export interface LiveMatch {
 }
 
 const GROUP_RE = /^Group ([A-L])$/
+const TIME_RE = /^(\d{1,2}):(\d{2})\s*UTC([+-]\d{1,2})$/
+
+/** "2026-06-11" + "13:00 UTC-6" -> absolute UTC ISO, or null if unparseable. */
+export function toKickoffIso(date: string, time: string): string | null {
+  const t = TIME_RE.exec(time)
+  if (!t || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return null
+  const [, hh, mm, off] = t
+  const [y, mo, d] = date.split('-').map(Number)
+  // local = UTC + offset  =>  UTC = local - offset
+  const ms = Date.UTC(y, mo - 1, d, Number(hh) - Number(off), Number(mm))
+  return new Date(ms).toISOString()
+}
 
 export function parseOpenfootball(raw: unknown): LiveMatch[] {
   if (!raw || typeof raw !== 'object') return []
@@ -77,6 +90,8 @@ export function parseOpenfootball(raw: unknown): LiveMatch[] {
     const name2 = typeof match.team2 === 'string' ? match.team2 : ''
     const round = typeof match.round === 'string' ? match.round : ''
     const date = typeof match.date === 'string' ? match.date : ''
+    const time = typeof match.time === 'string' ? match.time : ''
+    const kickoff = toKickoffIso(date, time)
 
     const groupRaw = typeof match.group === 'string' ? match.group : ''
     const groupMatch = GROUP_RE.exec(groupRaw)
@@ -91,7 +106,7 @@ export function parseOpenfootball(raw: unknown): LiveMatch[] {
     const homeGoals = finished ? Number(ft[0]) : null
     const awayGoals = finished ? Number(ft[1]) : null
 
-    return { round, date, group, name1, name2, id1, id2, homeGoals, awayGoals, finished }
+    return { round, date, kickoff, group, name1, name2, id1, id2, homeGoals, awayGoals, finished }
   })
 }
 
