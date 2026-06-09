@@ -16,20 +16,22 @@ function MatchRow({ match }: MatchRowProps) {
   const away = TEAMS[match.away]
   const time = timeES(match.kickoff)
   return (
-    <div className="flex items-center gap-2 py-1.5">
+    <div className="py-1.5">
       {time && (
-        <span className="w-10 shrink-0 text-xs tabular-nums text-[#8a8a8a]">{time}</span>
+        <div className="mb-1 text-center text-[11px] tabular-nums text-[#8a8a8a]">{time}</div>
       )}
-      <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
-        <span className="truncate text-right text-sm text-[#f5f5f5]">
-          {home?.name ?? match.home}
-        </span>
-        <Flag teamId={match.home} className="text-base leading-none" />
-      </div>
-      <ScoreInput match={match} />
-      <div className="flex min-w-0 flex-1 items-center gap-2">
-        <Flag teamId={match.away} className="text-base leading-none" />
-        <span className="truncate text-sm text-[#f5f5f5]">{away?.name ?? match.away}</span>
+      <div className="flex items-center gap-2">
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
+          <span className="truncate text-right text-sm text-[#f5f5f5]">
+            {home?.name ?? match.home}
+          </span>
+          <Flag teamId={match.home} className="text-base leading-none" />
+        </div>
+        <ScoreInput match={match} />
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <Flag teamId={match.away} className="text-base leading-none" />
+          <span className="truncate text-sm text-[#f5f5f5]">{away?.name ?? match.away}</span>
+        </div>
       </div>
     </div>
   )
