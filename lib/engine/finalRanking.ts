@@ -4,7 +4,7 @@ import { GROUPS, GROUP_IDS } from '@/lib/data/groups'
 import { generateFixtures } from '@/lib/data/fixtures'
 import { rankGroup } from './tiebreakers'
 import { resolveR32, buildBracket, Tie, KnockoutMatch } from './bracket'
-import { Rng, expectedResult, pHome } from './montecarlo'
+import { Rng, MarketFn, sampleScore, eloExpectedScore } from './montecarlo'
 
 /** Per-team group-stage stats used to break ties within a tier. */
 interface GroupStats {
@@ -45,7 +45,7 @@ function loserOf(m: KnockoutMatch): string {
  *
  * @returns the 48 team ids ordered by final classification (index 0 = 1st).
  */
-export function simulateFinalRanking(rng: Rng, base?: Match[]): string[] {
+export function simulateFinalRanking(rng: Rng, base?: Match[], market?: MarketFn): string[] {
   const fifaRank = (id: string): number => TEAMS[id].fifaRank
 
   // 1. Canonical fixtures + fixed scores from `base`.
@@ -66,10 +66,10 @@ export function simulateFinalRanking(rng: Rng, base?: Match[]): string[] {
     }
   }
 
-  // 2. Fill remaining null group matches.
+  // 2. Fill remaining null group matches via the (market-blended) Elo model.
   for (const m of matches) {
     if (m.homeGoals === null || m.awayGoals === null) {
-      const { homeGoals, awayGoals } = expectedResult(m.home, m.away, fifaRank, rng)
+      const { homeGoals, awayGoals } = sampleScore(m.home, m.away, market, rng)
       m.homeGoals = homeGoals
       m.awayGoals = awayGoals
     }
@@ -95,7 +95,7 @@ export function simulateFinalRanking(rng: Rng, base?: Match[]): string[] {
   // 4. Resolve R32 and build the bracket.
   const r32: Tie[] = resolveR32(standingsByGroup, fifaRank)
   const pickWinner = (home: string, away: string): string =>
-    rng() < pHome(home, away, fifaRank) ? home : away
+    rng() < eloExpectedScore(home, away) ? home : away
   const bracket = buildBracket(r32, pickWinner)
 
   const quality = byQuality(stats)

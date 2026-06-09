@@ -1,6 +1,6 @@
 import { Match } from '@/lib/types'
 import { PorraEntry } from '@/lib/data/porra'
-import { Rng } from './montecarlo'
+import { Rng, MarketFn } from './montecarlo'
 import { simulateFinalRanking, finalPositions } from './finalRanking'
 
 /** One participant's score for a single final classification. */
@@ -45,6 +45,7 @@ export function runPorraMonteCarlo(
   entries: PorraEntry[],
   base?: Match[],
   rng: Rng = Math.random,
+  market?: MarketFn,
 ): PorraProb[] {
   const winCredit: Record<string, number> = {}
   const sumTotals: Record<string, number> = {}
@@ -54,7 +55,7 @@ export function runPorraMonteCarlo(
   }
 
   for (let i = 0; i < n; i++) {
-    const ranking = simulateFinalRanking(rng, base)
+    const ranking = simulateFinalRanking(rng, base, market)
     const positions = finalPositions(ranking)
     const scored = scorePorra(positions, entries)
 

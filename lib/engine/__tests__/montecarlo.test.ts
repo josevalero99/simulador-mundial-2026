@@ -1,5 +1,14 @@
 import { describe, it, expect } from 'vitest'
-import { expectedResult, simulateOnce, runMonteCarlo, matchOutcomeProbs, Rng } from '../montecarlo'
+import {
+  expectedResult,
+  simulateOnce,
+  runMonteCarlo,
+  matchOutcomeProbs,
+  eloExpectedScore,
+  eloOutcomeProbs,
+  MarketFn,
+  Rng,
+} from '../montecarlo'
 import { GROUPS } from '@/lib/data/groups'
 import { generateFixtures } from '@/lib/data/fixtures'
 
@@ -22,18 +31,64 @@ describe('expectedResult', () => {
     let awayWins = 0
     const N = 2000
     for (let i = 0; i < N; i++) {
-      // home rank 1 (strong) vs away rank 99 (weak)
-      const { homeGoals, awayGoals } = expectedResult(
-        'STRONG',
-        'WEAK',
-        (id) => (id === 'STRONG' ? 1 : 99),
-        rng,
-      )
+      // ARG (1885 pts, strong) at home vs NZL (1300 pts, weak). The legacy
+      // fifaRank callback is now ignored; strength comes from FIFA Elo points.
+      const { homeGoals, awayGoals } = expectedResult('ARG', 'NZL', undefined, rng)
       if (homeGoals > awayGoals) homeWins++
       else if (awayGoals > homeGoals) awayWins++
     }
     expect(homeWins).toBeGreaterThan(N / 2)
     expect(homeWins).toBeGreaterThan(awayWins)
+  })
+})
+
+describe('eloExpectedScore', () => {
+  it('a much higher-rated team has E > 0.5', () => {
+    // ARG 1885 vs NZL 1300
+    expect(eloExpectedScore('ARG', 'NZL')).toBeGreaterThan(0.5)
+  })
+
+  it('equal points -> 0.5', () => {
+    // CRO (1716) is a real team; compare a team against itself => equal points.
+    expect(eloExpectedScore('CRO', 'CRO')).toBeCloseTo(0.5, 10)
+  })
+})
+
+describe('eloOutcomeProbs', () => {
+  it('home/draw/away sum to ~1', () => {
+    const p = eloOutcomeProbs('ARG', 'NZL')
+    expect(p.home + p.draw + p.away).toBeCloseTo(1, 5)
+  })
+
+  it('the stronger home team has higher home prob than away prob', () => {
+    const p = eloOutcomeProbs('ARG', 'NZL')
+    expect(p.home).toBeGreaterThan(p.away)
+  })
+
+  it('closer ratings produce a higher draw share than a big mismatch', () => {
+    // ESP 1875 vs FRA 1870 (almost equal) vs ARG 1885 vs NZL 1300 (huge gap).
+    const close = eloOutcomeProbs('ESP', 'FRA')
+    const mismatch = eloOutcomeProbs('ARG', 'NZL')
+    expect(close.draw).toBeGreaterThan(mismatch.draw)
+  })
+})
+
+describe('matchOutcomeProbs blend', () => {
+  it('is exactly the 50/50 average of elo and a fixed market', () => {
+    const market: MarketFn = () => ({ home: 0.6, draw: 0.25, away: 0.15 })
+    const elo = eloOutcomeProbs('GER', 'JPN')
+    const blended = matchOutcomeProbs('GER', 'JPN', undefined, undefined, market)
+    expect(blended.home).toBeCloseTo((elo.home + 0.6) / 2, 6)
+    expect(blended.draw).toBeCloseTo((elo.draw + 0.25) / 2, 6)
+    expect(blended.away).toBeCloseTo((elo.away + 0.15) / 2, 6)
+  })
+
+  it('without a market returns the pure Elo probabilities', () => {
+    const elo = eloOutcomeProbs('GER', 'JPN')
+    const probs = matchOutcomeProbs('GER', 'JPN')
+    expect(probs.home).toBeCloseTo(elo.home, 6)
+    expect(probs.draw).toBeCloseTo(elo.draw, 6)
+    expect(probs.away).toBeCloseTo(elo.away, 6)
   })
 })
 
@@ -61,6 +116,19 @@ describe('runMonteCarlo', () => {
     const rng = mulberry32(99)
     const probs = runMonteCarlo(400, rng)
     expect(probs['ARG'].champion).toBeGreaterThan(probs['NZL'].champion)
+  })
+
+  it('a market making a weak team a heavy favorite increases its advancement', () => {
+    // NZL is the weakest team (1300 pts) in group G. A market that makes NZL a
+    // heavy favorite whenever it plays should raise its r32 (advancement) prob.
+    const market: MarketFn = (home, away) => {
+      if (home === 'NZL') return { home: 0.85, draw: 0.1, away: 0.05 }
+      if (away === 'NZL') return { home: 0.05, draw: 0.1, away: 0.85 }
+      return null
+    }
+    const base = runMonteCarlo(500, mulberry32(2026))
+    const withMarket = runMonteCarlo(500, mulberry32(2026), undefined, market)
+    expect(withMarket['NZL'].r32).toBeGreaterThan(base['NZL'].r32)
   })
 })
 
