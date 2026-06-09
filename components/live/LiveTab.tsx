@@ -5,6 +5,7 @@ import { TEAMS } from '@/lib/data/teams'
 import type { LiveMatch } from '@/lib/data/liveResults'
 import Flag from '@/components/ui/Flag'
 import Pill from '@/components/ui/Pill'
+import { timeES, dayES, byKickoff } from '@/lib/format'
 
 interface LiveTabProps {
   liveData: { matches: LiveMatch[]; fetchedAt: string } | null
@@ -25,10 +26,13 @@ function LiveMatchRow({ match }: LiveMatchRowProps) {
   const { id1, id2, name1, name2, homeGoals, awayGoals, finished, date } = match
   const left = sideName(id1, name1)
   const right = sideName(id2, name2)
+  const day = dayES(match.kickoff)
+  const time = timeES(match.kickoff)
+  const when = [day, time].filter(Boolean).join(' · ') || date
 
   return (
     <div className="flex items-center gap-3 border-t border-[#262626] py-2.5 text-sm first:border-t-0">
-      <span className="w-28 shrink-0 text-xs text-[#8a8a8a]">{date}</span>
+      <span className="w-32 shrink-0 text-xs text-[#8a8a8a]">{when}</span>
 
       <div className="flex flex-1 items-center justify-end gap-2 text-right">
         <span className="font-medium text-[#f5f5f5]">{left}</span>
@@ -85,7 +89,7 @@ function groupByRound(matches: LiveMatch[]): { round: string; matches: LiveMatch
   }
   return order.map(round => ({
     round,
-    matches: [...byRound.get(round)!].sort((a, b) => a.date.localeCompare(b.date)),
+    matches: [...byRound.get(round)!].sort(byKickoff),
   }))
 }
 

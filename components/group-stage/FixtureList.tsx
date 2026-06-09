@@ -5,23 +5,7 @@ import { TEAMS } from '@/lib/data/teams'
 import type { GroupId, Match } from '@/lib/types'
 import Flag from '@/components/ui/Flag'
 import ScoreInput from './ScoreInput'
-
-const DATE_FMT = new Intl.DateTimeFormat('es-ES', {
-  weekday: 'long',
-  day: 'numeric',
-  month: 'short',
-  timeZone: 'UTC',
-})
-
-/** Format an ISO date like `2026-06-11` as `JUEVES 11 JUN`. */
-function formatDate(iso: string): string {
-  const parts = DATE_FMT.formatToParts(new Date(`${iso}T00:00:00Z`))
-  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? ''
-  const weekday = get('weekday')
-  const day = get('day')
-  const month = get('month').replace('.', '')
-  return `${weekday} ${day} ${month}`.toUpperCase()
-}
+import { timeES, dayES, byKickoff } from '@/lib/format'
 
 interface MatchRowProps {
   match: Match
@@ -30,8 +14,12 @@ interface MatchRowProps {
 function MatchRow({ match }: MatchRowProps) {
   const home = TEAMS[match.home]
   const away = TEAMS[match.away]
+  const time = timeES(match.kickoff)
   return (
     <div className="flex items-center gap-2 py-1.5">
+      {time && (
+        <span className="w-10 shrink-0 text-xs tabular-nums text-[#8a8a8a]">{time}</span>
+      )}
       <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
         <span className="truncate text-right text-sm text-[#f5f5f5]">
           {home?.name ?? match.home}
@@ -47,14 +35,23 @@ function MatchRow({ match }: MatchRowProps) {
   )
 }
 
-/** Group a list of matches by date (ascending) preserving match order within. */
-function groupByDate(matches: Match[]): [string, Match[]][] {
+/**
+ * Group a list of matches by their Spanish (Madrid) calendar day, ordered
+ * chronologically by kickoff. Matches within a day are sorted by kickoff too.
+ */
+function groupByDay(matches: Match[]): [string, Match[]][] {
+  const sorted = [...matches].sort(byKickoff)
+  const order: string[] = []
   const map = new Map<string, Match[]>()
-  for (const m of matches) {
-    if (!map.has(m.date)) map.set(m.date, [])
-    map.get(m.date)!.push(m)
+  for (const m of sorted) {
+    const key = dayES(m.kickoff) || m.date
+    if (!map.has(key)) {
+      map.set(key, [])
+      order.push(key)
+    }
+    map.get(key)!.push(m)
   }
-  return [...map.entries()].sort(([a], [b]) => a.localeCompare(b))
+  return order.map((key) => [key, map.get(key)!])
 }
 
 interface FixtureListProps {
@@ -70,14 +67,14 @@ interface FixtureListProps {
 export default function FixtureList({ groupId, matches, showGroup = false }: FixtureListProps) {
   const { state } = useStore()
   const list = matches ?? (groupId ? state.matches.filter((m) => m.group === groupId) : [])
-  const byDate = groupByDate(list)
+  const byDay = groupByDay(list)
 
   return (
     <div className="flex flex-col gap-3">
-      {byDate.map(([date, dayMatches]) => (
-        <div key={date}>
+      {byDay.map(([day, dayMatches]) => (
+        <div key={day}>
           <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#5a5a5a]">
-            {formatDate(date)}
+            {day.toUpperCase()}
           </p>
           <div className="divide-y divide-[#1c1c1c]">
             {dayMatches.map((m) => (
