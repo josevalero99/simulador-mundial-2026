@@ -6,6 +6,32 @@ import type { GroupId, Match } from '@/lib/types'
 import Flag from '@/components/ui/Flag'
 import ScoreInput from './ScoreInput'
 import { timeES, dayES, byKickoff } from '@/lib/format'
+import { useOdds } from '@/components/odds/OddsProvider'
+
+/** Compact 1X2 bookmaker odds row; favourite (lowest odd) highlighted in gold. */
+function OddsLine({ home, away }: { home: string; away: string }) {
+  const { oddsForPair } = useOdds()
+  const o = oddsForPair(home, away)
+  if (!o) return null
+  const min = Math.min(o.home, o.draw, o.away)
+  const cell = (label: string, val: number) => (
+    <span
+      className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 tabular-nums ${
+        val === min ? 'bg-[#E8B84B]/15 text-[#E8B84B]' : 'text-[#8a8a8a]'
+      }`}
+    >
+      <span className="text-[#5a5a5a]">{label}</span>
+      {val.toFixed(2)}
+    </span>
+  )
+  return (
+    <div className="mt-1 flex items-center justify-center gap-1.5 text-[10px]">
+      {cell('1', o.home)}
+      {cell('X', o.draw)}
+      {cell('2', o.away)}
+    </div>
+  )
+}
 
 interface MatchRowProps {
   match: Match
@@ -40,6 +66,7 @@ function MatchRow({ match, showGroup = false }: MatchRowProps) {
           <span className="truncate text-sm text-[#f5f5f5]">{away?.name ?? match.away}</span>
         </div>
       </div>
+      <OddsLine home={match.home} away={match.away} />
     </div>
   )
 }
