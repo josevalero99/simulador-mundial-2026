@@ -8,7 +8,6 @@ import ThirdsTab from '@/components/thirds/ThirdsTab'
 import BracketTab from '@/components/bracket/BracketTab'
 import ProbabilitiesTab from '@/components/probabilities/ProbabilitiesTab'
 import PorraTab from '@/components/porra/PorraTab'
-import LogoMark from '@/components/ui/LogoMark'
 
 function ActionButtons() {
   const { dispatch } = useStore()
@@ -50,7 +49,12 @@ function Dashboard() {
             Copa Mundial · 48 selecciones
           </p>
           <div className="mt-3 flex items-center gap-3 sm:gap-4">
-            <LogoMark className="h-11 w-11 shrink-0 sm:h-14 sm:w-14" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/wc2026-logo.jpeg"
+              alt="Mundial 2026"
+              className="h-12 w-12 shrink-0 rounded-lg sm:h-16 sm:w-16"
+            />
             <h1 className="text-4xl font-bold tracking-tight text-[#f5f5f5] sm:text-5xl">
               Simulador Mundial 2026
             </h1>
