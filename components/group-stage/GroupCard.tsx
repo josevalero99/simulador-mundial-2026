@@ -11,7 +11,7 @@ export default function GroupCard({ groupId }: GroupCardProps) {
   return (
     <div className="rounded-2xl border border-[#262626] bg-[#141414] p-4">
       <div className="mb-3 flex items-center gap-2">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[#c6f24e] text-sm font-bold text-[#0a0a0a]">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[#E8B84B] text-sm font-bold text-[#0a0a0a]">
           {groupId}
         </span>
         <h3 className="text-base font-semibold text-[#f5f5f5]">Grupo {groupId}</h3>

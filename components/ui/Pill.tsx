@@ -10,8 +10,8 @@ interface PillProps {
 }
 
 const COLOR_STYLES: Record<PillColor, string> = {
-  lime: 'bg-[#c6f24e] text-[#0a0a0a]',
-  green: 'bg-[#22c55e] text-[#0a0a0a]',
+  lime: 'bg-[#E8B84B] text-[#0a0a0a]',
+  green: 'bg-[#3CAC3B] text-[#0a0a0a]',
   amber: 'bg-[#f59e0b] text-[#0a0a0a]',
   gray: 'bg-[#52525b] text-[#f5f5f5]',
   dark: 'bg-[#1c1c1c] text-[#8a8a8a]',

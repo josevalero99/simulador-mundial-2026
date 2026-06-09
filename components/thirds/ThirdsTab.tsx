@@ -53,7 +53,7 @@ export default function ThirdsTab() {
                 key={t.group}
                 className={[
                   'border-t border-[#262626]',
-                  t.qualified ? 'bg-[#22c55e]/10' : 'opacity-50',
+                  t.qualified ? 'bg-[#3CAC3B]/10' : 'opacity-50',
                 ].join(' ')}
               >
                 <td className="px-1 py-2 text-left font-bold text-[#f5f5f5]">{i + 1}</td>

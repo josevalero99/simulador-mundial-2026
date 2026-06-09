@@ -37,7 +37,7 @@ export default function ParticlesBackground() {
     let raf = 0
 
     const LINK_DIST = 130 // px in CSS units
-    const COLOR = '198, 242, 78' // brand lime
+    const COLOR = '232, 184, 75' // brand gold (World Cup 2026)
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2)

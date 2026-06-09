@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { Radio, Wand2, Dices, Eraser } from 'lucide-react'
 import { StoreProvider, useStore } from '@/lib/store'
 import TabNav from '@/components/TabNav'
 import GroupStageTab from '@/components/group-stage/GroupStageTab'
@@ -18,22 +19,25 @@ function ActionButtons() {
       <button
         type="button"
         onClick={() => dispatch({ type: 'SIMULATE_BY_RANKING' })}
-        className="rounded-full bg-[#c6f24e] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-[#b6e23e]"
+        className="inline-flex items-center gap-2 rounded-full bg-[#E8B84B] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-[#d9a93c]"
       >
+        <Wand2 size={16} strokeWidth={2} aria-hidden="true" />
         Simular por ranking
       </button>
       <button
         type="button"
         onClick={() => dispatch({ type: 'FILL_SCENARIO' })}
-        className="rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
+        className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
       >
+        <Dices size={16} strokeWidth={2} aria-hidden="true" />
         Rellenar escenario
       </button>
       <button
         type="button"
         onClick={() => dispatch({ type: 'CLEAR' })}
-        className="rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
+        className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
       >
+        <Eraser size={16} strokeWidth={2} aria-hidden="true" />
         Limpiar
       </button>
     </div>
@@ -84,12 +88,12 @@ function Dashboard() {
       <header className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-3xl">
           <div className="flex items-center gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c6f24e]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E8B84B]">
               Copa Mundial · 48 selecciones
             </p>
             {state.liveMode && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#22c55e]">
-                🔴 En directo
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#E61D25]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#E61D25]">
+                <Radio size={12} strokeWidth={2} aria-hidden="true" /> En directo
               </span>
             )}
           </div>

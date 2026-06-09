@@ -1,15 +1,30 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
+import {
+  LayoutGrid,
+  Medal,
+  Swords,
+  Percent,
+  Ticket,
+  Radio,
+  type LucideIcon,
+} from 'lucide-react'
+
 interface Tab {
   label: string
-  badge: string
+  Icon: LucideIcon
+  /** Force a fixed icon color (e.g. "En directo" stays red even when inactive). */
+  iconColor?: string
 }
 
 const TABS: Tab[] = [
-  { label: 'Fase de grupos', badge: '1' },
-  { label: 'Mejores terceros', badge: '2' },
-  { label: 'Eliminatorias', badge: '3' },
-  { label: 'Probabilidades', badge: '%' },
-  { label: 'Porra', badge: '🏆' },
-  { label: 'En directo', badge: '🔴' },
+  { label: 'Fase de grupos', Icon: LayoutGrid },
+  { label: 'Mejores terceros', Icon: Medal },
+  { label: 'Eliminatorias', Icon: Swords },
+  { label: 'Probabilidades', Icon: Percent },
+  { label: 'Porra', Icon: Ticket },
+  { label: 'En directo', Icon: Radio, iconColor: '#E61D25' },
 ]
 
 interface TabNavProps {
@@ -17,34 +32,60 @@ interface TabNavProps {
   onChange: (i: number) => void
 }
 
-/** Controlled tab navigation with a leading number/symbol badge per tab. */
+/**
+ * Controlled tab navigation. Single horizontal row of pills with a leading
+ * lucide icon. On mobile it scrolls horizontally (swipe + scroll-snap); on
+ * desktop the six tabs fit without wrapping. The active tab auto-scrolls into
+ * view.
+ */
 export default function TabNav({ active, onChange }: TabNavProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const el = tabRefs.current[active]
+    el?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
+  }, [active])
+
   return (
-    <div className="flex flex-wrap gap-2" role="tablist" aria-label="Secciones del simulador">
+    <div
+      ref={containerRef}
+      role="tablist"
+      aria-label="Secciones del simulador"
+      className="no-scrollbar flex flex-nowrap gap-2 overflow-x-auto"
+      style={{ scrollSnapType: 'x proximity' }}
+    >
       {TABS.map((tab, i) => {
         const isActive = i === active
+        const { Icon, iconColor } = tab
+        const computedIconColor = iconColor ?? (isActive ? '#0a0a0a' : undefined)
         return (
           <button
             key={tab.label}
+            ref={(node) => {
+              tabRefs.current[i] = node
+            }}
             type="button"
             role="tab"
             aria-selected={isActive}
+            aria-current={isActive ? 'page' : undefined}
             onClick={() => onChange(i)}
+            style={{ scrollSnapAlign: 'start' }}
             className={[
-              'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+              'inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
               isActive
-                ? 'border-[#c6f24e] bg-[#c6f24e] text-[#0a0a0a]'
+                ? 'border-[#E8B84B] bg-[#E8B84B] text-[#0a0a0a]'
                 : 'border-[#262626] bg-[#141414] text-[#f5f5f5] hover:border-[#3a3a3a]',
             ].join(' ')}
           >
-            <span
-              className={[
-                'inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-xs font-bold leading-none',
-                isActive ? 'bg-[#0a0a0a] text-[#c6f24e]' : 'bg-[#1c1c1c] text-[#8a8a8a]',
-              ].join(' ')}
-            >
-              {tab.badge}
-            </span>
+            <Icon
+              size={16}
+              strokeWidth={2}
+              color={computedIconColor}
+              className={iconColor ? '' : isActive ? '' : 'text-[#8a8a8a]'}
+              aria-hidden="true"
+            />
             {tab.label}
           </button>
         )

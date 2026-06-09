@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { Radio } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { TEAMS } from '@/lib/data/teams'
 import { runMonteCarlo } from '@/lib/engine/montecarlo'
@@ -63,8 +64,8 @@ export default function ProbabilitiesTab() {
           <div className="flex items-center gap-2">
             <h2 className="text-base font-semibold text-[#f5f5f5]">Probabilidades</h2>
             {state.liveMode && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-xs font-semibold text-[#22c55e]">
-                🔴 En directo
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#E61D25]/15 px-2 py-0.5 text-xs font-semibold text-[#E61D25]">
+                <Radio size={12} strokeWidth={2} aria-hidden="true" /> En directo
               </span>
             )}
           </div>
@@ -78,7 +79,7 @@ export default function ProbabilitiesTab() {
           type="button"
           onClick={handleCalc}
           disabled={isPending}
-          className="shrink-0 rounded-full bg-[#c6f24e] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-[#b6e23e] disabled:cursor-not-allowed disabled:opacity-60"
+          className="shrink-0 rounded-full bg-[#E8B84B] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-[#d9a93c] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isPending ? 'Calculando…' : 'Calcular probabilidades'}
         </button>
@@ -114,13 +115,13 @@ export default function ProbabilitiesTab() {
                       </div>
                     </td>
                     <td className="w-44 px-3">
-                      <Bar value={p.champion} color="bg-[#c6f24e]" />
+                      <Bar value={p.champion} color="bg-[#E8B84B]" />
                     </td>
                     <td className="w-44 px-3">
-                      <Bar value={p.final} color="bg-[#22c55e]" />
+                      <Bar value={p.final} color="bg-[#3CAC3B]" />
                     </td>
                     <td className="w-44 px-3">
-                      <Bar value={p.sf} color="bg-[#22c55e]" />
+                      <Bar value={p.sf} color="bg-[#3CAC3B]" />
                     </td>
                   </tr>
                 )

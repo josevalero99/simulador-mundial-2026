@@ -1,5 +1,6 @@
 'use client'
 
+import { Radio } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { TEAMS } from '@/lib/data/teams'
 import type { LiveMatch } from '@/lib/data/liveResults'
@@ -114,8 +115,8 @@ export default function LiveTab({ liveData, liveError, onRefresh }: LiveTabProps
           <div className="flex items-center gap-2">
             <h2 className="text-base font-semibold text-[#f5f5f5]">En directo</h2>
             {live && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-xs font-semibold text-[#22c55e]">
-                🔴 EN DIRECTO
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#E61D25]/15 px-2 py-0.5 text-xs font-semibold text-[#E61D25]">
+                <Radio size={12} strokeWidth={2} aria-hidden="true" /> EN DIRECTO
               </span>
             )}
           </div>
@@ -135,7 +136,7 @@ export default function LiveTab({ liveData, liveError, onRefresh }: LiveTabProps
             className={[
               'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors',
               live
-                ? 'border-[#22c55e] bg-[#22c55e] text-[#0a0a0a]'
+                ? 'border-[#E61D25] bg-[#E61D25] text-[#0a0a0a]'
                 : 'border-[#262626] bg-[#0a0a0a] text-[#f5f5f5] hover:border-[#3a3a3a]',
             ].join(' ')}
           >
@@ -190,7 +191,7 @@ export default function LiveTab({ liveData, liveError, onRefresh }: LiveTabProps
                 key={round}
                 className="overflow-x-auto rounded-2xl border border-[#262626] bg-[#141414] p-4 sm:p-5"
               >
-                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#c6f24e]">
+                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#E8B84B]">
                   {round}
                 </h3>
                 <div>

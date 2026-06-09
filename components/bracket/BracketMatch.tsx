@@ -32,7 +32,7 @@ function Side({ teamId, selected, onClick }: SideProps) {
       className={[
         'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors',
         selected
-          ? 'bg-[#c6f24e] font-semibold text-[#0a0a0a]'
+          ? 'bg-[#E8B84B] font-semibold text-[#0a0a0a]'
           : 'text-[#f5f5f5] hover:bg-[#1c1c1c]',
       ].join(' ')}
     >

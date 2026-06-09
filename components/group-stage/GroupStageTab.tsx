@@ -31,7 +31,7 @@ export default function GroupStageTab() {
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <LegendItem color="bg-[#22c55e]">1.º y 2.º — clasificados directos</LegendItem>
+          <LegendItem color="bg-[#3CAC3B]">1.º y 2.º — clasificados directos</LegendItem>
           <LegendItem color="bg-[#f59e0b]">3.º — a la tabla de terceros</LegendItem>
           <LegendItem color="bg-[#52525b]">4.º — eliminado</LegendItem>
           <span className="inline-flex items-center gap-1.5 text-xs text-[#8a8a8a]">
@@ -48,7 +48,7 @@ export default function GroupStageTab() {
             onClick={() => setView('groups')}
             className={[
               'rounded-full px-3 py-1 text-xs font-medium transition-colors',
-              view === 'groups' ? 'bg-[#c6f24e] text-[#0a0a0a]' : 'text-[#8a8a8a] hover:text-[#f5f5f5]',
+              view === 'groups' ? 'bg-[#E8B84B] text-[#0a0a0a]' : 'text-[#8a8a8a] hover:text-[#f5f5f5]',
             ].join(' ')}
           >
             Por grupos
@@ -58,7 +58,7 @@ export default function GroupStageTab() {
             onClick={() => setView('date')}
             className={[
               'rounded-full px-3 py-1 text-xs font-medium transition-colors',
-              view === 'date' ? 'bg-[#c6f24e] text-[#0a0a0a]' : 'text-[#8a8a8a] hover:text-[#f5f5f5]',
+              view === 'date' ? 'bg-[#E8B84B] text-[#0a0a0a]' : 'text-[#8a8a8a] hover:text-[#f5f5f5]',
             ].join(' ')}
           >
             Por fecha

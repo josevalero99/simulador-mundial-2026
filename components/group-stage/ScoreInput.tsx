@@ -38,7 +38,7 @@ export default function ScoreInput({ match }: ScoreInputProps) {
     })
 
   const chip =
-    'h-9 w-9 rounded-lg bg-[#1c1c1c] text-center font-mono text-base font-bold text-[#f5f5f5] outline-none transition-colors focus:ring-2 focus:ring-[#c6f24e] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none'
+    'h-9 w-9 rounded-lg bg-[#1c1c1c] text-center font-mono text-base font-bold text-[#f5f5f5] outline-none transition-colors focus:ring-2 focus:ring-[#E8B84B] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none'
 
   return (
     <div className="flex items-center gap-1.5">

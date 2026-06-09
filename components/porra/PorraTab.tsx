@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useTransition } from 'react'
+import { Radio, Trophy } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { TEAMS } from '@/lib/data/teams'
 import { DEFAULT_PORRA, type PorraEntry } from '@/lib/data/porra'
@@ -67,7 +68,7 @@ function Bar({ value }: BarProps) {
     <div className="flex items-center gap-2">
       <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#262626]">
         <div
-          className="h-full rounded-full bg-[#c6f24e]"
+          className="h-full rounded-full bg-[#E8B84B]"
           style={{ width: `${Math.max(0, Math.min(1, value)) * 100}%` }}
         />
       </div>
@@ -90,16 +91,16 @@ function PorraRow({ rank, entry, prob, isLeader }: PorraRowProps) {
     <tr
       className={[
         'border-t border-[#262626]',
-        isLeader ? 'bg-[#c6f24e]/5' : '',
+        isLeader ? 'bg-[#E8B84B]/5' : '',
       ].join(' ')}
     >
       <td className="py-2.5 pl-2 align-middle">
         <span className="inline-flex h-6 min-w-6 items-center justify-center text-sm font-bold tabular-nums text-[#8a8a8a]">
-          {isLeader ? '🏆' : rank}
+          {isLeader ? <Trophy size={16} strokeWidth={2} color="#E8B84B" aria-label="Líder" /> : rank}
         </span>
       </td>
       <td className="px-3 align-middle">
-        <span className={`font-bold ${isLeader ? 'text-[#c6f24e]' : 'text-[#f5f5f5]'}`}>
+        <span className={`font-bold ${isLeader ? 'text-[#E8B84B]' : 'text-[#f5f5f5]'}`}>
           {prob.name}
         </span>
       </td>
@@ -160,7 +161,7 @@ function PorraEditor({ entries, onChange }: PorraEditorProps) {
             value={entry.name}
             onChange={e => setName(idx, e.target.value)}
             aria-label={`Nombre del participante ${idx + 1}`}
-            className="mb-3 w-full rounded-lg border border-[#262626] bg-[#0a0a0a] px-3 py-1.5 text-sm font-bold text-[#f5f5f5] outline-none focus:border-[#c6f24e]"
+            className="mb-3 w-full rounded-lg border border-[#262626] bg-[#0a0a0a] px-3 py-1.5 text-sm font-bold text-[#f5f5f5] outline-none focus:border-[#E8B84B]"
           />
           <div className="grid grid-cols-2 gap-2">
             {entry.teams.map((teamId, slot) => (
@@ -169,7 +170,7 @@ function PorraEditor({ entries, onChange }: PorraEditorProps) {
                 value={teamId}
                 onChange={e => setTeam(idx, slot, e.target.value)}
                 aria-label={`${entry.name} · selección ${slot + 1}`}
-                className="w-full rounded-lg border border-[#262626] bg-[#0a0a0a] px-2 py-1.5 text-sm text-[#f5f5f5] outline-none focus:border-[#c6f24e]"
+                className="w-full rounded-lg border border-[#262626] bg-[#0a0a0a] px-2 py-1.5 text-sm text-[#f5f5f5] outline-none focus:border-[#E8B84B]"
               >
                 {ALL_TEAMS.map(t => (
                   <option key={t.id} value={t.id}>
@@ -249,8 +250,8 @@ export default function PorraTab() {
           <div className="flex items-center gap-2">
             <h2 className="text-base font-semibold text-[#f5f5f5]">Porra</h2>
             {state.liveMode && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-xs font-semibold text-[#22c55e]">
-                🔴 En directo
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#E61D25]/15 px-2 py-0.5 text-xs font-semibold text-[#E61D25]">
+                <Radio size={12} strokeWidth={2} aria-hidden="true" /> En directo
               </span>
             )}
           </div>
@@ -280,7 +281,7 @@ export default function PorraTab() {
               type="button"
               onClick={handleCalc}
               disabled={isPending}
-              className="rounded-full bg-[#c6f24e] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-[#b6e23e] disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-full bg-[#E8B84B] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-[#d9a93c] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isPending ? 'Calculando…' : 'Calcular probabilidades'}
             </button>

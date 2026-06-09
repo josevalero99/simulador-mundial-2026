@@ -94,8 +94,8 @@ export default function BracketTab() {
             </h3>
             <div className="flex flex-1 flex-col justify-around gap-3">
               <BracketMatch match={bracket.final} onPick={onPick} />
-              <div className="rounded-lg border border-[#c6f24e]/40 bg-[#c6f24e]/10 p-4 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-[#c6f24e]">
+              <div className="rounded-lg border border-[#E8B84B]/40 bg-[#E8B84B]/10 p-4 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-[#E8B84B]">
                   Campeón
                 </p>
                 {champion ? (

@@ -11,8 +11,8 @@ const fifaRank = (id: string) => TEAMS[id]?.fifaRank ?? 999
 
 /** Tailwind classes for a rank's numbered marker badge. */
 function rankBadge(rank: number): string {
-  if (rank === 1) return 'bg-[#c6f24e] text-black'
-  if (rank === 2) return 'bg-[#22c55e] text-black'
+  if (rank === 1) return 'bg-[#E8B84B] text-black'
+  if (rank === 2) return 'bg-[#3CAC3B] text-black'
   if (rank === 3) return 'bg-[#f59e0b] text-black'
   return 'bg-[#2a2a2a] text-[#8a8a8a]'
 }
