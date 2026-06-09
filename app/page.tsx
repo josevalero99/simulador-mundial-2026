@@ -70,7 +70,7 @@ function ActionsMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-[#262626] bg-[#141414] p-1 shadow-xl"
+          className="absolute left-0 z-20 mt-2 w-56 rounded-xl border border-[#262626] bg-[#141414] p-1 shadow-xl lg:left-auto lg:right-0"
         >
           {item(
             <Wand2 size={16} strokeWidth={2} aria-hidden="true" />,
