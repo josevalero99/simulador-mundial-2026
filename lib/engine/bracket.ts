@@ -1,6 +1,6 @@
 import { GroupId, StandingRow } from '@/lib/types'
 import { THIRDS_ALLOCATION } from '@/lib/data/thirdsAllocation'
-import { R32, Slot } from '@/lib/data/r32'
+import { R32, Slot, R16, QF, SF, FINAL, BracketEdge } from '@/lib/data/r32'
 import { rankThirds } from './bestThirds'
 
 /**
@@ -56,4 +56,54 @@ export function resolveR32(
     home: teamFor(match, home),
     away: teamFor(match, away),
   }))
+}
+
+export interface KnockoutMatch {
+  match: number
+  home: string | null
+  away: string | null
+  winner: string | null
+}
+
+export interface BracketState {
+  r32: KnockoutMatch[]
+  r16: KnockoutMatch[]
+  qf: KnockoutMatch[]
+  sf: KnockoutMatch[]
+  final: KnockoutMatch
+  champion: string | null
+}
+
+type PickWinner = (home: string, away: string, match: number) => string
+
+/**
+ * Builds the full knockout bracket from the 16 R32 ties.
+ * R32 matches are seeded directly from the ties; each subsequent round is built
+ * from its BracketEdge (home = winner of from[0], away = winner of from[1]).
+ * Adjacency comes entirely from the imported R16/QF/SF/FINAL edges.
+ */
+export function buildBracket(r32Ties: Tie[], pickWinner: PickWinner): BracketState {
+  const winners = new Map<number, string>()
+
+  const r32: KnockoutMatch[] = r32Ties.map(({ match, home, away }) => {
+    const winner = pickWinner(home, away, match)
+    winners.set(match, winner)
+    return { match, home, away, winner }
+  })
+
+  const buildRound = (edges: readonly BracketEdge[]): KnockoutMatch[] =>
+    edges.map(({ match, from }) => {
+      const home = winners.get(from[0]) ?? null
+      const away = winners.get(from[1]) ?? null
+      const winner = home !== null && away !== null ? pickWinner(home, away, match) : null
+      if (winner !== null) winners.set(match, winner)
+      return { match, home, away, winner }
+    })
+
+  const r16 = buildRound(R16)
+  const qf = buildRound(QF)
+  const sf = buildRound(SF)
+  const [final] = buildRound([FINAL])
+
+  return { r32, r16, qf, sf, final, champion: final.winner }
 }
