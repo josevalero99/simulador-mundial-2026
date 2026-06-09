@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
-import { Radio, Wand2, Dices, Eraser } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Radio, Wand2, Dices, Eraser, ChevronDown } from 'lucide-react'
 import { StoreProvider, useStore } from '@/lib/store'
 import TabNav from '@/components/TabNav'
 import GroupStageTab from '@/components/group-stage/GroupStageTab'
@@ -14,34 +14,81 @@ import CuotasTab from '@/components/cuotas/CuotasTab'
 import { OddsProvider } from '@/components/odds/OddsProvider'
 import { liveGroupResults, type LiveMatch } from '@/lib/data/liveResults'
 
-function ActionButtons() {
+function ActionsMenu() {
   const { dispatch } = useStore()
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onDocClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('mousedown', onDocClick)
+    document.addEventListener('keydown', onEsc)
+    return () => {
+      document.removeEventListener('mousedown', onDocClick)
+      document.removeEventListener('keydown', onEsc)
+    }
+  }, [open])
+
+  const item = (icon: React.ReactNode, label: string, onClick: () => void) => (
+    <button
+      type="button"
+      role="menuitem"
+      onClick={() => {
+        onClick()
+        setOpen(false)
+      }}
+      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#f5f5f5] transition-colors hover:bg-[#1c1c1c]"
+    >
+      {icon}
+      {label}
+    </button>
+  )
+
   return (
-    <div className="flex flex-wrap gap-2">
+    <div ref={ref} className="relative shrink-0">
       <button
         type="button"
-        onClick={() => dispatch({ type: 'SIMULATE_BY_RANKING' })}
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="menu"
+        aria-expanded={open}
         className="inline-flex items-center gap-2 rounded-full bg-[#E8B84B] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-[#d9a93c]"
       >
-        <Wand2 size={16} strokeWidth={2} aria-hidden="true" />
-        Simular por ranking
+        Acciones
+        <ChevronDown
+          size={16}
+          strokeWidth={2}
+          aria-hidden="true"
+          className={`transition-transform ${open ? 'rotate-180' : ''}`}
+        />
       </button>
-      <button
-        type="button"
-        onClick={() => dispatch({ type: 'FILL_SCENARIO' })}
-        className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
-      >
-        <Dices size={16} strokeWidth={2} aria-hidden="true" />
-        Rellenar escenario
-      </button>
-      <button
-        type="button"
-        onClick={() => dispatch({ type: 'CLEAR' })}
-        className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-4 py-2 text-sm font-medium text-[#f5f5f5] transition-colors hover:border-[#3a3a3a]"
-      >
-        <Eraser size={16} strokeWidth={2} aria-hidden="true" />
-        Limpiar
-      </button>
+      {open && (
+        <div
+          role="menu"
+          className="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-[#262626] bg-[#141414] p-1 shadow-xl"
+        >
+          {item(
+            <Wand2 size={16} strokeWidth={2} aria-hidden="true" />,
+            'Simular por ranking',
+            () => dispatch({ type: 'SIMULATE_BY_RANKING' }),
+          )}
+          {item(
+            <Dices size={16} strokeWidth={2} aria-hidden="true" />,
+            'Rellenar escenario',
+            () => dispatch({ type: 'FILL_SCENARIO' }),
+          )}
+          {item(
+            <Eraser size={16} strokeWidth={2} aria-hidden="true" />,
+            'Limpiar',
+            () => dispatch({ type: 'CLEAR' }),
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -112,7 +159,7 @@ function Dashboard() {
             resultados y el simulador aplica los criterios de desempate de la FIFA en tiempo real.
           </p>
         </div>
-        <ActionButtons />
+        <ActionsMenu />
       </header>
 
       <div className="mt-8">
