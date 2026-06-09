@@ -14,21 +14,22 @@ import {
 } from 'lucide-react'
 
 interface Tab {
-  label: string
+  label: string // short, displayed
+  full: string // full name for aria-label / title
   Icon: LucideIcon
   /** Force a fixed icon color (e.g. "En directo" stays red even when inactive). */
   iconColor?: string
 }
 
 const TABS: Tab[] = [
-  { label: 'Fase de grupos', Icon: LayoutGrid },
-  { label: 'Mejores terceros', Icon: Medal },
-  { label: 'Eliminatorias', Icon: Swords },
-  { label: 'Probabilidades', Icon: Percent },
-  { label: 'Porra', Icon: Ticket },
-  { label: 'En directo', Icon: Radio, iconColor: '#E61D25' },
-  { label: 'Cuotas', Icon: TrendingUp },
-  { label: 'Noticias', Icon: Newspaper },
+  { label: 'Grupos', full: 'Fase de grupos', Icon: LayoutGrid },
+  { label: 'Terceros', full: 'Mejores terceros', Icon: Medal },
+  { label: 'Eliminatorias', full: 'Eliminatorias', Icon: Swords },
+  { label: 'Probabilidades', full: 'Probabilidades', Icon: Percent },
+  { label: 'Porra', full: 'Porra', Icon: Ticket },
+  { label: 'Directo', full: 'En directo', Icon: Radio, iconColor: '#E61D25' },
+  { label: 'Cuotas', full: 'Cuotas', Icon: TrendingUp },
+  { label: 'Noticias', full: 'Noticias', Icon: Newspaper },
 ]
 
 interface TabNavProps {
@@ -52,47 +53,53 @@ export default function TabNav({ active, onChange }: TabNavProps) {
   }, [active])
 
   return (
-    <div
-      ref={containerRef}
-      role="tablist"
-      aria-label="Secciones del simulador"
-      className="no-scrollbar flex flex-nowrap gap-2 overflow-x-auto"
-      style={{ scrollSnapType: 'x proximity' }}
-    >
-      {TABS.map((tab, i) => {
-        const isActive = i === active
-        const { Icon, iconColor } = tab
-        const computedIconColor = iconColor ?? (isActive ? '#0a0a0a' : undefined)
-        return (
-          <button
-            key={tab.label}
-            ref={(node) => {
-              tabRefs.current[i] = node
-            }}
-            type="button"
-            role="tab"
-            aria-selected={isActive}
-            aria-current={isActive ? 'page' : undefined}
-            onClick={() => onChange(i)}
-            style={{ scrollSnapAlign: 'start' }}
-            className={[
-              'inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
-              isActive
-                ? 'border-[#E8B84B] bg-[#E8B84B] text-[#0a0a0a]'
-                : 'border-[#262626] bg-[#141414] text-[#f5f5f5] hover:border-[#3a3a3a]',
-            ].join(' ')}
-          >
-            <Icon
-              size={16}
-              strokeWidth={2}
-              color={computedIconColor}
-              className={iconColor ? '' : isActive ? '' : 'text-[#8a8a8a]'}
-              aria-hidden="true"
-            />
-            {tab.label}
-          </button>
-        )
-      })}
+    <div className="relative">
+      <div
+        ref={containerRef}
+        role="tablist"
+        aria-label="Secciones del simulador"
+        className="no-scrollbar flex flex-nowrap gap-2 overflow-x-auto"
+        style={{ scrollSnapType: 'x proximity' }}
+      >
+        {TABS.map((tab, i) => {
+          const isActive = i === active
+          const { Icon, iconColor } = tab
+          const computedIconColor = iconColor ?? (isActive ? '#0a0a0a' : undefined)
+          return (
+            <button
+              key={tab.full}
+              ref={(node) => {
+                tabRefs.current[i] = node
+              }}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              aria-current={isActive ? 'page' : undefined}
+              aria-label={tab.full}
+              title={tab.full}
+              onClick={() => onChange(i)}
+              style={{ scrollSnapAlign: 'start' }}
+              className={[
+                'inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+                isActive
+                  ? 'border-[#E8B84B] bg-[#E8B84B] text-[#0a0a0a]'
+                  : 'border-[#262626] bg-[#141414] text-[#f5f5f5] hover:border-[#3a3a3a]',
+              ].join(' ')}
+            >
+              <Icon
+                size={16}
+                strokeWidth={2}
+                color={computedIconColor}
+                className={iconColor ? '' : isActive ? '' : 'text-[#8a8a8a]'}
+                aria-hidden="true"
+              />
+              {tab.label}
+            </button>
+          )
+        })}
+      </div>
+      {/* Pista de desplazamiento (solo móvil/tablet, donde puede haber scroll). */}
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[#0a0a0a] to-transparent xl:hidden" />
     </div>
   )
 }

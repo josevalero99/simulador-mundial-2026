@@ -44,35 +44,53 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
   background-color: var(--bg);
   background-image:
-    radial-gradient(38% 46% at 18% 18%, rgba(232, 184, 75, 0.16), transparent 62%),
-    radial-gradient(42% 50% at 84% 14%, rgba(60, 172, 59, 0.15), transparent 62%),
-    radial-gradient(46% 54% at 82% 86%, rgba(42, 57, 141, 0.14), transparent 62%),
-    radial-gradient(40% 48% at 14% 88%, rgba(230, 29, 37, 0.10), transparent 62%),
-    linear-gradient(125deg, #0a0a0a, #0b110d 35%, #0a0a0a 70%);
+    radial-gradient(45% 55% at 16% 14%, rgba(232, 184, 75, 0.2), transparent 60%),
+    radial-gradient(50% 60% at 86% 10%, rgba(60, 172, 59, 0.18), transparent 60%),
+    radial-gradient(55% 65% at 88% 88%, rgba(42, 57, 141, 0.18), transparent 60%),
+    radial-gradient(48% 58% at 10% 90%, rgba(230, 29, 37, 0.12), transparent 60%),
+    radial-gradient(42% 52% at 50% 48%, rgba(232, 184, 75, 0.06), transparent 70%),
+    linear-gradient(130deg, #0a0a0a, #0c120e 40%, #0a0b0d 75%);
   background-size:
+    220% 220%,
+    240% 240%,
+    240% 240%,
+    220% 220%,
     200% 200%,
-    200% 200%,
-    200% 200%,
-    200% 200%,
-    400% 400%;
+    300% 300%;
   background-repeat: no-repeat;
-  animation: bgDrift 30s ease-in-out infinite;
+  animation: bgDrift 46s ease-in-out infinite;
   will-change: background-position;
+}
+
+/* Soft vignette: darkens the edges to focus the content. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(125% 125% at 50% 28%, transparent 52%, rgba(0, 0, 0, 0.55));
 }
 
 @keyframes bgDrift {
   0% {
-    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 0% 50%;
+    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 0% 50%;
+  }
+  25% {
+    background-position: 40% 30%, 60% 20%, 30% 70%, 70% 80%, 60% 40%, 50% 50%;
   }
   50% {
-    background-position: 100% 100%, 0% 100%, 100% 0%, 0% 0%, 100% 50%;
+    background-position: 100% 100%, 0% 100%, 100% 0%, 0% 0%, 40% 60%, 100% 50%;
+  }
+  75% {
+    background-position: 60% 70%, 30% 80%, 70% 20%, 20% 10%, 50% 50%, 50% 50%;
   }
   100% {
-    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 0% 50%;
+    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 0% 50%;
   }
 }
 
