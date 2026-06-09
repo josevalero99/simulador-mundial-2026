@@ -14,6 +14,7 @@ import CuotasTab from '@/components/cuotas/CuotasTab'
 import NoticiasTab from '@/components/noticias/NoticiasTab'
 import { OddsProvider } from '@/components/odds/OddsProvider'
 import { liveGroupResults, type LiveMatch } from '@/lib/data/liveResults'
+import { decodeScenario } from '@/lib/share'
 
 function Dashboard() {
   const [active, setActive] = useState(0)
@@ -38,6 +39,19 @@ function Dashboard() {
     } catch {
       setLiveError('fetch-failed')
     }
+  }, [])
+
+  // Apply a shared scenario from the URL (`?e=...`) once on mount. Runs after
+  // the store hydrates from localStorage, so a shared link wins. Then strip the
+  // query so a refresh doesn't re-apply it.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const e = new URLSearchParams(window.location.search).get('e')
+    if (e === null) return
+    const scores = decodeScenario(e)
+    if (scores) dispatch({ type: 'APPLY_SCENARIO', scores })
+    window.history.replaceState({}, '', window.location.pathname)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Poll once on mount and every 60s.
