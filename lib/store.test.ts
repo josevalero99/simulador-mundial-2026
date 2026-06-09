@@ -189,6 +189,54 @@ describe('parseStored', () => {
   })
 })
 
+describe('APPLY_SCENARIO', () => {
+  it('sets the given matches and clears the rest', () => {
+    const s = initialState()
+    const a = s.matches[0]
+    const b = s.matches[3]
+    // pre-fill everything so we can verify the rest get cleared
+    const filled = reducer(s, { type: 'SIMULATE_BY_RANKING' })
+
+    const next = reducer(filled, {
+      type: 'APPLY_SCENARIO',
+      scores: { [a.id]: [2, 1], [b.id]: [0, 0] },
+    })
+
+    const ma = next.matches.find((m) => m.id === a.id)!
+    const mb = next.matches.find((m) => m.id === b.id)!
+    expect([ma.homeGoals, ma.awayGoals]).toEqual([2, 1])
+    expect([mb.homeGoals, mb.awayGoals]).toEqual([0, 0])
+
+    // every other match is cleared to null
+    expect(
+      next.matches
+        .filter((m) => m.id !== a.id && m.id !== b.id)
+        .every((m) => m.homeGoals === null && m.awayGoals === null),
+    ).toBe(true)
+  })
+
+  it('preserves liveMode/manualBackup and is immutable', () => {
+    const backup = initialState().matches
+    const state: AppState = {
+      matches: initialState().matches,
+      liveMode: true,
+      manualBackup: backup,
+    }
+    const id = state.matches[0].id
+    const next = reducer(state, { type: 'APPLY_SCENARIO', scores: { [id]: [1, 0] } })
+    expect(next.liveMode).toBe(true)
+    expect(next.manualBackup).toBe(backup)
+    expect(next).not.toBe(state)
+    expect(state.matches[0].homeGoals).toBe(null)
+  })
+
+  it('clears everything when given an empty scenario', () => {
+    const filled = reducer(initialState(), { type: 'SIMULATE_BY_RANKING' })
+    const next = reducer(filled, { type: 'APPLY_SCENARIO', scores: {} })
+    expect(next.matches.every((m) => m.homeGoals === null && m.awayGoals === null)).toBe(true)
+  })
+})
+
 describe('live mode', () => {
   it('ENABLE_LIVE clears scores, sets liveMode, backs up prior matches', () => {
     const filled = reducer(initialState(), { type: 'SIMULATE_BY_RANKING' })

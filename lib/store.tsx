@@ -19,6 +19,7 @@ export type Action =
   | { type: 'SIMULATE_BY_RANKING' }
   | { type: 'FILL_SCENARIO'; rng?: () => number }
   | { type: 'CLEAR' }
+  | { type: 'APPLY_SCENARIO'; scores: Record<string, [number, number]> }
   | { type: 'ENABLE_LIVE' }
   | { type: 'APPLY_LIVE_RESULTS'; results: { a: string; b: string; ga: number; gb: number }[] }
   | { type: 'DISABLE_LIVE' }
@@ -79,6 +80,18 @@ export function reducer(state: AppState, action: Action): AppState {
       return {
         ...state,
         matches: state.matches.map((m) => ({ ...m, homeGoals: null, awayGoals: null })),
+      }
+    case 'APPLY_SCENARIO':
+      // A shared scenario fully defines the results: matches present in
+      // `scores` get those values, all others are cleared to null.
+      return {
+        ...state,
+        matches: state.matches.map((m) => {
+          const s = action.scores[m.id]
+          return s
+            ? { ...m, homeGoals: s[0], awayGoals: s[1] }
+            : { ...m, homeGoals: null, awayGoals: null }
+        }),
       }
     case 'ENABLE_LIVE':
       return {
