@@ -8,6 +8,7 @@ import {
   Percent,
   Ticket,
   Radio,
+  TrendingUp,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -25,6 +26,7 @@ const TABS: Tab[] = [
   { label: 'Probabilidades', Icon: Percent },
   { label: 'Porra', Icon: Ticket },
   { label: 'En directo', Icon: Radio, iconColor: '#E61D25' },
+  { label: 'Cuotas', Icon: TrendingUp },
 ]
 
 interface TabNavProps {
@@ -34,9 +36,8 @@ interface TabNavProps {
 
 /**
  * Controlled tab navigation. Single horizontal row of pills with a leading
- * lucide icon. On mobile it scrolls horizontally (swipe + scroll-snap); on
- * desktop the six tabs fit without wrapping. The active tab auto-scrolls into
- * view.
+ * lucide icon. On mobile it scrolls horizontally (swipe + scroll-snap); the
+ * row scrolls when the tabs don't fit. The active tab auto-scrolls into view.
  */
 export default function TabNav({ active, onChange }: TabNavProps) {
   const containerRef = useRef<HTMLDivElement>(null)

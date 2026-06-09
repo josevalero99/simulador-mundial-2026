@@ -10,6 +10,7 @@ import BracketTab from '@/components/bracket/BracketTab'
 import ProbabilitiesTab from '@/components/probabilities/ProbabilitiesTab'
 import PorraTab from '@/components/porra/PorraTab'
 import LiveTab from '@/components/live/LiveTab'
+import CuotasTab from '@/components/cuotas/CuotasTab'
 import { liveGroupResults, type LiveMatch } from '@/lib/data/liveResults'
 
 function ActionButtons() {
@@ -126,6 +127,7 @@ function Dashboard() {
         {active === 5 && (
           <LiveTab liveData={liveData} liveError={liveError} onRefresh={fetchLive} />
         )}
+        {active === 6 && <CuotasTab />}
       </div>
     </main>
   )
