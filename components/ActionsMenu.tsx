@@ -61,7 +61,7 @@ export default function ActionsMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-1 shadow-xl"
+          className="absolute left-0 z-20 mt-2 w-56 max-w-[calc(100vw-2rem)] rounded-xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-1 shadow-xl"
         >
           {item(<Wand2 size={16} strokeWidth={2} aria-hidden="true" />, 'Simular por ranking', () =>
             dispatch({ type: 'SIMULATE_BY_RANKING' }),
