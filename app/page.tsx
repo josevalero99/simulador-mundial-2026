@@ -13,6 +13,9 @@ import LiveTab from '@/components/live/LiveTab'
 import CuotasTab from '@/components/cuotas/CuotasTab'
 import NoticiasTab from '@/components/noticias/NoticiasTab'
 import { OddsProvider } from '@/components/odds/OddsProvider'
+import { FavoriteProvider } from '@/components/favorite/FavoriteProvider'
+import FavoritePicker from '@/components/favorite/FavoritePicker'
+import NextMatchBanner from '@/components/favorite/NextMatchBanner'
 import { liveGroupResults, type LiveMatch } from '@/lib/data/liveResults'
 import { decodeScenario } from '@/lib/share'
 
@@ -70,7 +73,7 @@ function Dashboard() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-      <header>
+      <header className="flex items-start justify-between gap-4">
         <div className="max-w-3xl">
           {state.liveMode && (
             <div className="mb-3 flex items-center gap-3">
@@ -95,7 +98,10 @@ function Dashboard() {
             resultados y el simulador aplica los criterios de desempate de la FIFA en tiempo real.
           </p>
         </div>
+        <FavoritePicker />
       </header>
+
+      <NextMatchBanner />
 
       <div className="mt-8">
         <TabNav active={active} onChange={setActive} />
@@ -121,7 +127,9 @@ export default function Home() {
   return (
     <StoreProvider>
       <OddsProvider>
-        <Dashboard />
+        <FavoriteProvider>
+          <Dashboard />
+        </FavoriteProvider>
       </OddsProvider>
     </StoreProvider>
   )

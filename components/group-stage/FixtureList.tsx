@@ -8,6 +8,7 @@ import ScoreInput from './ScoreInput'
 import { timeES, dayES, byKickoff } from '@/lib/format'
 import { TrendingUp } from 'lucide-react'
 import { useOdds, type OutcomeCell } from '@/components/odds/OddsProvider'
+import { useFavorite } from '@/components/favorite/FavoriteProvider'
 
 /**
  * Compact 1X2 row: bookmaker odds with the favourite (lowest odd) in gold, plus
@@ -57,8 +58,12 @@ interface MatchRowProps {
 }
 
 function MatchRow({ match, showGroup = false }: MatchRowProps) {
+  const { favorite } = useFavorite()
   const home = TEAMS[match.home]
   const away = TEAMS[match.away]
+  const homeFav = match.home === favorite
+  const awayFav = match.away === favorite
+  const hasFav = homeFav || awayFav
   const day = dayES(match.kickoff) || match.date
   const time = timeES(match.kickoff)
   const header = [showGroup ? `Grupo ${match.group}` : null, day, time].filter(Boolean).join(' · ')
@@ -70,9 +75,13 @@ function MatchRow({ match, showGroup = false }: MatchRowProps) {
           {header}
         </div>
       )}
-      <div className="flex items-center gap-2">
+      <div
+        className={`flex items-center gap-2 ${hasFav ? 'rounded-lg bg-[#E8B84B]/[0.06] px-2 py-1' : ''}`}
+      >
         <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
-          <span className="truncate text-right text-sm text-[#f5f5f5]">
+          <span
+            className={`truncate text-right text-sm ${homeFav ? 'font-semibold text-[#E8B84B]' : 'text-[#f5f5f5]'}`}
+          >
             {home?.name ?? match.home}
           </span>
           <Flag teamId={match.home} className="text-base leading-none" />
@@ -80,7 +89,11 @@ function MatchRow({ match, showGroup = false }: MatchRowProps) {
         <ScoreInput match={match} />
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Flag teamId={match.away} className="text-base leading-none" />
-          <span className="truncate text-sm text-[#f5f5f5]">{away?.name ?? match.away}</span>
+          <span
+            className={`truncate text-sm ${awayFav ? 'font-semibold text-[#E8B84B]' : 'text-[#f5f5f5]'}`}
+          >
+            {away?.name ?? match.away}
+          </span>
         </div>
       </div>
       <OddsLine home={match.home} away={match.away} />

@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Newspaper, ExternalLink, RotateCw, Tv, Headphones } from 'lucide-react'
+import { TEAMS } from '@/lib/data/teams'
+import { useFavorite } from '@/components/favorite/FavoriteProvider'
 
 interface NewsItem {
   title: string
@@ -11,12 +13,20 @@ interface NewsItem {
   spain: boolean
 }
 
-type Filter = 'todas' | 'espana' | 'resto'
+type Filter = 'todas' | 'espana' | 'resto' | 'fav'
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'todas', label: 'Todas' },
   { id: 'espana', label: 'Selección española' },
   { id: 'resto', label: 'Resto de selecciones' },
 ]
+
+/** Lowercase + strip accents for accent-insensitive title matching. */
+function normalize(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+}
 
 /** "hace 2 h" / "hace 3 d" style relative time, fallback to a Madrid date. */
 function relative(pubDate: string): string {
@@ -38,6 +48,7 @@ function relative(pubDate: string): string {
 }
 
 export default function NoticiasTab() {
+  const { favorite } = useFavorite()
   const [items, setItems] = useState<NewsItem[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -65,10 +76,33 @@ export default function NoticiasTab() {
     return () => clearInterval(id)
   }, [load])
 
-  const filtered =
-    items?.filter((it) =>
-      filter === 'todas' ? true : filter === 'espana' ? it.spain : !it.spain,
-    ) ?? null
+  const favName = favorite ? TEAMS[favorite]?.name : undefined
+  const favNorm = favName ? normalize(favName) : null
+
+  const matchesFilter = (it: NewsItem, f: Filter): boolean => {
+    switch (f) {
+      case 'todas':
+        return true
+      case 'espana':
+        return it.spain
+      case 'resto':
+        return !it.spain
+      case 'fav':
+        return favNorm !== null && normalize(it.title).includes(favNorm)
+    }
+  }
+
+  // Reset to "todas" if the favorite filter is active but the favorite is cleared.
+  useEffect(() => {
+    if (filter === 'fav' && !favorite) setFilter('todas')
+  }, [filter, favorite])
+
+  const visibleFilters: { id: Filter; label: string }[] =
+    favorite && favName
+      ? [...FILTERS, { id: 'fav', label: 'Mi selección' }]
+      : FILTERS
+
+  const filtered = items?.filter((it) => matchesFilter(it, filter)) ?? null
 
   return (
     <div>
@@ -119,11 +153,9 @@ export default function NoticiasTab() {
 
       {/* Filtros */}
       <div className="no-scrollbar mt-4 flex flex-nowrap gap-2 overflow-x-auto">
-        {FILTERS.map((f) => {
+        {visibleFilters.map((f) => {
           const isActive = f.id === filter
-          const count = items?.filter((it) =>
-            f.id === 'todas' ? true : f.id === 'espana' ? it.spain : !it.spain,
-          ).length
+          const count = items?.filter((it) => matchesFilter(it, f.id)).length
           return (
             <button
               key={f.id}

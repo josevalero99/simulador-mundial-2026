@@ -1,7 +1,8 @@
 'use client'
 
-import { Info } from 'lucide-react'
+import { Info, Star } from 'lucide-react'
 import { useStore } from '@/lib/store'
+import { useFavorite } from '@/components/favorite/FavoriteProvider'
 import { GROUPS } from '@/lib/data/groups'
 import { TEAMS } from '@/lib/data/teams'
 import { rankGroup } from '@/lib/engine/tiebreakers'
@@ -25,6 +26,7 @@ interface StandingsTableProps {
 /** Live group standings, ranked with FIFA tiebreak criteria. */
 export default function StandingsTable({ groupId }: StandingsTableProps) {
   const { state } = useStore()
+  const { favorite } = useFavorite()
   const matches = state.matches.filter((m) => m.group === groupId)
   const rows = rankGroup(GROUPS[groupId], matches, fifaRank)
 
@@ -44,8 +46,12 @@ export default function StandingsTable({ groupId }: StandingsTableProps) {
       <tbody>
         {rows.map((row) => {
           const team = TEAMS[row.teamId]
+          const isFav = row.teamId === favorite
           return (
-            <tr key={row.teamId} className="border-t border-white/10">
+            <tr
+              key={row.teamId}
+              className={`border-t border-white/10 ${isFav ? 'bg-[#E8B84B]/10' : ''}`}
+            >
               <td className="py-2 pl-1">
                 <div className="flex items-center gap-2">
                   <span
@@ -54,7 +60,19 @@ export default function StandingsTable({ groupId }: StandingsTableProps) {
                     {row.rank}
                   </span>
                   <Flag teamId={row.teamId} className="text-base leading-none" />
-                  <span className="truncate text-[#f5f5f5]">{team?.name ?? row.teamId}</span>
+                  <span
+                    className={`truncate ${isFav ? 'font-semibold text-[#E8B84B]' : 'text-[#f5f5f5]'}`}
+                  >
+                    {team?.name ?? row.teamId}
+                  </span>
+                  {isFav && (
+                    <Star
+                      size={11}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                      className="shrink-0 fill-[#E8B84B] text-[#E8B84B]"
+                    />
+                  )}
                   {row.tiebreakApplied && (
                     <span
                       title={row.tiebreakApplied}
