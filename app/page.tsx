@@ -11,6 +11,7 @@ import ProbabilitiesTab from '@/components/probabilities/ProbabilitiesTab'
 import PorraTab from '@/components/porra/PorraTab'
 import LiveTab from '@/components/live/LiveTab'
 import CuotasTab from '@/components/cuotas/CuotasTab'
+import NoticiasTab from '@/components/noticias/NoticiasTab'
 import { OddsProvider } from '@/components/odds/OddsProvider'
 import { liveGroupResults, type LiveMatch } from '@/lib/data/liveResults'
 
@@ -176,6 +177,7 @@ function Dashboard() {
           <LiveTab liveData={liveData} liveError={liveError} onRefresh={fetchLive} />
         )}
         {active === 6 && <CuotasTab />}
+        {active === 7 && <NoticiasTab />}
       </div>
     </main>
   )

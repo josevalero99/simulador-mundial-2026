@@ -9,6 +9,7 @@ import {
   Ticket,
   Radio,
   TrendingUp,
+  Newspaper,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -27,6 +28,7 @@ const TABS: Tab[] = [
   { label: 'Porra', Icon: Ticket },
   { label: 'En directo', Icon: Radio, iconColor: '#E61D25' },
   { label: 'Cuotas', Icon: TrendingUp },
+  { label: 'Noticias', Icon: Newspaper },
 ]
 
 interface TabNavProps {
