@@ -9,11 +9,12 @@ import Flag from '@/components/ui/Flag'
 
 const fifaRank = (id: string) => TEAMS[id]?.fifaRank ?? 999
 
-/** Tailwind background class for a rank's marker dot. */
-function rankColor(rank: number): string {
-  if (rank === 1 || rank === 2) return 'bg-[#22c55e]'
-  if (rank === 3) return 'bg-[#f59e0b]'
-  return 'bg-[#52525b]'
+/** Tailwind classes for a rank's numbered marker badge. */
+function rankBadge(rank: number): string {
+  if (rank === 1) return 'bg-[#c6f24e] text-black'
+  if (rank === 2) return 'bg-[#22c55e] text-black'
+  if (rank === 3) return 'bg-[#f59e0b] text-black'
+  return 'bg-[#2a2a2a] text-[#8a8a8a]'
 }
 
 interface StandingsTableProps {
@@ -46,7 +47,11 @@ export default function StandingsTable({ groupId }: StandingsTableProps) {
             <tr key={row.teamId} className="border-t border-[#262626]">
               <td className="py-2 pl-1">
                 <div className="flex items-center gap-2">
-                  <span className={`h-2 w-2 shrink-0 rounded-full ${rankColor(row.rank)}`} />
+                  <span
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[11px] font-bold ${rankBadge(row.rank)}`}
+                  >
+                    {row.rank}
+                  </span>
                   <Flag teamId={row.teamId} className="text-base leading-none" />
                   <span className="truncate text-[#f5f5f5]">{team?.name ?? row.teamId}</span>
                   {row.tiebreakApplied && (
