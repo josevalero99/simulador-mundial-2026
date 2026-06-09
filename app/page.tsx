@@ -73,7 +73,7 @@ function Dashboard() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-      <header className="flex items-start justify-between gap-4">
+      <header className="flex flex-col-reverse gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-3xl">
           {state.liveMode && (
             <div className="mb-3 flex items-center gap-3">
@@ -98,7 +98,9 @@ function Dashboard() {
             resultados y el simulador aplica los criterios de desempate de la FIFA en tiempo real.
           </p>
         </div>
-        <FavoritePicker />
+        <div className="self-end sm:self-auto shrink-0">
+          <FavoritePicker />
+        </div>
       </header>
 
       <NextMatchBanner />

@@ -32,7 +32,7 @@ export default function GroupStageTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-start gap-2">
+      <div className="flex flex-wrap items-center justify-start gap-2">
         <ActionsMenu />
         <SaveShareMenu />
         <div className="inline-flex shrink-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1">
