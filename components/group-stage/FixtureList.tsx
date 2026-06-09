@@ -9,16 +9,23 @@ import { timeES, dayES, byKickoff } from '@/lib/format'
 
 interface MatchRowProps {
   match: Match
+  /** Prefix the centered header with the group letter (cross-group lists). */
+  showGroup?: boolean
 }
 
-function MatchRow({ match }: MatchRowProps) {
+function MatchRow({ match, showGroup = false }: MatchRowProps) {
   const home = TEAMS[match.home]
   const away = TEAMS[match.away]
+  const day = dayES(match.kickoff) || match.date
   const time = timeES(match.kickoff)
+  const header = [showGroup ? `Grupo ${match.group}` : null, day, time].filter(Boolean).join(' · ')
+
   return (
-    <div className="py-1.5">
-      {time && (
-        <div className="mb-1 text-center text-[11px] tabular-nums text-[#8a8a8a]">{time}</div>
+    <div className="py-2">
+      {header && (
+        <div className="mb-1 text-center text-[11px] uppercase tracking-wide tabular-nums text-[#8a8a8a]">
+          {header}
+        </div>
       )}
       <div className="flex items-center gap-2">
         <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
@@ -37,62 +44,28 @@ function MatchRow({ match }: MatchRowProps) {
   )
 }
 
-/**
- * Group a list of matches by their Spanish (Madrid) calendar day, ordered
- * chronologically by kickoff. Matches within a day are sorted by kickoff too.
- */
-function groupByDay(matches: Match[]): [string, Match[]][] {
-  const sorted = [...matches].sort(byKickoff)
-  const order: string[] = []
-  const map = new Map<string, Match[]>()
-  for (const m of sorted) {
-    const key = dayES(m.kickoff) || m.date
-    if (!map.has(key)) {
-      map.set(key, [])
-      order.push(key)
-    }
-    map.get(key)!.push(m)
-  }
-  return order.map((key) => [key, map.get(key)!])
-}
-
 interface FixtureListProps {
   /** Render fixtures for this group (reads from the store). */
   groupId?: GroupId
   /** Or render an explicit list of matches (used by the "Por fecha" view). */
   matches?: Match[]
-  /** Show the group letter on each match row (useful in cross-group lists). */
+  /** Show the group letter in each match header (useful in cross-group lists). */
   showGroup?: boolean
 }
 
-/** Matches grouped by matchday with a Spanish date sub-header. */
+/** Matches ordered chronologically by Spanish kickoff; each shows day · hora centered above. */
 export default function FixtureList({ groupId, matches, showGroup = false }: FixtureListProps) {
   const { state } = useStore()
-  const list = matches ?? (groupId ? state.matches.filter((m) => m.group === groupId) : [])
-  const byDay = groupByDay(list)
+  const list = (
+    matches ?? (groupId ? state.matches.filter((m) => m.group === groupId) : [])
+  )
+    .slice()
+    .sort(byKickoff)
 
   return (
-    <div className="flex flex-col gap-3">
-      {byDay.map(([day, dayMatches]) => (
-        <div key={day}>
-          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#5a5a5a]">
-            {day.toUpperCase()}
-          </p>
-          <div className="divide-y divide-[#1c1c1c]">
-            {dayMatches.map((m) => (
-              <div key={m.id} className="flex items-center gap-2">
-                {showGroup && (
-                  <span className="w-5 shrink-0 text-center text-[10px] font-bold text-[#5a5a5a]">
-                    {m.group}
-                  </span>
-                )}
-                <div className="flex-1">
-                  <MatchRow match={m} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+    <div className="divide-y divide-[#1c1c1c]">
+      {list.map((m) => (
+        <MatchRow key={m.id} match={m} showGroup={showGroup} />
       ))}
     </div>
   )
