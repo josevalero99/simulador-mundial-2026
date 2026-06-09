@@ -6,29 +6,46 @@ import type { GroupId, Match } from '@/lib/types'
 import Flag from '@/components/ui/Flag'
 import ScoreInput from './ScoreInput'
 import { timeES, dayES, byKickoff } from '@/lib/format'
-import { useOdds } from '@/components/odds/OddsProvider'
+import { TrendingUp } from 'lucide-react'
+import { useOdds, type OutcomeCell } from '@/components/odds/OddsProvider'
 
-/** Compact 1X2 bookmaker odds row; favourite (lowest odd) highlighted in gold. */
+/**
+ * Compact 1X2 row: bookmaker odds with the favourite (lowest odd) in gold, plus
+ * a green value marker (▲ +Npp) on outcomes where our model's probability beats
+ * the de-vigged implied probability by ≥ 3 points.
+ */
 function OddsLine({ home, away }: { home: string; away: string }) {
-  const { oddsForPair } = useOdds()
-  const o = oddsForPair(home, away)
-  if (!o) return null
-  const min = Math.min(o.home, o.draw, o.away)
-  const cell = (label: string, val: number) => (
-    <span
-      className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 tabular-nums ${
-        val === min ? 'bg-[#E8B84B]/15 text-[#E8B84B]' : 'text-[#8a8a8a]'
-      }`}
-    >
-      <span className="text-[#5a5a5a]">{label}</span>
-      {val.toFixed(2)}
-    </span>
-  )
+  const { valueForPair } = useOdds()
+  const v = valueForPair(home, away)
+  if (!v) return null
+  const min = Math.min(v.home.odds, v.draw.odds, v.away.odds)
+
+  const cell = (label: string, c: OutcomeCell) => {
+    const fav = c.odds === min
+    const hasValue = c.value >= 0.03
+    return (
+      <span
+        title={`Cuota ${c.odds.toFixed(2)} · implícita ${(c.implied * 100).toFixed(0)}% · modelo ${(c.model * 100).toFixed(0)}% · valor ${c.value >= 0 ? '+' : ''}${(c.value * 100).toFixed(0)} pp`}
+        className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 tabular-nums ${
+          fav ? 'bg-[#E8B84B]/15 text-[#E8B84B]' : 'text-[#8a8a8a]'
+        }`}
+      >
+        <span className="text-[#5a5a5a]">{label}</span>
+        {c.odds.toFixed(2)}
+        {hasValue && (
+          <span className="inline-flex items-center gap-0.5 text-[#3CAC3B]">
+            <TrendingUp size={9} strokeWidth={2.5} aria-hidden="true" />+{Math.round(c.value * 100)}
+          </span>
+        )}
+      </span>
+    )
+  }
+
   return (
     <div className="mt-1 flex items-center justify-center gap-1.5 text-[10px]">
-      {cell('1', o.home)}
-      {cell('X', o.draw)}
-      {cell('2', o.away)}
+      {cell('1', v.home)}
+      {cell('X', v.draw)}
+      {cell('2', v.away)}
     </div>
   )
 }
