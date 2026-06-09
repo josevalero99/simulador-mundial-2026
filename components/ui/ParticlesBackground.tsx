@@ -20,10 +20,14 @@ export default function ParticlesBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    // Non-null: the effect runs after the <canvas> mounts. Asserted so the
+    // nested animation closures keep non-null types.
+    const cv = canvasRef.current
+    if (!cv) return
+    const ctx2d = cv.getContext('2d')
+    if (!ctx2d) return
+    const el: HTMLCanvasElement = cv
+    const c: CanvasRenderingContext2D = ctx2d
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     let w = 0
@@ -39,11 +43,11 @@ export default function ParticlesBackground() {
       dpr = Math.min(window.devicePixelRatio || 1, 2)
       w = window.innerWidth
       h = window.innerHeight
-      canvas.width = w * dpr
-      canvas.height = h * dpr
-      canvas.style.width = `${w}px`
-      canvas.style.height = `${h}px`
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      el.width = w * dpr
+      el.height = h * dpr
+      el.style.width = `${w}px`
+      el.style.height = `${h}px`
+      c.setTransform(dpr, 0, 0, dpr, 0, 0)
       // particle count scales with area, capped for performance
       const count = Math.min(80, Math.round((w * h) / 22000))
       particles = Array.from({ length: count }, () => ({
@@ -56,7 +60,7 @@ export default function ParticlesBackground() {
     }
 
     function draw() {
-      ctx.clearRect(0, 0, w, h)
+      c.clearRect(0, 0, w, h)
 
       // links
       for (let i = 0; i < particles.length; i++) {
@@ -68,22 +72,22 @@ export default function ParticlesBackground() {
           const dist = Math.hypot(dx, dy)
           if (dist < LINK_DIST) {
             const alpha = (1 - dist / LINK_DIST) * 0.18
-            ctx.strokeStyle = `rgba(${COLOR}, ${alpha})`
-            ctx.lineWidth = 1
-            ctx.beginPath()
-            ctx.moveTo(a.x, a.y)
-            ctx.lineTo(b.x, b.y)
-            ctx.stroke()
+            c.strokeStyle = `rgba(${COLOR}, ${alpha})`
+            c.lineWidth = 1
+            c.beginPath()
+            c.moveTo(a.x, a.y)
+            c.lineTo(b.x, b.y)
+            c.stroke()
           }
         }
       }
 
       // dots
       for (const p of particles) {
-        ctx.fillStyle = `rgba(${COLOR}, 0.45)`
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fill()
+        c.fillStyle = `rgba(${COLOR}, 0.45)`
+        c.beginPath()
+        c.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        c.fill()
       }
     }
 
