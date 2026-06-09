@@ -35,7 +35,7 @@ export default function GroupStageTab() {
       <div className="flex flex-wrap items-center justify-start gap-2">
         <ActionsMenu />
         <SaveShareMenu />
-        <div className="inline-flex shrink-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1">
+        <div className="inline-flex shrink-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1 sm:ml-auto">
           <button
             type="button"
             onClick={() => setView('groups')}
