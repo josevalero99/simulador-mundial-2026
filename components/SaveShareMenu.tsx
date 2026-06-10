@@ -25,8 +25,7 @@ export default function SaveShareMenu() {
       document.removeEventListener('mousedown', onDocClick)
       document.removeEventListener('keydown', onEsc)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
+  }, [open, refresh])
 
   return (
     <div ref={ref} className="relative shrink-0">

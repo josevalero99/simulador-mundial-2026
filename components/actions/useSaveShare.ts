@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useStore } from '@/lib/store'
 import { encodeScenario, decodeScenario } from '@/lib/share'
 
@@ -63,7 +63,7 @@ export function useSaveShare(): SaveShare {
   const [copied, setCopied] = useState(false)
   const [saves, setSaves] = useState<SavedPrediction[]>([])
 
-  const refresh = () => setSaves(readSaves())
+  const refresh = useCallback(() => setSaves(readSaves()), [])
 
   const handleShare = async () => {
     if (typeof window === 'undefined') return
