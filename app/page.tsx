@@ -101,8 +101,7 @@ function Dashboard() {
             resultados y el simulador aplica los criterios de desempate de la FIFA en tiempo real.
           </p>
         </div>
-        <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
-          <MobileActionBar />
+        <div className="self-end sm:self-auto shrink-0">
           <FavoritePicker />
         </div>
       </header>
@@ -125,6 +124,7 @@ function Dashboard() {
         {active === 6 && <CuotasTab />}
         {active === 7 && <NoticiasTab />}
       </div>
+      <MobileActionBar />
       <BottomTabBar active={active} onChange={setActive} />
     </main>
   )

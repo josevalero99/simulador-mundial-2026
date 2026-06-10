@@ -11,7 +11,7 @@ import { useMobileActions } from '@/components/actions/MobileActionsContext'
 const ITEM = 'flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm transition-colors hover:bg-white/10'
 const LABEL = 'px-1 pb-1 text-[10px] font-semibold uppercase tracking-wider text-[#777]'
 
-/** Botón "⋯" en la cabecera (solo móvil) que abre la hoja de acciones. */
+/** FAB flotante (solo móvil), abajo a la derecha sobre la barra, que abre la hoja de acciones. */
 export default function MobileActionBar() {
   const { dispatch } = useStore()
   const [open, setOpen] = useState(false)
@@ -31,9 +31,9 @@ export default function MobileActionBar() {
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-label="Acciones"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#f5f5f5] backdrop-blur-md sm:hidden"
+        className="fixed right-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-40 flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-[#16161c]/90 text-[#f5f5f5] shadow-lg shadow-black/40 backdrop-blur-md transition-colors hover:bg-[#16161c] active:scale-95 sm:hidden"
       >
-        <MoreHorizontal size={18} strokeWidth={2} aria-hidden="true" />
+        <MoreHorizontal size={24} strokeWidth={2} aria-hidden="true" />
       </button>
 
       <BottomSheet open={open} onClose={() => setOpen(false)} title="Acciones">
