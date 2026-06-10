@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Wand2, Dices, Eraser, ChevronDown } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import { useStore } from '@/lib/store'
+import { SCENARIO_ACTIONS } from '@/components/actions/scenarioActions'
 
-/** "Acciones" dropdown: Simular por ranking / Rellenar escenario / Limpiar. */
+/** "Acciones" dropdown (desktop): Simular por ranking / Rellenar escenario / Limpiar. */
 export default function ActionsMenu() {
   const { dispatch } = useStore()
   const [open, setOpen] = useState(false)
@@ -26,21 +27,6 @@ export default function ActionsMenu() {
     }
   }, [open])
 
-  const item = (icon: React.ReactNode, label: string, onClick: () => void) => (
-    <button
-      type="button"
-      role="menuitem"
-      onClick={() => {
-        onClick()
-        setOpen(false)
-      }}
-      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#f5f5f5] transition-colors hover:bg-white/10"
-    >
-      {icon}
-      {label}
-    </button>
-  )
-
   return (
     <div ref={ref} className="relative shrink-0">
       <button
@@ -61,17 +47,23 @@ export default function ActionsMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute left-0 z-20 mt-2 w-56 max-w-[calc(100vw-2rem)] rounded-xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-1 shadow-xl"
+          className="absolute left-0 z-20 mt-2 w-56 max-w-[calc(100vw-2rem)] rounded-xl border border-white/10 bg-[#16161c]/55 p-1 shadow-xl backdrop-blur-xl"
         >
-          {item(<Wand2 size={16} strokeWidth={2} aria-hidden="true" />, 'Simular por ranking', () =>
-            dispatch({ type: 'SIMULATE_BY_RANKING' }),
-          )}
-          {item(<Dices size={16} strokeWidth={2} aria-hidden="true" />, 'Rellenar escenario', () =>
-            dispatch({ type: 'FILL_SCENARIO' }),
-          )}
-          {item(<Eraser size={16} strokeWidth={2} aria-hidden="true" />, 'Limpiar', () =>
-            dispatch({ type: 'CLEAR' }),
-          )}
+          {SCENARIO_ACTIONS.map((a) => (
+            <button
+              key={a.label}
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                a.run(dispatch)
+                setOpen(false)
+              }}
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#f5f5f5] transition-colors hover:bg-white/10"
+            >
+              {a.icon}
+              {a.label}
+            </button>
+          ))}
         </div>
       )}
     </div>

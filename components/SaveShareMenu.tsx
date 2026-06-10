@@ -2,63 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Share2, Bookmark, Link2, Trash2, ChevronDown, FolderOpen } from 'lucide-react'
-import { useStore } from '@/lib/store'
-import { encodeScenario, decodeScenario } from '@/lib/share'
+import { useSaveShare, formatDate } from '@/components/actions/useSaveShare'
 
-const SAVES_KEY = 'wc2026-saves'
-const MAX_SAVES = 20
-
-interface SavedPrediction {
-  name: string
-  e: string
-  savedAt: string
-}
-
-function readSaves(): SavedPrediction[] {
-  if (typeof window === 'undefined') return []
-  try {
-    const raw = window.localStorage.getItem(SAVES_KEY)
-    if (!raw) return []
-    const data = JSON.parse(raw)
-    if (!Array.isArray(data)) return []
-    return data.filter(
-      (x): x is SavedPrediction =>
-        x &&
-        typeof x.name === 'string' &&
-        typeof x.e === 'string' &&
-        typeof x.savedAt === 'string',
-    )
-  } catch {
-    return []
-  }
-}
-
-function writeSaves(saves: SavedPrediction[]): void {
-  if (typeof window === 'undefined') return
-  try {
-    window.localStorage.setItem(SAVES_KEY, JSON.stringify(saves))
-  } catch {
-    // ignore quota errors
-  }
-}
-
-function formatDate(iso: string): string {
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return ''
-  return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
-}
-
-/** "Guardar / Compartir": comparte un enlace y gestiona predicciones guardadas. */
+/** "Guardar / Compartir" (desktop): comparte un enlace y gestiona predicciones guardadas. */
 export default function SaveShareMenu() {
-  const { state, dispatch } = useStore()
   const [open, setOpen] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [saves, setSaves] = useState<SavedPrediction[]>([])
   const ref = useRef<HTMLDivElement>(null)
+  const { copied, saves, refresh, handleShare, handleSave, handleLoad, handleDelete } = useSaveShare()
 
   useEffect(() => {
     if (!open) return
-    setSaves(readSaves())
+    refresh()
     const onDocClick = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
     }
@@ -71,51 +25,8 @@ export default function SaveShareMenu() {
       document.removeEventListener('mousedown', onDocClick)
       document.removeEventListener('keydown', onEsc)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
-
-  const handleShare = async () => {
-    if (typeof window === 'undefined') return
-    const url = `${window.location.origin}${window.location.pathname}?e=${encodeScenario(state.matches)}`
-    try {
-      await navigator.clipboard.writeText(url)
-    } catch {
-      // Insecure context / permission denied: fall back to a prompt the user
-      // can copy from manually. Either way we still show feedback.
-      try {
-        window.prompt('Copia el enlace:', url)
-      } catch {
-        // ignore
-      }
-    }
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 2000)
-  }
-
-  const handleSave = () => {
-    if (typeof window === 'undefined') return
-    const name = window.prompt('Nombre de la predicción')
-    if (!name || !name.trim()) return
-    const entry: SavedPrediction = {
-      name: name.trim(),
-      e: encodeScenario(state.matches),
-      savedAt: new Date().toISOString(),
-    }
-    const next = [entry, ...readSaves()].slice(0, MAX_SAVES)
-    writeSaves(next)
-    setSaves(next)
-  }
-
-  const handleLoad = (e: string) => {
-    const scores = decodeScenario(e)
-    if (scores) dispatch({ type: 'APPLY_SCENARIO', scores })
-    setOpen(false)
-  }
-
-  const handleDelete = (savedAt: string) => {
-    const next = readSaves().filter((s) => s.savedAt !== savedAt)
-    writeSaves(next)
-    setSaves(next)
-  }
 
   return (
     <div ref={ref} className="relative shrink-0">
@@ -143,7 +54,7 @@ export default function SaveShareMenu() {
           <button
             type="button"
             role="menuitem"
-            onClick={handleShare}
+            onClick={() => void handleShare()}
             className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#f5f5f5] transition-colors hover:bg-white/10"
           >
             <Link2 size={16} strokeWidth={2} aria-hidden="true" />
@@ -170,7 +81,10 @@ export default function SaveShareMenu() {
                   <button
                     type="button"
                     role="menuitem"
-                    onClick={() => handleLoad(s.e)}
+                    onClick={() => {
+                      handleLoad(s.e)
+                      setOpen(false)
+                    }}
                     title="Cargar predicción"
                     className="flex min-w-0 flex-1 items-center gap-2 rounded-lg px-3 py-2 text-left transition-colors"
                   >
