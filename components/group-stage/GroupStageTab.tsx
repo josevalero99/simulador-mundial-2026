@@ -1,9 +1,11 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { Info } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { GROUP_IDS } from '@/lib/data/groups'
+import { exportElementToPng } from '@/lib/exportImage'
+import { useRegisterExport } from '@/components/actions/MobileActionsContext'
 import ActionsMenu from '@/components/ActionsMenu'
 import SaveShareMenu from '@/components/SaveShareMenu'
 import ExportButton from '@/components/ui/ExportButton'
@@ -32,12 +34,19 @@ export default function GroupStageTab() {
   const { state } = useStore()
   const gridRef = useRef<HTMLDivElement>(null)
 
+  const handleExport = useCallback(() => {
+    if (gridRef.current) void exportElementToPng(gridRef.current, 'grupos-mundial-2026.png')
+  }, [])
+  useRegisterExport('Exportar imagen', handleExport)
+
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-start gap-2">
-        <ActionsMenu />
-        <SaveShareMenu />
-        <div className="inline-flex shrink-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1 sm:ml-auto">
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="hidden items-center gap-2 sm:flex">
+          <ActionsMenu />
+          <SaveShareMenu />
+        </div>
+        <div className="inline-flex shrink-0 rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur-md sm:ml-auto">
           <button
             type="button"
             onClick={() => setView('groups')}
@@ -59,7 +68,9 @@ export default function GroupStageTab() {
             Por fecha
           </button>
         </div>
-        <ExportButton targetRef={gridRef} filename="grupos-mundial-2026.png" label="Exportar imagen" />
+        <div className="hidden sm:inline-flex">
+          <ExportButton targetRef={gridRef} filename="grupos-mundial-2026.png" label="Exportar imagen" />
+        </div>
       </div>
 
       <div ref={gridRef}>

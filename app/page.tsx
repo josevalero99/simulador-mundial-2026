@@ -15,6 +15,9 @@ import NoticiasTab from '@/components/noticias/NoticiasTab'
 import { OddsProvider } from '@/components/odds/OddsProvider'
 import { FavoriteProvider } from '@/components/favorite/FavoriteProvider'
 import FavoritePicker from '@/components/favorite/FavoritePicker'
+import BottomTabBar from '@/components/nav/BottomTabBar'
+import MobileActionBar from '@/components/nav/MobileActionBar'
+import { MobileActionsProvider } from '@/components/actions/MobileActionsContext'
 import NextMatchBanner from '@/components/favorite/NextMatchBanner'
 import { liveGroupResults, type LiveMatch } from '@/lib/data/liveResults'
 import { decodeScenario } from '@/lib/share'
@@ -72,7 +75,7 @@ function Dashboard() {
   }, [state.liveMode, liveData, dispatch])
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
+    <main className="mx-auto max-w-7xl px-4 pt-8 pb-28 sm:px-6 sm:py-12">
       <header className="flex flex-col-reverse gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-3xl">
           {state.liveMode && (
@@ -98,7 +101,8 @@ function Dashboard() {
             resultados y el simulador aplica los criterios de desempate de la FIFA en tiempo real.
           </p>
         </div>
-        <div className="self-end sm:self-auto shrink-0">
+        <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+          <MobileActionBar />
           <FavoritePicker />
         </div>
       </header>
@@ -121,6 +125,7 @@ function Dashboard() {
         {active === 6 && <CuotasTab />}
         {active === 7 && <NoticiasTab />}
       </div>
+      <BottomTabBar active={active} onChange={setActive} />
     </main>
   )
 }
@@ -130,7 +135,9 @@ export default function Home() {
     <StoreProvider>
       <OddsProvider>
         <FavoriteProvider>
-          <Dashboard />
+          <MobileActionsProvider>
+            <Dashboard />
+          </MobileActionsProvider>
         </FavoriteProvider>
       </OddsProvider>
     </StoreProvider>
