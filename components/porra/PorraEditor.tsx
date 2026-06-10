@@ -97,7 +97,7 @@ export default function PorraEditor({ entries, onChange }: Props) {
             </div>
             <div className="grid grid-cols-2 gap-2">
               {entry.teams.map((teamId, slot) => (
-                <div key={slot} className="flex items-center gap-1">
+                <div key={`${teamId}-${slot}`} className="flex items-center gap-1">
                   <select
                     value={teamId}
                     onChange={e => setTeam(idx, slot, e.target.value)}

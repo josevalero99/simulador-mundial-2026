@@ -5,11 +5,13 @@ import { Radio } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { useOdds } from '@/components/odds/OddsProvider'
 import {
+  checkPartition,
   migrate,
   newPorra,
   type Porra,
   type PorrasState,
 } from '@/lib/data/porra'
+import { TEAMS } from '@/lib/data/teams'
 import { runPorraMonteCarlo, type PorraProb } from '@/lib/engine/porra'
 import { mostLikelyFinalRanking, finalPositions } from '@/lib/engine/finalRanking'
 import PorraSwitcher from './PorraSwitcher'
@@ -46,9 +48,7 @@ export default function PorraTab() {
     setData(migrate(readJson(V2_KEY), readJson(OLD_KEY)))
   }, [])
 
-  const persist = (next: PorrasState) => {
-    setData(next)
-    setResult(null)
+  const writeStorage = (next: PorrasState) => {
     if (typeof window !== 'undefined') {
       try {
         window.localStorage.setItem(V2_KEY, JSON.stringify(next))
@@ -56,6 +56,19 @@ export default function PorraTab() {
         // ignore quota/availability errors
       }
     }
+  }
+
+  // Mutations that change entries or switch porra → MC result no longer valid.
+  const persist = (next: PorrasState) => {
+    setData(next)
+    setResult(null)
+    writeStorage(next)
+  }
+
+  // Metadata-only change (rename): keep the displayed result.
+  const persistMeta = (next: PorrasState) => {
+    setData(next)
+    writeStorage(next)
   }
 
   const active: Porra =
@@ -82,7 +95,7 @@ export default function PorraTab() {
     const current = data.porras.find(p => p.id === id)
     const name = window.prompt('Nombre de la porra', current?.name ?? '')
     if (name && name.trim()) {
-      persist({ ...data, porras: data.porras.map(p => (p.id === id ? { ...p, name: name.trim() } : p)) })
+      persistMeta({ ...data, porras: data.porras.map(p => (p.id === id ? { ...p, name: name.trim() } : p)) })
     }
   }
 
@@ -130,10 +143,16 @@ export default function PorraTab() {
     startTransition(() => {
       setResult(runPorraMonteCarlo(N, active.entries, state.matches, undefined, marketFn))
     })
+    // active.entries intentionally excluded: re-run on porra switch (active.id), not per-keystroke.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.liveMode, state.matches, mode, active.id])
 
-  const byName = new Map(active.entries.map(e => [e.name, e]))
+  const partition = checkPartition(active.entries)
+
+  const byName = useMemo(
+    () => new Map(active.entries.map(e => [e.name, e])),
+    [active.entries],
+  )
 
   return (
     <div>
@@ -163,6 +182,21 @@ export default function PorraTab() {
         />
       </div>
 
+      {!partition.valid && (
+        <div className="mt-4 rounded-xl border border-[#f59e0b]/40 bg-[#f59e0b]/10 p-3 text-sm text-[#f59e0b]">
+          <span className="mr-1">⚠</span>
+          {partition.duplicated.length > 0 && (
+            <span>
+              {partition.duplicated.map(id => TEAMS[id]?.name ?? id).join(', ')}{' '}
+              {partition.duplicated.length === 1 ? 'está repetido' : 'están repetidos'}.{' '}
+            </span>
+          )}
+          {partition.unassigned.length > 0 && (
+            <span>{partition.unassigned.length} sin asignar.</span>
+          )}
+        </div>
+      )}
+
       <div className="mt-4 flex flex-wrap gap-2">
         <button
           type="button"
@@ -182,7 +216,7 @@ export default function PorraTab() {
           <button
             type="button"
             onClick={handleCalc}
-            disabled={isPending}
+            disabled={isPending || !partition.valid}
             className="rounded-full bg-[#E8B84B] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-[#d9a93c] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isPending ? 'Calculando…' : 'Calcular probabilidades'}
