@@ -77,29 +77,29 @@ function Dashboard() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 pt-8 pb-32 sm:px-6 sm:py-12">
-      <header className="flex flex-col-reverse gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="max-w-3xl">
-          {state.liveMode && (
-            <div className="mb-3 flex items-center gap-3">
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#E61D25]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#E61D25]">
-                <Radio size={12} strokeWidth={2} aria-hidden="true" /> En directo
-              </span>
-            </div>
-          )}
-          <div className="flex items-center gap-3 sm:gap-4">
+      <header>
+        {state.liveMode && (
+          <div className="mb-3 flex items-center gap-3">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#E61D25]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#E61D25]">
+              <Radio size={12} strokeWidth={2} aria-hidden="true" /> En directo
+            </span>
+          </div>
+        )}
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/wc2026-logo.jpeg"
               alt="Mundial 2026"
-              className="h-12 w-12 shrink-0 rounded-lg sm:h-16 sm:w-16"
+              className="h-10 w-10 shrink-0 rounded-lg sm:h-16 sm:w-16"
             />
-            <h1 className="text-3xl font-bold tracking-tight text-[#f5f5f5] sm:text-5xl">
+            <h1 className="truncate text-2xl font-bold tracking-tight text-[#f5f5f5] sm:text-5xl">
               Mundial 2026
             </h1>
           </div>
-        </div>
-        <div className="self-end sm:self-auto shrink-0">
-          <FavoritePicker />
+          <div className="shrink-0">
+            <FavoritePicker />
+          </div>
         </div>
       </header>
 
