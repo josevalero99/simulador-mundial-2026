@@ -13,6 +13,11 @@ interface BottomSheetProps {
  * Hoja inferior reutilizable (solo móvil). Scrim que cierra al pulsar, cierre
  * con ESC, bloqueo de scroll del body y foco devuelto al disparador al cerrar.
  * Sin gestos de arrastre (YAGNI).
+ *
+ * Note that `title` provides the dialog's accessible name and should be passed
+ * unless the sheet renders its own heading.
+ * Note that only one BottomSheet should be open at a time (concurrent instances
+ * can interfere with the body scroll-lock).
  */
 export default function BottomSheet({ open, onClose, title, children }: BottomSheetProps) {
   const panelRef = useRef<HTMLDivElement>(null)

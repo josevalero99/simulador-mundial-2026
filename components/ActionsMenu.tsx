@@ -58,7 +58,7 @@ export default function ActionsMenu() {
                 a.run(dispatch)
                 setOpen(false)
               }}
-              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#f5f5f5] transition-colors hover:bg-white/10"
+              className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition-colors hover:bg-white/10 ${a.danger ? 'text-[#E16B6B]' : 'text-[#f5f5f5]'}`}
             >
               {a.icon}
               {a.label}

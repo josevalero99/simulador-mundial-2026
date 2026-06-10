@@ -33,7 +33,6 @@ export default function BottomTabBar({ active, onChange }: BottomTabBarProps) {
   return (
     <>
       <nav
-        role="tablist"
         aria-label="Navegación principal"
         className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-white/10 bg-[#0a0a0a]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md sm:hidden"
       >
@@ -46,8 +45,6 @@ export default function BottomTabBar({ active, onChange }: BottomTabBarProps) {
             <button
               key={tab.key}
               type="button"
-              role="tab"
-              aria-selected={isActive}
               aria-current={isActive ? 'page' : undefined}
               aria-label={tab.full}
               onClick={() => select(i)}
