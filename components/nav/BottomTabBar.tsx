@@ -26,7 +26,7 @@ export default function BottomTabBar({ active, onChange }: BottomTabBarProps) {
   }
 
   const itemCls = (isActive: boolean) =>
-    `flex min-h-[3.5rem] flex-1 flex-col items-center justify-center gap-1 py-2 text-[10px] font-medium ${
+    `flex min-h-[4.5rem] flex-1 flex-col items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium ${
       isActive ? 'text-[#E8B84B]' : 'text-[#7a7a7a]'
     }`
 
@@ -50,7 +50,7 @@ export default function BottomTabBar({ active, onChange }: BottomTabBarProps) {
               onClick={() => select(i)}
               className={itemCls(isActive)}
             >
-              <Icon size={20} strokeWidth={2} color={color} aria-hidden="true" />
+              <Icon size={24} strokeWidth={2} color={color} aria-hidden="true" />
               {tab.label}
             </button>
           )
@@ -63,7 +63,7 @@ export default function BottomTabBar({ active, onChange }: BottomTabBarProps) {
           onClick={() => setMoreOpen(true)}
           className={itemCls(moreActive)}
         >
-          <Menu size={20} strokeWidth={2} color={moreActive ? '#E8B84B' : '#7a7a7a'} aria-hidden="true" />
+          <Menu size={24} strokeWidth={2} color={moreActive ? '#E8B84B' : '#7a7a7a'} aria-hidden="true" />
           Más
         </button>
       </nav>
