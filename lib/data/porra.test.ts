@@ -1,5 +1,14 @@
 import { describe, it, expect } from 'vitest'
-import { DEFAULT_PORRA } from './porra'
+import {
+  DEFAULT_PORRA,
+  newPorra,
+  isValidPorra,
+  checkPartition,
+  migrate,
+  isValidPorrasState,
+  type PorraEntry,
+  type PorrasState,
+} from './porra'
 import { TEAMS } from './teams'
 
 describe('DEFAULT_PORRA', () => {
@@ -19,5 +28,92 @@ describe('DEFAULT_PORRA', () => {
     }
     // Equal to the full set of teams.
     expect(new Set(all)).toEqual(new Set(Object.keys(TEAMS)))
+  })
+})
+
+describe('isValidPorra (generalizado)', () => {
+  it('accepts any participant count and uneven team counts', () => {
+    const eightBySix: PorraEntry[] = Array.from({ length: 8 }, (_, i) => ({
+      name: `P${i}`,
+      teams: ['A', 'B', 'C', 'D', 'E', 'F'],
+    }))
+    expect(isValidPorra(eightBySix)).toBe(true)
+
+    const uneven: PorraEntry[] = [
+      { name: 'X', teams: ['A', 'B', 'C', 'D', 'E'] },
+      { name: 'Y', teams: ['F', 'G', 'H'] },
+    ]
+    expect(isValidPorra(uneven)).toBe(true)
+  })
+
+  it('rejects empty array, empty teams and non-string teams', () => {
+    expect(isValidPorra([])).toBe(false)
+    expect(isValidPorra([{ name: 'X', teams: [] }])).toBe(false)
+    expect(isValidPorra([{ name: 'X', teams: [1 as unknown as string] }])).toBe(false)
+    expect(isValidPorra('nope')).toBe(false)
+  })
+})
+
+describe('checkPartition', () => {
+  it('the default porra is a valid partition of all 48 teams', () => {
+    const check = checkPartition(DEFAULT_PORRA)
+    expect(check.valid).toBe(true)
+    expect(check.duplicated).toEqual([])
+    expect(check.unassigned).toEqual([])
+  })
+
+  it('flags duplicates and unassigned teams', () => {
+    const allIds = Object.keys(TEAMS)
+    const entries: PorraEntry[] = [
+      { name: 'A', teams: [allIds[0], allIds[0]] },
+      { name: 'B', teams: allIds.slice(1, allIds.length - 1) },
+    ]
+    const check = checkPartition(entries)
+    expect(check.valid).toBe(false)
+    expect(check.duplicated).toContain(allIds[0])
+    expect(check.unassigned).toContain(allIds[allIds.length - 1])
+  })
+})
+
+describe('newPorra', () => {
+  it('clones DEFAULT_PORRA and gives a unique id', () => {
+    const a = newPorra('Amigos')
+    const b = newPorra('Curro')
+    expect(a.name).toBe('Amigos')
+    expect(a.id).not.toBe(b.id)
+    expect(a.entries).toEqual(DEFAULT_PORRA)
+    expect(a.entries).not.toBe(DEFAULT_PORRA)
+    a.entries[0].teams[0] = 'ZZZ'
+    expect(DEFAULT_PORRA[0].teams[0]).not.toBe('ZZZ')
+  })
+})
+
+describe('migrate', () => {
+  it('wraps a legacy single porra into a PorrasState', () => {
+    const state = migrate(null, DEFAULT_PORRA)
+    expect(isValidPorrasState(state)).toBe(true)
+    expect(state.porras).toHaveLength(1)
+    expect(state.porras[0].name).toBe('Porra')
+    expect(state.porras[0].entries).toEqual(DEFAULT_PORRA)
+    expect(state.activeId).toBe(state.porras[0].id)
+  })
+
+  it('is idempotent on an already-valid PorrasState', () => {
+    const first = migrate(null, DEFAULT_PORRA)
+    const second = migrate(first, null)
+    expect(second).toEqual(first)
+  })
+
+  it('repairs an activeId that points to no porra', () => {
+    const valid = migrate(null, DEFAULT_PORRA)
+    const broken: PorrasState = { porras: valid.porras, activeId: 'ghost' }
+    const fixed = migrate(broken, null)
+    expect(fixed.activeId).toBe(fixed.porras[0].id)
+  })
+
+  it('falls back to a default porra on corrupt input', () => {
+    const state = migrate({ junk: true }, 'also junk')
+    expect(isValidPorrasState(state)).toBe(true)
+    expect(state.porras[0].entries).toEqual(DEFAULT_PORRA)
   })
 })
