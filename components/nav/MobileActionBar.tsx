@@ -31,9 +31,9 @@ export default function MobileActionBar() {
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-label="Acciones"
-        className="fixed right-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-40 flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-[#16161c]/90 text-[#f5f5f5] shadow-lg shadow-black/40 backdrop-blur-md transition-colors hover:bg-[#16161c] active:scale-95 sm:hidden"
+        className="fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-40 flex h-16 w-16 items-center justify-center rounded-full bg-[#E8B84B] text-[#0a0a0a] shadow-lg shadow-black/50 ring-1 ring-black/10 transition-transform active:scale-95 sm:hidden"
       >
-        <MoreHorizontal size={24} strokeWidth={2} aria-hidden="true" />
+        <MoreHorizontal size={28} strokeWidth={2.5} aria-hidden="true" />
       </button>
 
       <BottomSheet open={open} onClose={() => setOpen(false)} title="Acciones">

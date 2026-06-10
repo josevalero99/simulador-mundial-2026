@@ -75,7 +75,7 @@ function Dashboard() {
   }, [state.liveMode, liveData, dispatch])
 
   return (
-    <main className="mx-auto max-w-7xl px-4 pt-8 pb-28 sm:px-6 sm:py-12">
+    <main className="mx-auto max-w-7xl px-4 pt-8 pb-32 sm:px-6 sm:py-12">
       <header className="flex flex-col-reverse gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-3xl">
           {state.liveMode && (

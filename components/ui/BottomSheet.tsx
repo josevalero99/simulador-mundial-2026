@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { X } from 'lucide-react'
 
 interface BottomSheetProps {
   open: boolean
@@ -59,11 +60,17 @@ export default function BottomSheet({ open, onClose, title, children }: BottomSh
         className="absolute inset-x-0 bottom-0 rounded-t-2xl border-t border-white/10 bg-[#16161c]/95 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-2xl outline-none backdrop-blur-xl"
       >
         <div className="mx-auto mb-3 h-1 w-9 rounded-full bg-white/20" aria-hidden="true" />
-        {title && (
-          <h2 className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-[#8a8a8a]">
-            {title}
-          </h2>
-        )}
+        <div className="mb-3 flex items-center justify-between px-1">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-[#8a8a8a]">{title}</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Cerrar"
+            className="-mr-1 flex h-9 w-9 items-center justify-center rounded-full text-[#8a8a8a] transition-colors hover:bg-white/10 hover:text-[#f5f5f5]"
+          >
+            <X size={20} strokeWidth={2} aria-hidden="true" />
+          </button>
+        </div>
         {children}
       </div>
     </div>

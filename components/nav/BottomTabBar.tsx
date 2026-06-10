@@ -34,7 +34,7 @@ export default function BottomTabBar({ active, onChange }: BottomTabBarProps) {
     <>
       <nav
         aria-label="Navegación principal"
-        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-white/10 bg-[#0a0a0a]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md sm:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-white/10 bg-[#0a0a0a]/95 pt-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden"
       >
         {primary.map((i) => {
           const tab = ALL_TABS[i]
