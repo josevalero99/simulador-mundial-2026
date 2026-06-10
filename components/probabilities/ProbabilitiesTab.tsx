@@ -1,12 +1,9 @@
 'use client'
 
-import { useState, useTransition } from 'react'
 import { Radio } from 'lucide-react'
 import { useStore } from '@/lib/store'
-import { useOdds } from '@/components/odds/OddsProvider'
 import { TEAMS } from '@/lib/data/teams'
-import { runMonteCarlo } from '@/lib/engine/montecarlo'
-import type { TeamProbs } from '@/lib/engine/montecarlo'
+import { useTournamentProbs } from './useTournamentProbs'
 import Flag from '@/components/ui/Flag'
 
 const N = 2000
@@ -41,23 +38,9 @@ function Bar({ value, color }: BarProps) {
 /** Monte Carlo probabilities tab: estimates each team's deep-run chances. */
 export default function ProbabilitiesTab() {
   const { state } = useStore()
-  const { marketFn } = useOdds()
-  const [result, setResult] = useState<Record<string, TeamProbs> | null>(null)
-  const [runs, setRuns] = useState(0)
-  const [isPending, startTransition] = useTransition()
+  const { probs, computing, compute } = useTournamentProbs(N)
 
-  const handleCalc = () => {
-    const base = state.matches
-    startTransition(() => {
-      const probs = runMonteCarlo(N, undefined, base, marketFn)
-      setResult(probs)
-      setRuns(N)
-    })
-  }
-
-  const rows = result
-    ? Object.entries(result).sort((a, b) => b[1].champion - a[1].champion)
-    : []
+  const rows = probs ? Object.entries(probs).sort((a, b) => b[1].champion - a[1].champion) : []
 
   return (
     <div>
@@ -71,23 +54,23 @@ export default function ProbabilitiesTab() {
               </span>
             )}
           </div>
-          {runs > 0 && (
+          {probs && (
             <p className="mt-1 text-sm text-[#8a8a8a]">
-              {runs.toLocaleString('es')} simulaciones ejecutadas.
+              {N.toLocaleString('es')} simulaciones ejecutadas.
             </p>
           )}
         </div>
         <button
           type="button"
-          onClick={handleCalc}
-          disabled={isPending}
+          onClick={compute}
+          disabled={computing}
           className="shrink-0 rounded-full bg-[#E8B84B] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-[#d9a93c] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isPending ? 'Calculando…' : 'Calcular probabilidades'}
+          {computing ? 'Calculando…' : 'Calcular probabilidades'}
         </button>
       </div>
 
-      {!result ? (
+      {!probs ? (
         <div className="mt-6 rounded-2xl border border-white/10 bg-[#16161c]/55 backdrop-blur-xl p-12 text-center text-[#8a8a8a]">
           <p className="text-sm leading-relaxed">
             Pulsa Calcular para estimar las probabilidades mediante simulación Monte Carlo sobre el
@@ -116,15 +99,9 @@ export default function ProbabilitiesTab() {
                         <span className="truncate text-[#f5f5f5]">{team?.name ?? id}</span>
                       </div>
                     </td>
-                    <td className="w-44 px-3">
-                      <Bar value={p.champion} color="bg-[#E8B84B]" />
-                    </td>
-                    <td className="w-44 px-3">
-                      <Bar value={p.final} color="bg-[#3CAC3B]" />
-                    </td>
-                    <td className="w-44 px-3">
-                      <Bar value={p.sf} color="bg-[#3CAC3B]" />
-                    </td>
+                    <td className="w-44 px-3"><Bar value={p.champion} color="bg-[#E8B84B]" /></td>
+                    <td className="w-44 px-3"><Bar value={p.final} color="bg-[#3CAC3B]" /></td>
+                    <td className="w-44 px-3"><Bar value={p.sf} color="bg-[#3CAC3B]" /></td>
                   </tr>
                 )
               })}
