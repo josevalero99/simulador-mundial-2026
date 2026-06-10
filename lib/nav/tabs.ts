@@ -7,6 +7,7 @@ export type TabKey =
   | 'directo'
   | 'cuotas'
   | 'noticias'
+  | 'comparador'
 
 export interface TabDef {
   key: TabKey
@@ -32,6 +33,7 @@ export const ALL_TABS: TabDef[] = [
   { key: 'directo', label: 'Directo', full: 'En directo', iconColor: '#E61D25' },
   { key: 'cuotas', label: 'Cuotas', full: 'Cuotas' },
   { key: 'noticias', label: 'Noticias', full: 'Noticias' },
+  { key: 'comparador', label: 'Comparador', full: 'Comparador de selecciones' },
 ]
 
 const GRUPOS = 0
@@ -42,6 +44,7 @@ const PORRA = 4
 const DIRECTO = 5
 const CUOTAS = 6
 const NOTICIAS = 7
+const COMPARADOR = 8
 
 /**
  * Los 4 destinos primarios del bottom bar (la UI añade un 5.º slot "Más").
@@ -56,6 +59,6 @@ export function primaryIndices(liveMode: boolean): number[] {
 /** Destinos detrás de la hoja "Más", en orden de aparición. */
 export function secondaryIndices(liveMode: boolean): number[] {
   return liveMode
-    ? [TERCEROS, PORRA, CUOTAS, NOTICIAS]
-    : [TERCEROS, DIRECTO, CUOTAS, NOTICIAS]
+    ? [TERCEROS, PORRA, CUOTAS, NOTICIAS, COMPARADOR]
+    : [TERCEROS, DIRECTO, CUOTAS, NOTICIAS, COMPARADOR]
 }

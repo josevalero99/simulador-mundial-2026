@@ -7,6 +7,7 @@ import {
   Radio,
   TrendingUp,
   Newspaper,
+  Scale,
   type LucideIcon,
 } from 'lucide-react'
 import type { TabKey } from '@/lib/nav/tabs'
@@ -21,4 +22,5 @@ export const TAB_ICONS: Record<TabKey, LucideIcon> = {
   directo: Radio,
   cuotas: TrendingUp,
   noticias: Newspaper,
+  comparador: Scale,
 }

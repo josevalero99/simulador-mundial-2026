@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { ALL_TABS, primaryIndices, secondaryIndices } from './tabs'
 
 describe('navigation model', () => {
-  it('define las 8 pestañas en el orden de page.tsx', () => {
+  it('define las 9 pestañas en el orden de page.tsx', () => {
     expect(ALL_TABS.map((t) => t.key)).toEqual([
       'grupos', 'terceros', 'eliminatorias', 'probabilidades',
-      'porra', 'directo', 'cuotas', 'noticias',
+      'porra', 'directo', 'cuotas', 'noticias', 'comparador',
     ])
   })
 
@@ -20,10 +20,16 @@ describe('navigation model', () => {
     expect(secondaryIndices(true)).not.toContain(5)
   })
 
-  it('primarios + secundarios cubren las 8 pestañas sin solape (ambos modos)', () => {
+  it('Comparador (8) es secundario en ambos modos', () => {
+    expect(secondaryIndices(false)).toContain(8)
+    expect(secondaryIndices(true)).toContain(8)
+    expect(primaryIndices(false)).not.toContain(8)
+  })
+
+  it('primarios + secundarios cubren las 9 pestañas sin solape (ambos modos)', () => {
     for (const live of [false, true]) {
       const all = [...primaryIndices(live), ...secondaryIndices(live)].sort((a, b) => a - b)
-      expect(all).toEqual([0, 1, 2, 3, 4, 5, 6, 7])
+      expect(all).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8])
     }
   })
 

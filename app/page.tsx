@@ -12,6 +12,7 @@ import PorraTab from '@/components/porra/PorraTab'
 import LiveTab from '@/components/live/LiveTab'
 import CuotasTab from '@/components/cuotas/CuotasTab'
 import NoticiasTab from '@/components/noticias/NoticiasTab'
+import ComparadorTab from '@/components/comparador/ComparadorTab'
 import { OddsProvider } from '@/components/odds/OddsProvider'
 import { FavoriteProvider } from '@/components/favorite/FavoriteProvider'
 import FavoritePicker from '@/components/favorite/FavoritePicker'
@@ -119,6 +120,7 @@ function Dashboard() {
         )}
         {active === 6 && <CuotasTab />}
         {active === 7 && <NoticiasTab />}
+        {active === 8 && <ComparadorTab />}
       </div>
       <MobileActionBar />
       <BottomTabBar active={active} onChange={setActive} />
