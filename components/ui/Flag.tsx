@@ -29,7 +29,9 @@ export default function Flag({ teamId, className }: FlagProps) {
     <img
       src={`/flags/${iso}.svg`}
       alt={label}
-      className={`inline-block h-[1em] w-[1em] shrink-0 rounded-full align-[-0.125em] ${className ?? ''}`}
+      className={['inline-block h-[1em] w-[1em] shrink-0 rounded-full align-[-0.125em]', className]
+        .filter(Boolean)
+        .join(' ')}
     />
   )
 }
