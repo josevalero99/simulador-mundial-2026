@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { simulateFinalRanking, finalPositions } from '../finalRanking'
+import { simulateFinalRanking, finalPositions, mostLikelyFinalRanking } from '../finalRanking'
 import { Rng } from '../montecarlo'
 import { TEAMS } from '@/lib/data/teams'
 import { generateFixtures } from '@/lib/data/fixtures'
@@ -58,5 +58,29 @@ describe('finalPositions', () => {
     expect(values).toEqual(Array.from({ length: 48 }, (_, i) => i + 1))
     expect(pos[ranking[0]]).toBe(1)
     expect(pos[ranking[47]]).toBe(48)
+  })
+})
+
+describe('mostLikelyFinalRanking', () => {
+  it('returns a valid permutation of the 48 teams', () => {
+    const ranking = mostLikelyFinalRanking(generateFixtures())
+    expect(ranking).toHaveLength(48)
+    expect(new Set(ranking).size).toBe(48)
+    expect(new Set(ranking)).toEqual(new Set(ALL_IDS))
+  })
+
+  it('is deterministic: same input -> identical ranking', () => {
+    const a = mostLikelyFinalRanking(generateFixtures())
+    const b = mostLikelyFinalRanking(generateFixtures())
+    expect(a).toEqual(b)
+  })
+
+  it('respects fixed group results (group A all 3-0 home)', () => {
+    const base: Match[] = generateFixtures().map(m =>
+      m.group === 'A' ? { ...m, homeGoals: 3, awayGoals: 0 } : m,
+    )
+    const ranking = mostLikelyFinalRanking(base)
+    expect(ranking).toHaveLength(48)
+    expect(new Set(ranking).size).toBe(48)
   })
 })

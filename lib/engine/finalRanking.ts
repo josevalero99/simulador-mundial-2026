@@ -4,7 +4,7 @@ import { GROUPS, GROUP_IDS } from '@/lib/data/groups'
 import { generateFixtures } from '@/lib/data/fixtures'
 import { rankGroup } from './tiebreakers'
 import { resolveR32, buildBracket, Tie, KnockoutMatch } from './bracket'
-import { Rng, MarketFn, sampleScore, eloExpectedScore } from './montecarlo'
+import { Rng, MarketFn, sampleScore, eloExpectedScore, mostLikelyScore, matchOutcomeProbs } from './montecarlo'
 
 /** Per-team group-stage stats used to break ties within a tier. */
 interface GroupStats {
@@ -37,15 +37,24 @@ function loserOf(m: KnockoutMatch): string {
   return loser
 }
 
+/** Fills an unplayed match with a concrete scoreline. */
+type FillScore = (home: string, away: string) => { homeGoals: number; awayGoals: number }
+/** Picks the winner of a knockout tie (no draws). */
+type PickWinner = (home: string, away: string) => string
+
 /**
- * Simulates one full tournament and derives the complete 1..48 final
- * classification. Mirrors `simulateOnce` steps 1–4 to build the bracket, then
- * assembles the ranking tier by tier (best -> worst). `base`, when supplied,
- * pins the listed group matches' non-null scores (same semantics as elsewhere).
+ * Core ranking builder shared by the random and deterministic variants.
+ * `base`, when supplied, pins the listed group matches' non-null scores;
+ * remaining null group matches are filled via `fillScore`; knockout winners
+ * (and the third-place match) are decided via `pickWinner`.
  *
  * @returns the 48 team ids ordered by final classification (index 0 = 1st).
  */
-export function simulateFinalRanking(rng: Rng, base?: Match[], market?: MarketFn): string[] {
+function buildRankingFromScenario(
+  base: Match[] | undefined,
+  fillScore: FillScore,
+  pickWinner: PickWinner,
+): string[] {
   const fifaRank = (id: string): number => TEAMS[id].fifaRank
 
   // 1. Canonical fixtures + fixed scores from `base`.
@@ -66,10 +75,10 @@ export function simulateFinalRanking(rng: Rng, base?: Match[], market?: MarketFn
     }
   }
 
-  // 2. Fill remaining null group matches via the (market-blended) Elo model.
+  // 2. Fill remaining null group matches.
   for (const m of matches) {
     if (m.homeGoals === null || m.awayGoals === null) {
-      const { homeGoals, awayGoals } = sampleScore(m.home, m.away, market, rng)
+      const { homeGoals, awayGoals } = fillScore(m.home, m.away)
       m.homeGoals = homeGoals
       m.awayGoals = awayGoals
     }
@@ -94,9 +103,7 @@ export function simulateFinalRanking(rng: Rng, base?: Match[], market?: MarketFn
 
   // 4. Resolve R32 and build the bracket.
   const r32: Tie[] = resolveR32(standingsByGroup, fifaRank)
-  const pickWinner = (home: string, away: string): string =>
-    rng() < eloExpectedScore(home, away) ? home : away
-  const bracket = buildBracket(r32, pickWinner)
+  const bracket = buildBracket(r32, (home, away) => pickWinner(home, away))
 
   const quality = byQuality(stats)
   const sortByQuality = (ids: string[]): string[] => [...ids].sort(quality)
@@ -105,31 +112,23 @@ export function simulateFinalRanking(rng: Rng, base?: Match[], market?: MarketFn
   const champion = bracket.champion
   if (champion === null) throw new Error('Bracket has no champion')
 
-  // 2nd = loser of the final.
   const runnerUp = loserOf(bracket.final)
 
-  // 3rd / 4th = the two SF losers, decided by a third-place match.
   const sfLosers = bracket.sf.map(loserOf)
   if (sfLosers.length !== 2) throw new Error('Expected exactly 2 SF matches')
   const thirdPlaceWinner = pickWinner(sfLosers[0], sfLosers[1])
   const thirdPlaceLoser = thirdPlaceWinner === sfLosers[0] ? sfLosers[1] : sfLosers[0]
 
-  // 5th–8th: QF losers by group stats.
   const qfLosers = sortByQuality(bracket.qf.map(loserOf))
-  // 9th–16th: R16 losers by group stats.
   const r16Losers = sortByQuality(bracket.r16.map(loserOf))
-  // 17th–32nd: R32 losers by group stats.
   const r32Losers = sortByQuality(bracket.r32.map(loserOf))
 
-  // 33rd–48th: teams that never reached R32 (all minus the 32 in R32 ties).
   const inR32 = new Set<string>()
   for (const tie of r32) {
     inR32.add(tie.home)
     inR32.add(tie.away)
   }
-  const eliminatedInGroup = sortByQuality(
-    Object.keys(TEAMS).filter(id => !inR32.has(id)),
-  )
+  const eliminatedInGroup = sortByQuality(Object.keys(TEAMS).filter(id => !inR32.has(id)))
 
   const ranking: string[] = [
     champion,
@@ -142,12 +141,39 @@ export function simulateFinalRanking(rng: Rng, base?: Match[], market?: MarketFn
     ...eliminatedInGroup,
   ]
 
-  // Sanity: exactly the 48 team ids, each once.
   if (ranking.length !== 48 || new Set(ranking).size !== 48) {
-    throw new Error(`Final ranking is not a valid permutation of 48 teams (got ${ranking.length}, ${new Set(ranking).size} unique)`)
+    throw new Error(
+      `Final ranking is not a valid permutation of 48 teams (got ${ranking.length}, ${new Set(ranking).size} unique)`,
+    )
   }
 
   return ranking
+}
+
+/**
+ * Simulates one full tournament and derives the complete 1..48 final
+ * classification using random scorelines and random knockout winners.
+ */
+export function simulateFinalRanking(rng: Rng, base?: Match[], market?: MarketFn): string[] {
+  return buildRankingFromScenario(
+    base,
+    (home, away) => sampleScore(home, away, market, rng),
+    (home, away) => (rng() < eloExpectedScore(home, away) ? home : away),
+  )
+}
+
+/**
+ * Builds the single most-likely 1..48 final classification for the current
+ * scenario: unplayed group matches use the deterministic most-likely scoreline
+ * and every knockout tie is won by the model's favorite (market-blended 1X2).
+ * Fully deterministic — same `matches` in, same ranking out.
+ */
+export function mostLikelyFinalRanking(matches: Match[], market?: MarketFn): string[] {
+  const modelWinner = (home: string, away: string): string => {
+    const p = matchOutcomeProbs(home, away, 0, undefined, market)
+    return p.home >= p.away ? home : away
+  }
+  return buildRankingFromScenario(matches, (h, a) => mostLikelyScore(h, a), modelWinner)
 }
 
 /**
