@@ -92,14 +92,10 @@ function Dashboard() {
               alt="Mundial 2026"
               className="h-12 w-12 shrink-0 rounded-lg sm:h-16 sm:w-16"
             />
-            <h1 className="text-4xl font-bold tracking-tight text-[#f5f5f5] sm:text-5xl">
-              Simulador Mundial 2026
+            <h1 className="text-3xl font-bold tracking-tight text-[#f5f5f5] sm:text-5xl">
+              Mundial 2026
             </h1>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-[#8a8a8a] sm:text-base">
-            Grupos, calendario y cruces oficiales (sorteo de Washington, 5 dic. 2025). Mete tus
-            resultados y el simulador aplica los criterios de desempate de la FIFA en tiempo real.
-          </p>
         </div>
         <div className="self-end sm:self-auto shrink-0">
           <FavoritePicker />
