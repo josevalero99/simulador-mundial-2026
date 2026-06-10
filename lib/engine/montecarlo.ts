@@ -159,6 +159,20 @@ export function expectedResult(
 }
 
 /**
+ * Deterministic most-likely scoreline under the Elo goal model: the per-side
+ * expected goals (lambdas) rounded to the nearest integer. No randomness, no
+ * market blend (market influences knockout picks, not this scoreline). Used to
+ * fill unplayed group matches when building the single most-likely ranking.
+ */
+export function mostLikelyScore(
+  homeId: string,
+  awayId: string,
+): { homeGoals: number; awayGoals: number } {
+  const { lh, la } = lambdas(homeId, awayId)
+  return { homeGoals: Math.round(lh), awayGoals: Math.round(la) }
+}
+
+/**
  * Samples a scoreline that honors the (possibly market-blended) 1X2 target.
  * 1. Compute the blended target distribution.
  * 2. Pick an outcome class (home/draw/away) from it via `rng`.

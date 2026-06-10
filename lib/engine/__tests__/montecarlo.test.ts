@@ -6,6 +6,7 @@ import {
   matchOutcomeProbs,
   eloExpectedScore,
   eloOutcomeProbs,
+  mostLikelyScore,
   MarketFn,
   Rng,
 } from '../montecarlo'
@@ -144,6 +145,24 @@ describe('matchOutcomeProbs', () => {
     // ARG (rank 1) at home vs NZL (rank 86) away.
     const p = matchOutcomeProbs('ARG', 'NZL', 1000, rng)
     expect(p.home).toBeGreaterThan(p.away)
+  })
+})
+
+describe('mostLikelyScore', () => {
+  it('is deterministic and returns non-negative integers', () => {
+    const a = mostLikelyScore('ARG', 'NZL')
+    const b = mostLikelyScore('ARG', 'NZL')
+    expect(a).toEqual(b)
+    expect(Number.isInteger(a.homeGoals)).toBe(true)
+    expect(Number.isInteger(a.awayGoals)).toBe(true)
+    expect(a.homeGoals).toBeGreaterThanOrEqual(0)
+    expect(a.awayGoals).toBeGreaterThanOrEqual(0)
+  })
+
+  it('gives the stronger side at least as many goals', () => {
+    // ARG (1885 pts) is much stronger than HAI (1315 pts).
+    const s = mostLikelyScore('ARG', 'HAI')
+    expect(s.homeGoals).toBeGreaterThanOrEqual(s.awayGoals)
   })
 })
 
