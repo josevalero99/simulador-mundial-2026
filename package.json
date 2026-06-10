@@ -9,7 +9,8 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build:comparador": "node scripts/buildComparadorData.mjs"
+    "build:comparador": "node scripts/buildComparadorData.mjs",
+    "build:flags": "node scripts/buildFlags.mjs"
   },
   "dependencies": {
     "html-to-image": "^1.11.13",
