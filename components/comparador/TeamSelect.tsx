@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { TEAMS } from '@/lib/data/teams'
+import Flag from '@/components/ui/Flag'
 
 interface TeamSelectProps {
   value: string
@@ -48,7 +49,7 @@ export default function TeamSelect({ value, onChange, exclude }: TeamSelectProps
         aria-expanded={open}
         className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm font-semibold text-[#f5f5f5] backdrop-blur-md transition-colors hover:bg-white/10"
       >
-        <span className="text-base leading-none">{team?.flag ?? '🏳️'}</span>
+        <Flag teamId={value} className="text-base leading-none" />
         <span className="truncate">{team?.name ?? 'Elegir'}</span>
         <ChevronDown
           size={14}
@@ -85,7 +86,7 @@ export default function TeamSelect({ value, onChange, exclude }: TeamSelectProps
                       : 'text-[#f5f5f5] hover:bg-white/10',
                 ].join(' ')}
               >
-                <span className="text-base leading-none">{t.flag}</span>
+                <Flag teamId={t.id} className="text-base leading-none" />
                 <span className="truncate">{t.name}</span>
               </button>
             )

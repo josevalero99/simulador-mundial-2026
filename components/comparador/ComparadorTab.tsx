@@ -11,6 +11,7 @@ import { SNAPSHOT_DATE, type FormMatch } from '@/lib/data/comparadorData'
 import { groupOf } from '@/lib/data/groups'
 import { useTournamentProbs } from '@/components/probabilities/useTournamentProbs'
 import TeamSelect from './TeamSelect'
+import Flag from '@/components/ui/Flag'
 
 const SECTION = 'rounded-2xl border border-white/10 bg-[#16161c]/55 p-4 backdrop-blur-xl'
 const LABEL = 'mb-2 text-[10px] font-semibold uppercase tracking-wider text-[#777]'
@@ -116,12 +117,12 @@ export default function ComparadorTab() {
       {/* versus hero */}
       <div className="flex items-center justify-around rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-4">
         <div className="flex flex-col items-center gap-1">
-          <span className="text-4xl leading-none">{teamA.flag}</span>
+          <Flag teamId={a} className="text-4xl leading-none" />
           <span className="text-xs font-bold text-[#f5f5f5]">{teamA.name}</span>
         </div>
         <span className="text-lg font-extrabold text-[#E8B84B]">VS</span>
         <div className="flex flex-col items-center gap-1">
-          <span className="text-4xl leading-none">{teamB.flag}</span>
+          <Flag teamId={b} className="text-4xl leading-none" />
           <span className="text-xs font-bold text-[#f5f5f5]">{teamB.name}</span>
         </div>
       </div>
@@ -148,11 +149,11 @@ export default function ComparadorTab() {
       <div className={SECTION}>
         <div className={LABEL}>Forma reciente (últimos 5)</div>
         <div className="flex items-center justify-between py-1">
-          <span className="flex items-center gap-1.5 text-xs font-semibold text-[#f5f5f5]">{teamA.flag} {teamA.name}</span>
+          <span className="flex items-center gap-1.5 text-xs font-semibold text-[#f5f5f5]"><Flag teamId={a} /> {teamA.name}</span>
           <FormChips form={formA} />
         </div>
         <div className="flex items-center justify-between py-1">
-          <span className="flex items-center gap-1.5 text-xs font-semibold text-[#f5f5f5]">{teamB.flag} {teamB.name}</span>
+          <span className="flex items-center gap-1.5 text-xs font-semibold text-[#f5f5f5]"><Flag teamId={b} /> {teamB.name}</span>
           <FormChips form={formB} />
         </div>
       </div>
@@ -163,9 +164,9 @@ export default function ComparadorTab() {
         {h2h ? (
           <>
             <div className="mb-2 flex items-center justify-around text-center">
-              <div><div className="text-xl font-extrabold text-[#E8B84B]">{h2h.winsA}</div><div className="text-[9px] uppercase text-[#777]">{teamA.flag} gana</div></div>
+              <div><div className="text-xl font-extrabold text-[#E8B84B]">{h2h.winsA}</div><div className="text-[9px] uppercase text-[#777]"><Flag teamId={a} /> gana</div></div>
               <div><div className="text-xl font-extrabold text-[#8a8a8a]">{h2h.draws}</div><div className="text-[9px] uppercase text-[#777]">empates</div></div>
-              <div><div className="text-xl font-extrabold text-[#f5f5f5]">{h2h.winsB}</div><div className="text-[9px] uppercase text-[#777]">{teamB.flag} gana</div></div>
+              <div><div className="text-xl font-extrabold text-[#f5f5f5]">{h2h.winsB}</div><div className="text-[9px] uppercase text-[#777]"><Flag teamId={b} /> gana</div></div>
             </div>
             <div className="text-[11px] leading-relaxed text-[#bdbdbd]">
               {h2h.played} partidos
@@ -183,11 +184,11 @@ export default function ComparadorTab() {
       <div className="rounded-2xl border border-[#E8B84B]/25 bg-[#E8B84B]/[0.08] p-4">
         <div className={LABEL}>Marcador más probable (Elo)</div>
         <div className="flex items-center justify-center gap-3 text-sm text-[#f5f5f5]">
-          <span>{teamA.flag}</span>
+          <Flag teamId={a} className="text-xl" />
           <span className="rounded-lg bg-white/[0.06] px-3 py-0.5 text-2xl font-extrabold text-white">{score.homeGoals}</span>
           <span>–</span>
           <span className="rounded-lg bg-white/[0.06] px-3 py-0.5 text-2xl font-extrabold text-white">{score.awayGoals}</span>
-          <span>{teamB.flag}</span>
+          <Flag teamId={b} className="text-xl" />
         </div>
       </div>
 
@@ -199,11 +200,11 @@ export default function ComparadorTab() {
         ) : (
           <div className={`transition-opacity ${computing ? 'opacity-50' : ''}`}>
             <div className="flex items-center justify-between py-1 text-xs font-semibold">
-              <span className="text-[#f5f5f5]">{teamA.flag} {teamA.name}</span>
+              <span className="text-[#f5f5f5]"><Flag teamId={a} /> {teamA.name}</span>
               <span className={champWinner === 'a' ? 'text-[#E8B84B]' : 'text-[#cfcfcf]'}>{champA != null ? pct(champA) : '—'}</span>
             </div>
             <div className="flex items-center justify-between py-1 text-xs font-semibold">
-              <span className="text-[#f5f5f5]">{teamB.flag} {teamB.name}</span>
+              <span className="text-[#f5f5f5]"><Flag teamId={b} /> {teamB.name}</span>
               <span className={champWinner === 'b' ? 'text-[#E8B84B]' : 'text-[#cfcfcf]'}>{champB != null ? pct(champB) : '—'}</span>
             </div>
           </div>

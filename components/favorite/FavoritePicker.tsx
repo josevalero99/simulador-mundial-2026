@@ -118,7 +118,7 @@ export default function FavoritePicker() {
                     : 'text-[#f5f5f5] hover:bg-white/10',
                 ].join(' ')}
               >
-                <span className="text-base leading-none">{t.flag}</span>
+                <Flag teamId={t.id} className="text-base leading-none" />
                 <span className="truncate">{t.name}</span>
               </button>
             )
