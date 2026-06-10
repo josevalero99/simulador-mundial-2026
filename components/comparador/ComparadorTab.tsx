@@ -61,14 +61,24 @@ export default function ComparadorTab() {
   const groupA = groupOf(a)
   const groupB = groupOf(b)
 
-  // % campeón (Monte Carlo del escenario), calculado al entrar y al cambiar escenario.
+  // % campeón (Monte Carlo del escenario), calculado al entrar en la pestaña.
   const { probs, computing, compute } = useTournamentProbs(1500)
   useEffect(() => {
     compute()
-  }, [compute])
+    // Solo al montar: la pestaña se remonta al navegar, así que entra fresco.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const champA = probs?.[a]?.champion
   const champB = probs?.[b]?.champion
+  const champWinner =
+    champA != null && champB != null
+      ? champA > champB
+        ? 'a'
+        : champA < champB
+          ? 'b'
+          : null
+      : null
 
   const swap = () => {
     setA(b)
@@ -190,11 +200,11 @@ export default function ComparadorTab() {
           <div className={`transition-opacity ${computing ? 'opacity-50' : ''}`}>
             <div className="flex items-center justify-between py-1 text-xs font-semibold">
               <span className="text-[#f5f5f5]">{teamA.flag} {teamA.name}</span>
-              <span className="text-[#E8B84B]">{champA != null ? pct(champA) : '—'}</span>
+              <span className={champWinner === 'a' ? 'text-[#E8B84B]' : 'text-[#cfcfcf]'}>{champA != null ? pct(champA) : '—'}</span>
             </div>
             <div className="flex items-center justify-between py-1 text-xs font-semibold">
               <span className="text-[#f5f5f5]">{teamB.flag} {teamB.name}</span>
-              <span className="text-[#f5f5f5]">{champB != null ? pct(champB) : '—'}</span>
+              <span className={champWinner === 'b' ? 'text-[#E8B84B]' : 'text-[#cfcfcf]'}>{champB != null ? pct(champB) : '—'}</span>
             </div>
           </div>
         )}

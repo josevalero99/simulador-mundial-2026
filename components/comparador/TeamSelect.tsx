@@ -71,6 +71,7 @@ export default function TeamSelect({ value, onChange, exclude }: TeamSelectProps
                 type="button"
                 role="menuitem"
                 disabled={disabled}
+                aria-disabled={disabled}
                 onClick={() => {
                   onChange(t.id)
                   setOpen(false)

@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "build:comparador": "node scripts/buildComparadorData.mjs"
   },
   "dependencies": {
     "html-to-image": "^1.11.13",
