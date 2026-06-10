@@ -20,7 +20,7 @@ export function scorePorra(
   entries: PorraEntry[],
 ): PorraScore[] {
   const scored: PorraScore[] = entries.map(entry => {
-    const teams = entry.teams.map(id => ({ id, position: positions[id] }))
+    const teams = entry.teams.map(id => ({ id, position: positions[id] ?? 0 }))
     const total = teams.reduce((s, t) => s + t.position, 0)
     return { name: entry.name, total, teams }
   })

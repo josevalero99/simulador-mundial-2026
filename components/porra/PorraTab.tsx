@@ -131,6 +131,8 @@ export default function PorraTab() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchesKey, marketFn])
 
+  const partition = checkPartition(active.entries)
+
   const handleCalc = () => {
     startTransition(() => {
       setResult(runPorraMonteCarlo(N, active.entries, state.matches, undefined, marketFn))
@@ -138,16 +140,16 @@ export default function PorraTab() {
   }
 
   // Live mode: recompute MC automatically when real results change (unless editing).
+  // Skip while the partition is invalid — same gate as the manual Calcular button —
+  // so MC never silently computes on duplicated/unassigned teams.
   useEffect(() => {
-    if (!state.liveMode || mode === 'editing') return
+    if (!state.liveMode || mode === 'editing' || !partition.valid) return
     startTransition(() => {
       setResult(runPorraMonteCarlo(N, active.entries, state.matches, undefined, marketFn))
     })
     // active.entries intentionally excluded: re-run on porra switch (active.id), not per-keystroke.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.liveMode, state.matches, mode, active.id])
-
-  const partition = checkPartition(active.entries)
+  }, [state.liveMode, state.matches, mode, active.id, partition.valid])
 
   const byName = useMemo(
     () => new Map(active.entries.map(e => [e.name, e])),
