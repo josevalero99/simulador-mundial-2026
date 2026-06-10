@@ -159,10 +159,14 @@ describe('mostLikelyScore', () => {
     expect(a.awayGoals).toBeGreaterThanOrEqual(0)
   })
 
-  it('gives the stronger side at least as many goals', () => {
-    // ARG (1885 pts) is much stronger than HAI (1315 pts).
-    const s = mostLikelyScore('ARG', 'HAI')
-    expect(s.homeGoals).toBeGreaterThanOrEqual(s.awayGoals)
+  it('gives the stronger side more goals (deterministic scoreline)', () => {
+    // ARG (1885 pts) much stronger than HAI (1315 pts) -> 2-1.
+    expect(mostLikelyScore('ARG', 'HAI')).toEqual({ homeGoals: 2, awayGoals: 1 })
+  })
+
+  it('is symmetric when the away side is stronger', () => {
+    // NZL (1300 pts) much weaker than ARG (1885 pts) -> 1-2.
+    expect(mostLikelyScore('NZL', 'ARG')).toEqual({ homeGoals: 1, awayGoals: 2 })
   })
 })
 

@@ -159,10 +159,12 @@ export function expectedResult(
 }
 
 /**
- * Deterministic most-likely scoreline under the Elo goal model: the per-side
- * expected goals (lambdas) rounded to the nearest integer. No randomness, no
- * market blend (market influences knockout picks, not this scoreline). Used to
- * fill unplayed group matches when building the single most-likely ranking.
+ * Deterministic scoreline for an unplayed match: each side's expected goals
+ * (the Elo lambdas) rounded to the nearest integer. This is the rounded mean,
+ * not the statistical mode — chosen because it yields realistic group tables
+ * (flooring would over-produce 0-0 draws and distort goal difference). No
+ * randomness, no market blend (market influences knockout picks, not this
+ * scoreline). Used to fill unplayed group matches for the most-likely ranking.
  */
 export function mostLikelyScore(
   homeId: string,
