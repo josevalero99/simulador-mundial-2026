@@ -34,6 +34,10 @@ npm run build    # build de producción
 3. **Eliminatorias** — cuadro oficial desde 16avos; elige ganadores y se propaga hasta la final.
 4. **Probabilidades** — % de cada selección por fase vía simulación Monte Carlo del escenario actual.
 
+Además, la pestaña **Porra** permite gestionar **varias porras independientes** (cada una reparte las
+48 selecciones), con desglose en vivo de la posición de cada selección en el cuadro más probable y una
+vista para comparar el líder actual de cada porra.
+
 ### Acciones
 
 - **Simular por ranking** — rellena todos los partidos con un marcador determinista según el ranking FIFA.

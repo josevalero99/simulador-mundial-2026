@@ -3,9 +3,8 @@
 Ideas aparcadas para futuras iteraciones (no implementadas todavía).
 
 ## Porra
-- **Multi-porra**: guardar varias porras, clasificación histórica entre ellas.
-- **Desglose en vivo**: por participante, puntos de cada uno de sus 4 equipos según la clasificación actual.
-- **Reglas configurables**: elegir el sistema de puntuación (posición final, por fase, etc.).
+- **Reglas configurables**: elegir el sistema de puntuación (posición final, por fase, por victoria, bonus campeón).
+- **Clasificación histórica**: evolución temporal del líder de cada porra a lo largo del torneo (la vista actual "Comparar porras" es una foto del estado actual, no una serie).
 
 ## Eliminatorias / Directo
 - **Directo → bracket**: que los resultados reales rellenen también las eliminatorias (no solo grupos) cuando empiecen.
@@ -31,4 +30,4 @@ Ideas aparcadas para futuras iteraciones (no implementadas todavía).
 - **Tests E2E** (Playwright) de los flujos principales.
 
 ---
-_Última actualización: 2026-06-10. Estado del proyecto: 5 fases de mejoras completadas (compartir/guardar, Mi selección, cuadro más probable + camino al título, exportar imagen, PWA)._
+_Última actualización: 2026-06-10. Estado del proyecto: 6 fases de mejoras completadas (compartir/guardar, Mi selección, cuadro más probable + camino al título, exportar imagen, PWA, multi-porra + desglose en vivo)._
