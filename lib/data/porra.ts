@@ -27,7 +27,8 @@ export function genId(): string {
     return crypto.randomUUID()
   }
   _idCounter += 1
-  return `porra-${_idCounter}-${Math.floor(performance.now?.() ?? _idCounter)}`
+  const t = typeof performance !== 'undefined' ? Math.floor(performance.now()) : 0
+  return `porra-${_idCounter}-${t}`
 }
 
 /**
@@ -70,10 +71,11 @@ function isValidEntry(e: unknown): e is PorraEntry {
 }
 
 /** Shape check only (not a partition check): a non-empty array of valid entries. */
-export function isValidPorra(value: unknown): value is PorraEntry[] {
+export function isValidPorraEntries(value: unknown): value is PorraEntry[] {
   return Array.isArray(value) && value.length > 0 && value.every(isValidEntry)
 }
 
+/** Shape guard for the full persisted multi-porra state. */
 export function isValidPorrasState(value: unknown): value is PorrasState {
   if (!value || typeof value !== 'object') return false
   const v = value as PorrasState
@@ -85,7 +87,7 @@ export function isValidPorrasState(value: unknown): value is PorrasState {
         !!p &&
         typeof p.id === 'string' &&
         typeof p.name === 'string' &&
-        isValidPorra(p.entries),
+        isValidPorraEntries(p.entries),
     ) &&
     typeof v.activeId === 'string'
   )
@@ -122,9 +124,12 @@ export function checkPartition(entries: PorraEntry[]): PartitionCheck {
 export function migrate(v2Raw: unknown, oldRaw: unknown): PorrasState {
   if (isValidPorrasState(v2Raw)) {
     const exists = v2Raw.porras.some(p => p.id === v2Raw.activeId)
-    return exists ? v2Raw : { porras: v2Raw.porras, activeId: v2Raw.porras[0].id }
+    return {
+      porras: v2Raw.porras,
+      activeId: exists ? v2Raw.activeId : v2Raw.porras[0].id,
+    }
   }
-  if (isValidPorra(oldRaw)) {
+  if (isValidPorraEntries(oldRaw)) {
     const p: Porra = { id: genId(), name: 'Porra', entries: oldRaw }
     return { porras: [p], activeId: p.id }
   }

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   DEFAULT_PORRA,
   newPorra,
-  isValidPorra,
+  isValidPorraEntries,
   checkPartition,
   migrate,
   isValidPorrasState,
@@ -31,26 +31,26 @@ describe('DEFAULT_PORRA', () => {
   })
 })
 
-describe('isValidPorra (generalizado)', () => {
+describe('isValidPorraEntries (generalizado)', () => {
   it('accepts any participant count and uneven team counts', () => {
     const eightBySix: PorraEntry[] = Array.from({ length: 8 }, (_, i) => ({
       name: `P${i}`,
       teams: ['A', 'B', 'C', 'D', 'E', 'F'],
     }))
-    expect(isValidPorra(eightBySix)).toBe(true)
+    expect(isValidPorraEntries(eightBySix)).toBe(true)
 
     const uneven: PorraEntry[] = [
       { name: 'X', teams: ['A', 'B', 'C', 'D', 'E'] },
       { name: 'Y', teams: ['F', 'G', 'H'] },
     ]
-    expect(isValidPorra(uneven)).toBe(true)
+    expect(isValidPorraEntries(uneven)).toBe(true)
   })
 
   it('rejects empty array, empty teams and non-string teams', () => {
-    expect(isValidPorra([])).toBe(false)
-    expect(isValidPorra([{ name: 'X', teams: [] }])).toBe(false)
-    expect(isValidPorra([{ name: 'X', teams: [1 as unknown as string] }])).toBe(false)
-    expect(isValidPorra('nope')).toBe(false)
+    expect(isValidPorraEntries([])).toBe(false)
+    expect(isValidPorraEntries([{ name: 'X', teams: [] }])).toBe(false)
+    expect(isValidPorraEntries([{ name: 'X', teams: [1 as unknown as string] }])).toBe(false)
+    expect(isValidPorraEntries('nope')).toBe(false)
   })
 })
 
@@ -115,5 +115,14 @@ describe('migrate', () => {
     const state = migrate({ junk: true }, 'also junk')
     expect(isValidPorrasState(state)).toBe(true)
     expect(state.porras[0].entries).toEqual(DEFAULT_PORRA)
+  })
+})
+
+describe('isValidPorrasState', () => {
+  it('rejects malformed states', () => {
+    expect(isValidPorrasState(null)).toBe(false)
+    expect(isValidPorrasState({ porras: [], activeId: 'x' })).toBe(false)
+    expect(isValidPorrasState({ porras: [{ id: 'a', name: 'A', entries: [] }], activeId: 'a' })).toBe(false)
+    expect(isValidPorrasState({ porras: [{ id: 'a', name: 'A', entries: DEFAULT_PORRA }] })).toBe(false)
   })
 })
