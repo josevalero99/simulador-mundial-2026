@@ -26,7 +26,7 @@ export default function BottomTabBar({ active, onChange }: BottomTabBarProps) {
   }
 
   const itemCls = (isActive: boolean) =>
-    `flex min-h-[4.5rem] flex-1 flex-col items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium ${
+    `flex min-h-[3.5rem] flex-1 flex-col items-center justify-center gap-1 rounded-full py-2 text-[11px] font-medium ${
       isActive ? 'text-[#E8B84B]' : 'text-[#7a7a7a]'
     }`
 
@@ -34,7 +34,7 @@ export default function BottomTabBar({ active, onChange }: BottomTabBarProps) {
     <>
       <nav
         aria-label="Navegación principal"
-        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-white/10 bg-[#0a0a0a]/95 pt-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden"
+        className="fixed inset-x-3 bottom-[calc(0.6rem+env(safe-area-inset-bottom))] z-40 flex items-stretch justify-around overflow-hidden rounded-[2rem] border border-white/15 bg-[#0a0a0a]/55 px-1 py-1 shadow-2xl shadow-black/50 ring-1 ring-inset ring-white/[0.06] backdrop-blur-2xl sm:hidden"
       >
         {primary.map((i) => {
           const tab = ALL_TABS[i]
