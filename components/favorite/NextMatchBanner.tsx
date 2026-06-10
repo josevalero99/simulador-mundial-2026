@@ -42,25 +42,27 @@ export default function NextMatchBanner() {
   const diff = match.kickoff ? Date.parse(match.kickoff) - now : 0
 
   return (
-    <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-[#E8B84B]/25 bg-[#E8B84B]/[0.06] backdrop-blur-xl px-4 py-3">
+    <div className="mt-6 flex flex-col gap-2 rounded-2xl border border-[#E8B84B]/25 bg-[#E8B84B]/[0.06] px-4 py-3 backdrop-blur-xl sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-2">
       <div className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[#E8B84B]">
         <CalendarClock size={15} strokeWidth={2} aria-hidden="true" />
         Próximo partido
       </div>
-      <div className="flex min-w-0 flex-1 items-center gap-2 text-sm text-[#f5f5f5]">
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[#f5f5f5] sm:min-w-0 sm:flex-1">
         <Flag teamId={favorite} className="text-base leading-none" />
-        <span className="truncate font-semibold">{fav?.name ?? favorite}</span>
+        <span className="font-semibold">{fav?.name ?? favorite}</span>
         <span className="text-[#8a8a8a]">vs</span>
         <Flag teamId={rivalId} className="text-base leading-none" />
-        <span className="truncate">{rival?.name ?? rivalId}</span>
+        <span>{rival?.name ?? rivalId}</span>
       </div>
-      {(day || time) && (
-        <div className="text-xs tabular-nums text-[#8a8a8a]">
-          {[day, time].filter(Boolean).join(' · ')}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        {(day || time) && (
+          <div className="text-xs tabular-nums text-[#8a8a8a]">
+            {[day, time].filter(Boolean).join(' · ')}
+          </div>
+        )}
+        <div className="tabular-nums rounded-full bg-[#E8B84B]/15 px-2.5 py-1 text-xs font-semibold text-[#E8B84B]">
+          {formatCountdown(diff)}
         </div>
-      )}
-      <div className="tabular-nums rounded-full bg-[#E8B84B]/15 px-2.5 py-1 text-xs font-semibold text-[#E8B84B]">
-        {formatCountdown(diff)}
       </div>
     </div>
   )

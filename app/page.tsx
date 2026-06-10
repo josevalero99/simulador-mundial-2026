@@ -76,7 +76,7 @@ function Dashboard() {
   }, [state.liveMode, liveData, dispatch])
 
   return (
-    <main className="mx-auto max-w-7xl px-4 pt-8 pb-32 sm:px-6 sm:py-12">
+    <main className="mx-auto max-w-7xl px-[max(1rem,env(safe-area-inset-left))] pt-[calc(1.75rem+env(safe-area-inset-top))] pb-32 sm:px-6 sm:py-12">
       <header>
         {state.liveMode && (
           <div className="mb-3 flex items-center gap-3">
