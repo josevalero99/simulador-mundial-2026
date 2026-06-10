@@ -187,7 +187,7 @@ export default function ComparadorTab() {
         {computing && !probs ? (
           <span className="text-xs text-[#777]">Calculando…</span>
         ) : (
-          <>
+          <div className={`transition-opacity ${computing ? 'opacity-50' : ''}`}>
             <div className="flex items-center justify-between py-1 text-xs font-semibold">
               <span className="text-[#f5f5f5]">{teamA.flag} {teamA.name}</span>
               <span className="text-[#E8B84B]">{champA != null ? pct(champA) : '—'}</span>
@@ -196,7 +196,7 @@ export default function ComparadorTab() {
               <span className="text-[#f5f5f5]">{teamB.flag} {teamB.name}</span>
               <span className="text-[#f5f5f5]">{champB != null ? pct(champB) : '—'}</span>
             </div>
-          </>
+          </div>
         )}
       </div>
 
