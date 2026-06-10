@@ -14,3 +14,11 @@ export const GROUPS: Record<GroupId, string[]> = {
   L: ['ENG','CRO','PAN','GHA'],
 }
 export const GROUP_IDS: GroupId[] = ['A','B','C','D','E','F','G','H','I','J','K','L']
+
+/** Devuelve el grupo (A..L) al que pertenece un equipo, o undefined. */
+export function groupOf(teamId: string): GroupId | undefined {
+  for (const g of GROUP_IDS) {
+    if (GROUPS[g].includes(teamId)) return g
+  }
+  return undefined
+}
