@@ -171,6 +171,7 @@ export function simulateFinalRanking(rng: Rng, base?: Match[], market?: MarketFn
 export function mostLikelyFinalRanking(matches: Match[], market?: MarketFn): string[] {
   const modelWinner = (home: string, away: string): string => {
     const p = matchOutcomeProbs(home, away, 0, undefined, market)
+    // On an exact probability tie, the home side wins as a stable, deterministic tiebreak.
     return p.home >= p.away ? home : away
   }
   return buildRankingFromScenario(matches, (h, a) => mostLikelyScore(h, a), modelWinner)

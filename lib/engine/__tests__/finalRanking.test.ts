@@ -70,17 +70,21 @@ describe('mostLikelyFinalRanking', () => {
   })
 
   it('is deterministic: same input -> identical ranking', () => {
-    const a = mostLikelyFinalRanking(generateFixtures())
-    const b = mostLikelyFinalRanking(generateFixtures())
+    const fixtures = generateFixtures()
+    const a = mostLikelyFinalRanking(fixtures)
+    const b = mostLikelyFinalRanking(fixtures)
     expect(a).toEqual(b)
   })
 
-  it('respects fixed group results (group A all 3-0 home)', () => {
+  it('respects fixed group results (pinning group A changes the ranking)', () => {
     const base: Match[] = generateFixtures().map(m =>
       m.group === 'A' ? { ...m, homeGoals: 3, awayGoals: 0 } : m,
     )
-    const ranking = mostLikelyFinalRanking(base)
-    expect(ranking).toHaveLength(48)
-    expect(new Set(ranking).size).toBe(48)
+    const pinned = mostLikelyFinalRanking(base)
+    const unpinned = mostLikelyFinalRanking(generateFixtures())
+    expect(pinned).toHaveLength(48)
+    expect(new Set(pinned).size).toBe(48)
+    // Pinning group A to lopsided results must influence the final ranking.
+    expect(pinned).not.toEqual(unpinned)
   })
 })
