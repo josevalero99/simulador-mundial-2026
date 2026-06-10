@@ -26,7 +26,7 @@ export default function BottomTabBar({ active, onChange }: BottomTabBarProps) {
   }
 
   const itemCls = (isActive: boolean) =>
-    `flex flex-1 flex-col items-center gap-1 py-2 text-[10px] font-medium ${
+    `flex min-h-[3.5rem] flex-1 flex-col items-center justify-center gap-1 py-2 text-[10px] font-medium ${
       isActive ? 'text-[#E8B84B]' : 'text-[#7a7a7a]'
     }`
 
