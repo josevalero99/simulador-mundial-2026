@@ -48,17 +48,18 @@ const COMPARADOR = 8
 
 /**
  * Los 4 destinos primarios del bottom bar (la UI añade un 5.º slot "Más").
- * En modo en vivo, "Directo" ocupa el slot de "Porra".
+ * Por defecto: Grupos, Eliminatorias, Probabilidades, Comparador. En modo en
+ * vivo, "Directo" ocupa el 4.º slot y "Comparador" baja a "Más".
  */
 export function primaryIndices(liveMode: boolean): number[] {
   return liveMode
     ? [GRUPOS, ELIMINATORIAS, PROBABILIDADES, DIRECTO]
-    : [GRUPOS, ELIMINATORIAS, PROBABILIDADES, PORRA]
+    : [GRUPOS, ELIMINATORIAS, PROBABILIDADES, COMPARADOR]
 }
 
 /** Destinos detrás de la hoja "Más", en orden de aparición. */
 export function secondaryIndices(liveMode: boolean): number[] {
   return liveMode
     ? [TERCEROS, PORRA, CUOTAS, NOTICIAS, COMPARADOR]
-    : [TERCEROS, DIRECTO, CUOTAS, NOTICIAS, COMPARADOR]
+    : [TERCEROS, PORRA, DIRECTO, CUOTAS, NOTICIAS]
 }

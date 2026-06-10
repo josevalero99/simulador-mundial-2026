@@ -9,21 +9,22 @@ describe('navigation model', () => {
     ])
   })
 
-  it('bottom bar por defecto = Grupos, Eliminatorias, Probabilidades, Porra', () => {
-    expect(primaryIndices(false)).toEqual([0, 2, 3, 4])
+  it('bottom bar por defecto = Grupos, Eliminatorias, Probabilidades, Comparador', () => {
+    expect(primaryIndices(false)).toEqual([0, 2, 3, 8])
   })
 
-  it('promociona Directo sobre Porra en modo en vivo', () => {
-    expect(primaryIndices(true)).toContain(5)
-    expect(primaryIndices(true)).not.toContain(4)
+  it('Porra es secundaria (en "Más") en ambos modos', () => {
+    expect(secondaryIndices(false)).toContain(4)
     expect(secondaryIndices(true)).toContain(4)
-    expect(secondaryIndices(true)).not.toContain(5)
+    expect(primaryIndices(false)).not.toContain(4)
+    expect(primaryIndices(true)).not.toContain(4)
   })
 
-  it('Comparador (8) es secundario en ambos modos', () => {
-    expect(secondaryIndices(false)).toContain(8)
-    expect(secondaryIndices(true)).toContain(8)
-    expect(primaryIndices(false)).not.toContain(8)
+  it('en modo en vivo: Directo entra al bottom bar y Comparador baja a "Más"', () => {
+    expect(primaryIndices(true)).toContain(5) // Directo primario en vivo
+    expect(primaryIndices(false)).not.toContain(5) // ...secundario fuera de vivo
+    expect(primaryIndices(true)).not.toContain(8) // Comparador deja de ser primario
+    expect(secondaryIndices(true)).toContain(8) // ...y pasa a "Más"
   })
 
   it('primarios + secundarios cubren las 9 pestañas sin solape (ambos modos)', () => {
